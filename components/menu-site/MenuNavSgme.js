@@ -17,10 +17,10 @@ function MenuNavSgme(props) {
                 <div className="container">
                     <Link className="navbar-brand " href="/gestao-sgme">
                         <Image src="/img/logotipo.svg"
-                               width="80"
-                               height="70"
-                               className="w-100"
-                               alt="Logotipo Sistema de Gestao de Microempreendedores"/>
+                                width="80"
+                                height="70"
+                                className="w-100"
+                                alt="Logotipo Sistema de Gestao de Microempreendedores"/>
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -36,20 +36,20 @@ function MenuNavSgme(props) {
 
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false">
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
                                     Cadastro
                                 </Link>
                                 <ul className="dropdown-menu">
                                     <li><Link className="dropdown-item" href="/gestao-sgme/clientes">Clientes</Link></li>
                                     <li><Link className="dropdown-item"
-                                              href="/gestao-sgme/fornecedores">Fornecedores</Link></li>
+                                            href="/gestao-sgme/fornecedores">Fornecedores</Link></li>
                                 </ul>
                             </li>
                             <li className="nav-item dropdown">
                                 <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false">
+                                    data-bs-toggle="dropdown"
+                                    aria-expanded="false">
                                     Financeiro
                                 </Link>
                                 <ul className="dropdown-menu">
@@ -84,7 +84,7 @@ function MenuNavSgme(props) {
                                     <button className="dropdown-item" onClick={(e) => {
                                         e.preventDefault();
                                         logout()
-                                        router.push('/login')
+                                        router.push('/')
                                     }}>Sair
                                     </button>
                                 </li>
