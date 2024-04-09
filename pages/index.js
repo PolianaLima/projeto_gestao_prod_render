@@ -68,15 +68,6 @@ function Index(props) {
                     <div className="">
                         <div className="mb-5">
                             <h2 className="">LOGIN</h2>
-                            <h6>
-                                Ainda não tem cadastro?
-                                <Link
-                                    href="/cadastro"
-                                    className="link-primary link-underline-opacity-25 link-underline-opacity-100-hover"
-                                >Clique aqui
-                                </Link>
-                                e cadastre-se.
-                            </h6>
                         </div>
 
                         <div className="">

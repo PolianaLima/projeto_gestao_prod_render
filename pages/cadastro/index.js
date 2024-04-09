@@ -28,7 +28,7 @@ function Index(props) {
             .then((response) => {
                 console.log(response.data)
                 setStatus(true)
-                router.push("/login")
+                router.push("/")
             })
             .catch((error)=> {
                 if (axios.isAxiosError(error) && error.response) {
