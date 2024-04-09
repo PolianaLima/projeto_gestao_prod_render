@@ -1,13 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {url} from "@/utils/url";
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";
 import Head from "next/head";
 import {http} from "@/utils/http";
-import ButtonFechar from "@/components/ButtonFechar";
 import {getUserFromCookie} from "@/utils/Cookies";
-import {reset} from "next/dist/lib/picocolors";
 import {format, isAfter, isBefore, parseISO} from "date-fns";
 
 

@@ -38,7 +38,6 @@ function Index(props) {
             })
         };
 
-    console.log(errorApi)
 
 
     return (
