@@ -50,7 +50,8 @@
     min-height: 80vh;
 }
 
-/* Midea query */
+/* Midea query  - dados financeiro*/
+
 
 .mobile-styles-info-financeiro-table{
     display: none;
@@ -65,4 +66,5 @@
         display: none;
     }
 }
+
 

@@ -8,7 +8,7 @@ function CardImagemButton({img, link, titleLink}) {
             <Image src={img}  width="0"
                    height="0"
                    sizes="100vw"
-                   style={{ width: '100%', height: 'auto' }}
+                   style={{ width: '80%', height: 'auto' }}
                    alt="Icone de Blog"/>
             <Link href={link} className="btn bg-primary w-100 text-light">{titleLink}</Link>
         </div>

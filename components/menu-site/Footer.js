@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 function Footer(props) {
     return (
         <div className="container-fluid p-3"  style={{background:" #4682B4"}}>
-            <p className="text-center text-light">SGME-2023</p>
+            <p className="text-center text-light">SGME-2024</p>
         </div>
     );
 }

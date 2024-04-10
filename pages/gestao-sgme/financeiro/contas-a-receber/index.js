@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Link from "next/link";
 import Head from "next/head";
 import {getReceitasData} from "@/utils/getReceitas";
-import {format, parseISO} from "date-fns";
-import {ptBR} from "date-fns/locale";
 import { useRouter } from 'next/router';
+import ReceitaItem from "@/components/componentes_financeiro/ReceitaItem";
+import ReceitaItemMobile from "@/components/componentes_financeiro/ReceitaItemMobile";
 
 
 function Index() {
@@ -21,11 +21,20 @@ function Index() {
             }
         };
 
-
         getData();
     }, []);
 
+   const receitasOrder = receitas.sort((v1, v2)=>{
+        if (v1.data_vencimento < v2.data_vencimento) {
+            return -1;
+        }
+        if (v1.data_vencimento > v2.data_vencimento) {
+            return 1;
+        }
+        return 0;
+   });
 
+    const totalReceitas = receitasOrder.reduce((acc, receita) => acc + receita.valor, 0);
 
     return (
         <>
@@ -37,14 +46,13 @@ function Index() {
 
             </Head>
             <main className="container">
-                <div className="container d-sm-flex flex-row justify-content-between mb-3">
+                <div className="container d-flex flex-row justify-content-between mb-3">
                     <h3>Contas a Receber</h3>
-                    <Link href="/gestao-sgme/financeiro/contas-a-receber/cadastro" className="btn btn-success">Novo
-                        Receita</Link>
+                    <Link href="/gestao-sgme/financeiro/contas-a-receber/cadastro" className="btn btn-success rounded-5">+
+                    </Link>
                 </div>
 
-                <div className="overflow-x-scroll desktop-styles-info-financeiro-table">
-
+                <div className="overflow-x-scroll  mb-5 desktop-styles-info-financeiro-table">
                     <table className="table">
                         <thead>
                         <tr className="border border-2 border-warning ">
@@ -53,25 +61,12 @@ function Index() {
                             <th scope="col">Vencimento</th>
                             <th scope="col">Status</th>
                             <th scope="col" className=" d-flex justify-content-end">Ações</th>
-
                         </tr>
                         </thead>
                         <tbody>
-
-                        {receitas && receitas.length > 0 ? (
+                        {receitasOrder && receitasOrder.length > 0 ? (
                             receitas.map(receita => (
-                                <tr key={receita.id}>
-                                    <td>{receita.nomeCliente}</td>
-                                    <td>R$ {receita.valor.toFixed(2)}</td>
-                                    <td>{format(parseISO(receita.data_vencimento), 'dd/MM/yyyy', {locale: ptBR})}</td>
-                                    <td>{receita.status}</td>
-                                    <td className="d-flex justify-content-end">
-                                        <Link href={`/gestao-sgme/financeiro/contas-a-receber/update/${receita.id}`}
-                                            className="btn btn-success me-2">EDITAR</Link>
-                                        <Link href={`/gestao-sgme/financeiro/contas-a-receber/delete/${receita.id}`}
-                                            className="btn btn-danger">EXCLUIR</Link>
-                                    </td>
-                                </tr>
+                                <ReceitaItem key={receita} receita={receita}/>
                             ))
                         ) : (
                             <tr>
@@ -80,63 +75,47 @@ function Index() {
                         )}
 
                         </tbody>
-                    </table>
 
-                </div>
-
-
-                <div className="overflow-x-scroll mobile-styles-info-financeiro-table">
-
-                <table className="table table-borderless  ">
-                    <thead>
-                    <tr>
-                        <th scope="col" className="text-secondary ">Vencimento</th>
-                        <th scope="col"  className="text-secondary ">Valor</th>
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    {receitas && receitas.length > 0 ? (
-                        receitas.map(receita => (
-                            <>
-
-                                <tr>
-                                    <td className="fw-medium  ">{format(parseISO(receita.data_vencimento), 'dd/MM/yyyy', {locale: ptBR})}</td>
-                                    <td className="fw-medium  ">R$ {receita.valor.toFixed(2)}</td>
-                                </tr>
-
-                                <tr>
-                                    <td colSpan={2}>
-                                        <Link className="d-flex flex-row justify-content-between link " href={`/gestao-sgme/financeiro/contas-a-receber/update/${receita.id}`}>
-                                        <span>{receita.nomeCliente}</span>
-                                        <span>{receita.status}</span>
-                                        
-                                        </Link>
-                                    </td>
-                                    <td colSpan="2"></td>
-                                </tr>
-                                
-                                <div className="ms-2 fw-bolder">
-                                    |
-                                </div>
-                            </>
-                    
-
-                        ))
-                    ) : (
                         <tr>
-                            <td colSpan="6">Nenhuma despesa encontrada.</td>
+                            <td colspan={4} className="fw-bold pt-3 ">Total</td>
+                            <td className="text-end fw-bold pt-3">{totalReceitas.toLocaleString('pt-br',{
+                                style: 'currency',
+                                currency: 'BRL'
+                            })}</td>
                         </tr>
-                    )}
-
-                    </tbody>
-                </table>
-
+                    </table>
                 </div>
 
+                <div className="overflow-x-scroll  mb-5 mobile-styles-info-financeiro-table">
+                    <table className="table table-borderless">
+                    <thead>
+                        <tr>
+                        <th scope="col" className="text-secondary ">Vencimento</th>
+                        <th scope="col" className="text-secondary text-end ">Valor</th>
+                    </tr>
+                        </thead>
+                        <tbody>
+                        {receitasOrder && receitasOrder.length > 0 ? (
+                            receitas.map(receita =>
+                                <ReceitaItemMobile key={receita} receita={receita} />
+                            )
+                        ) : (
+                            <tr>
+                                <td colSpan="6">Nenhuma despesa encontrada.</td>
+                            </tr>
+                        )}
+                        </tbody>
 
+                        <tr>
+                            <td className="fw-bold pt-3 ">Total</td>
+                            <td className="text-end fw-bold pt-3">{totalReceitas.toLocaleString('pt-br', {
+                                style: 'currency',
+                                currency: 'BRL'
+                            })}</td>
+                        </tr>
 
+                    </table>
+                </div>
             </main>
         </>
 

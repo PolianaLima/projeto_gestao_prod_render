@@ -7,6 +7,7 @@ import {http} from "@/utils/http";
 import ModalComponent from "@/components/ModalComponent";
 import {getUserFromCookie} from "@/utils/Cookies";
 import {isAfter, parseISO} from "date-fns";
+import Link from "next/link";
 
 const UpdateReceita = () => {
     const router = useRouter();
@@ -226,7 +227,11 @@ const UpdateReceita = () => {
                         }}>ALTERAR
                         </button>
 
-                        <button className="btn btn-danger" onClick={(e) => {
+                        <Link href={`/gestao-sgme/financeiro/contas-a-receber/delete/${receita.id}`}
+                              className="btn btn-danger me-3">EXCLUIR
+                        </Link>
+
+                        <button className="btn btn-primary" onClick={(e) => {
                             e.preventDefault();
                             handlerCancelar();
 

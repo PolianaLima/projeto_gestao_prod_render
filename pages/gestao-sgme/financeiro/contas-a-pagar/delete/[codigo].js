@@ -38,7 +38,7 @@ const DeleteDespesa = () => {
                 setStatus(true)
             })
             .catch((error) => {
-                console.error("Erro ao excluir receita:" + error);
+                console.error("Erro ao excluir despesa:" + error);
             });
     };
 
@@ -59,7 +59,7 @@ const DeleteDespesa = () => {
 
             <div className="container d-flex flex-column align-items-center justify-content-center">
                 <div className="p-5 border border-danger mt-5">
-                    <h1 className="text-center mb-3">Excluir receita</h1>
+                    <h1 className="text-center mb-3">Excluir despesa</h1>
                     <table style={{marginLeft: "20px"}}>
                         <tbody>
                         <tr>
@@ -98,7 +98,7 @@ const DeleteDespesa = () => {
                 >
                     {status===true ? (
                         <div>
-                            <p className="fw-bold text-success">Conta excluida com sucesso</p>
+                            <p className="fw-bold text-success">Despesa excluida com sucesso</p>
                         </div>
 
                     ):(

@@ -8,6 +8,7 @@ import ModalComponent from "@/components/ModalComponent";
 import ButtonFechar from "@/components/ButtonFechar";
 import {getUserFromCookie} from "@/utils/Cookies";
 import {isAfter, parseISO} from "date-fns";
+import Link from "next/link";
 
 const UpdateDespesas = () => {
     const router = useRouter();
@@ -126,12 +127,11 @@ const UpdateDespesas = () => {
             </Head>
             <div className="container d-flex align-items-center justify-content-center mt-5">
 
-                <form className="form-control p-5">
-
-                    <ButtonFechar url="/gestao-sgme/financeiro/contas-a-pagar"/>
+                <form className="form-control-sm w-100">
 
                     <h1>{fornecedor.nome}</h1>
-                    <input value={fornecedor.id}
+                    <input defaultValue={fornecedor.id}
+                           readOnly={true}
                            name="fornecedor_id"
                            hidden
                            onChange={handleInputChange}
@@ -226,11 +226,22 @@ const UpdateDespesas = () => {
                     </div>
 
                     <div className="w-100 d-flex justify-content-end">
+
                         <button className="btn btn-success me-3" onClick={(e) => {
                             e.preventDefault();
                             handleUpdateDespesa()
                             openModal()
                         }}>ALTERAR
+                        </button>
+
+                        <Link href={`/gestao-sgme/financeiro/contas-a-pagar/delete/${despesa.id}`}
+                              className="btn btn-danger me-3">EXCLUIR</Link>
+
+                        <button className="btn btn-primary" onClick={(e) => {
+                            e.preventDefault();
+                            handlerCancelar();
+
+                        }}>CANCELAR
                         </button>
                     </div>
 

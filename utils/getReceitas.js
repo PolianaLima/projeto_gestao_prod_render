@@ -13,7 +13,8 @@ export const getReceitasData = async () => {
 
         const receitas = response.data;
 
-        // Correção: Usar receita.cliente_id em vez de receita.id
+        //Obter dados do total de receitas
+
         const idCliente = receitas.map((receita) => receita.cliente_id);
 
         const uniqueIdCliente = [...new Set(idCliente)];

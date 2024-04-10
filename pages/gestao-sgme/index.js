@@ -98,16 +98,16 @@ export default function Home() {
 
     //Filtrando dados Receitas - Mes
     const receitaAtualPendente = receitas.filter((receita) => receita.status === "Pendente");
-    const totalReceitaMes = receitaAtualPendente.length;
-    const valorReceitaMes = receitaAtualPendente.reduce((total, receita) => {
+    const totalReceita = receitaAtualPendente.length;
+    const valorReceita = receitaAtualPendente.reduce((total, receita) => {
         return total + receita.valor
     }, 0)
 
 
     //FIltrando dados Despesas Pendentes
     const despesasAtualPendente = despesas.filter((receita) => receita.status === "Pendente");
-    const totalDespesasMes = despesasAtualPendente.length;
-    const valorDespesaMes = despesasAtualPendente.reduce((total, despesa) => {
+    const totalDespesas = despesasAtualPendente.length;
+    const valorDespesa = despesasAtualPendente.reduce((total, despesa) => {
         return total + despesa.valor
     }, 0)
 
@@ -158,14 +158,13 @@ export default function Home() {
 
 
                     <div className="container d-sm-flex  align-items-center justify-content-between p-4">
-                        <CardDashBoard total={totalReceitaMes} valor={valorReceitaMes} tipo="receber"
+                        <CardDashBoard total={totalReceita} valor={valorReceita} tipo="receber"
                                     url="/gestao-sgme/financeiro/contas-a-receber"/>
-                        <CardDashBoard total={totalDespesasMes} valor={valorDespesaMes} tipo="pagar"
+                        <CardDashBoard total={totalDespesas} valor={valorDespesa} tipo="pagar"
                                     url="/gestao-sgme/financeiro/contas-a-pagar"/>
 
-
                     </div>
-                    <p className="d-sm-flex mt-0 w-75 ms-5">Os valores apresentados sao referente ao mes atual!</p>
+                    <p className="d-sm-flex mt-0 w-75 ms-5">Os valores apresentados sao referente total de valores pendentes!</p>
 
                 </section>
             </main>
