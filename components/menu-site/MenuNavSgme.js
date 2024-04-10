@@ -74,8 +74,8 @@ function MenuNavSgme(props) {
                         </ul>
                         <div className="nav-item dropdown">
                             <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
-                                  data-bs-toggle="dropdown"
-                                  aria-expanded="false">
+                                data-bs-toggle="dropdown"
+                                aria-expanded="false">
                                 <Image width="48" height="48" src="/img/user.gif" alt="Icone de Usuario"/>
                                 {user.nome}
                             </Link>

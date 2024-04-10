@@ -49,3 +49,20 @@
 .min-vh{
     min-height: 80vh;
 }
+
+/* Midea query */
+
+.mobile-styles-info-financeiro-table{
+    display: none;
+}
+
+@media screen and (max-width: 768px){
+    .mobile-styles-info-financeiro-table{
+        display: block;
+    }
+
+    .desktop-styles-info-financeiro-table{
+        display: none;
+    }
+}
+

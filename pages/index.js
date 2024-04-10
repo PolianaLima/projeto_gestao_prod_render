@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import Link from "next/link";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";
 import {http} from "@/utils/http";
@@ -56,7 +55,7 @@ function Index(props) {
             <main className="container-sm">
 
                 <div
-                    className="container-sm d-sm-flex  justify-content-center align-items-center pt-5">
+                    className="container-sm  d-sm-flex  justify-content-center align-items-center pt-5">
                     <div className="">
                         <Image
                             src="/img/ICON-LOGIN.jpg"
@@ -65,12 +64,12 @@ function Index(props) {
                             alt="contatoform"
                         />
                     </div>
-                    <div className="">
+                    <div className="" style={{minWidth:300} }>
                         <div className="mb-5">
-                            <h2 className="">LOGIN</h2>
+                            <h2 className="text-center ">LOGIN</h2>
                         </div>
 
-                        <div className="">
+                        <div className=" w-100 ">
                             <input
                                 type="usuário"
                                 className="form-control  mb-4  border-primary"

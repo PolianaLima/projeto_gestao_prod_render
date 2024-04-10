@@ -4,9 +4,12 @@ import Head from "next/head";
 import {getReceitasData} from "@/utils/getReceitas";
 import {format, parseISO} from "date-fns";
 import {ptBR} from "date-fns/locale";
+import { useRouter } from 'next/router';
+
 
 function Index() {
     const [receitas, setReceitas] = useState([]);
+    const router = useRouter();
 
     useEffect(() => {
         const getData = async () => {
@@ -40,10 +43,11 @@ function Index() {
                         Receita</Link>
                 </div>
 
-                <div className="overflow-x-scroll">
+                <div className="overflow-x-scroll desktop-styles-info-financeiro-table">
+
                     <table className="table">
                         <thead>
-                        <tr className="border border-2 border-warning">
+                        <tr className="border border-2 border-warning ">
                             <th scope="col">Cliente</th>
                             <th scope="col">Valor</th>
                             <th scope="col">Vencimento</th>
@@ -63,9 +67,9 @@ function Index() {
                                     <td>{receita.status}</td>
                                     <td className="d-flex justify-content-end">
                                         <Link href={`/gestao-sgme/financeiro/contas-a-receber/update/${receita.id}`}
-                                              className="btn btn-success me-2">EDITAR</Link>
+                                            className="btn btn-success me-2">EDITAR</Link>
                                         <Link href={`/gestao-sgme/financeiro/contas-a-receber/delete/${receita.id}`}
-                                              className="btn btn-danger">EXCLUIR</Link>
+                                            className="btn btn-danger">EXCLUIR</Link>
                                     </td>
                                 </tr>
                             ))
@@ -77,7 +81,60 @@ function Index() {
 
                         </tbody>
                     </table>
+
                 </div>
+
+
+                <div className="overflow-x-scroll mobile-styles-info-financeiro-table">
+
+                <table className="table table-borderless  ">
+                    <thead>
+                    <tr>
+                        <th scope="col" className="text-secondary ">Vencimento</th>
+                        <th scope="col"  className="text-secondary ">Valor</th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    {receitas && receitas.length > 0 ? (
+                        receitas.map(receita => (
+                            <>
+
+                                <tr>
+                                    <td className="fw-medium  ">{format(parseISO(receita.data_vencimento), 'dd/MM/yyyy', {locale: ptBR})}</td>
+                                    <td className="fw-medium  ">R$ {receita.valor.toFixed(2)}</td>
+                                </tr>
+
+                                <tr>
+                                    <td colSpan={2}>
+                                        <Link className="d-flex flex-row justify-content-between link " href={`/gestao-sgme/financeiro/contas-a-receber/update/${receita.id}`}>
+                                        <span>{receita.nomeCliente}</span>
+                                        <span>{receita.status}</span>
+                                        
+                                        </Link>
+                                    </td>
+                                    <td colSpan="2"></td>
+                                </tr>
+                                
+                                <div className="ms-2 fw-bolder">
+                                    |
+                                </div>
+                            </>
+                    
+
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="6">Nenhuma despesa encontrada.</td>
+                        </tr>
+                    )}
+
+                    </tbody>
+                </table>
+
+                </div>
+
 
 
             </main>

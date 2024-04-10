@@ -31,8 +31,6 @@ export default function Home() {
         const fetchData = async () => {
             const data = getUserFromCookie();
 
-            console.log("Dados do data: ", data);
-
             if(data !== null){
 
                 setToken(data.token);
@@ -97,8 +95,6 @@ export default function Home() {
 
 
     }
-
-
 
     //Filtrando dados Receitas - Mes
     const receitaAtualPendente = receitas.filter((receita) => receita.status === "Pendente");
