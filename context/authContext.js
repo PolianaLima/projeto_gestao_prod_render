@@ -29,7 +29,7 @@ export const AuthProvider = ({ children }) => {
         setToken(null);
         setUser(null);
         removeUserFromCookie('user');
-        router.push("/login")
+        router.push("/")
     };
 
     return (
