@@ -43,11 +43,13 @@ function Cadastro() {
 
     const onSubmit = async (data) => {
 
+            data.valor = data.valor.replace(",", ".");
+
             const dataUser = getUserFromCookie();
             data = {...data, usuario_id: dataUser.usuario.id}
 
             try {
-                http.post(`/despesas/cadastro`, data, {
+               await http.post(`/despesas/cadastro`, data, {
                     headers: {
                         Authorization: `Bearer ${dataUser.token}`
                     }
@@ -60,20 +62,15 @@ function Cadastro() {
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     setResultErro(true)
-                    setErroApi(error.response.data)
+                    setErroApi(error.response.data.message)
                 }
             }
 
     }
 
-
-    const dataAtual = new Date()
-
     const handlerCancelar = () => {
         router.push('/gestao-sgme/financeiro/contas-a-pagar');
     }
-
-
 
     return (
         <>
@@ -123,21 +120,15 @@ function Cadastro() {
 
                                    {...register('data_vencimento', {
                                        required: true,
-
-                                       validate: (value) => {
-                                           const dataSelecionada = parseISO(value);
-                                           return isAfter(dataSelecionada, dataAtual) || format(dataSelecionada, 'yyyy-MM-dd') === format(dataAtual, 'yyyy-MM-dd');
-                                       },
                                    })}
-
                             />
                             {errors?.data_vencimento?.type === "required" && (
                                 <p className="alert alert-danger mt-3">Valor e obrigatorio!</p>
                             )}
+                            {errorApi && resultErro ? (
+                                <p className="alert alert-danger mt-3">{errorApi}</p>
+                            ) : ("")}
 
-                            {errors?.data_vencimento?.type === 'validate' && (
-                                <p className="alert alert-danger mt-3">A data de vencimento deve ser maior ou igual à data atual.</p>
-                            )}
                         </div>
 
                     </div>

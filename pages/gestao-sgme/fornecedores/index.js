@@ -2,12 +2,9 @@ import React, {useEffect, useState} from 'react';
 import Link from "next/link";
 import {http} from "@/utils/http";
 import Head from "next/head";
-import Paginacao from "@/components/Paginacao";
 import {getUserFromCookie} from "@/utils/Cookies";
 import axios from "axios";
 import ModalInfo from "@/components/ModalInfo";
-import {format, parseISO} from "date-fns";
-import {ptBR} from "date-fns/locale";
 
 function Index(props) {
 
@@ -107,6 +104,7 @@ function Index(props) {
                     <div className="w-100 h-100 p-3">
                         <p className="fw-bold"> Informações</p>
                         <p>Nome: {selectedFornecedor.nome}</p>
+                        <p>Cpf / CNPJ: {selectedFornecedor.cnpj}</p>
                     </div>
 
                 </ModalInfo>

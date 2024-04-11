@@ -102,7 +102,7 @@ const UpdateFornecedor = () => {
             </Head>
             <div className="container-sm d-flex align-items-center justify-content-start mt-5">
 
-                <form className="form-control-sm w-100" style={{maxWidth:"50%"}}>
+                <form className="form-control-sm w-100 mobile-styles-form" style={{maxWidth:"50%"}}>
                     <h3 className="mb-4">Atualizando Fornecedor</h3>
                     <div className="d-flex flex-column">
                         <label htmlFor="valor">Cpnj / CPF: </label>

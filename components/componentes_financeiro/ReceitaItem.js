@@ -7,7 +7,7 @@ function ReceitaItem({receita}) {
     return (
         <tr key={receita.id}>
             <td>{receita.nomeCliente}</td>
-            <td>{receita.valor.toLocaleString('pt-br',{style:'currency', currency: 'BLR'})}</td>
+            <td>{receita.valor.toLocaleString('pt-br',{style:'currency', currency: 'BRL'})}</td>
             <td>{format(parseISO(receita.data_vencimento), 'dd/MM/yyyy', {locale:ptBR})}</td>
             <td>{receita.status}</td>
             <td className="d-flex justify-content-end">

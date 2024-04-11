@@ -65,6 +65,11 @@
     .desktop-styles-info-financeiro-table{
         display: none;
     }
+
+    .mobile-styles-form{
+        min-width: 100% !important;
+
+    }
 }
 
 

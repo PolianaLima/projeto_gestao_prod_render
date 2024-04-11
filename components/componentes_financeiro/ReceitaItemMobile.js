@@ -12,7 +12,7 @@ function ReceitaItem({ receita }) {
                     locale: ptBR,
                     })}
                 </td>
-                <td className="fw-medium text-end ">{receita.valor.toLocaleString('pt-bt', {style:'currency', currency: 'BLR'})}</td>
+                <td className="fw-medium text-end ">{receita.valor.toLocaleString('pt-bt', {style:'currency', currency: 'BRL'})}</td>
             </tr>
 
             <tr>

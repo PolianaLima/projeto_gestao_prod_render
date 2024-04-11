@@ -4,7 +4,6 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useRouter} from "next/router";
 import {http} from "@/utils/http";
-import ButtonFechar from "@/components/ButtonFechar";
 import {getUserFromCookie} from "@/utils/Cookies";
 import InputMask from 'react-input-mask';
 
@@ -69,7 +68,7 @@ function Cadastro(props) {
             <div className="container-sm d-sm-flex align-items-center justify-content-start mt-5">
 
 
-                <form className="form-control-sm w-100" style={{maxWidth:"75%"}}>
+                <form className="form-control-sm w-100 mobile-styles-form" style={{maxWidth:"65%"}}>
 
                     <h3 className="mb-4">Novo cliente</h3>
                     <div className="d-sm-flex flex-column">
@@ -129,7 +128,7 @@ function Cadastro(props) {
                     </div>
 
                     <div className="d-flex ">
-                        <button className="btn btn-warning pe-5 ps-5 me-3" onClick={(e) => {
+                        <button className="btn btn-success pe-5 ps-5 me-3" onClick={(e) => {
                             e.preventDefault();
                             handleSubmit(onSubmit)();
                         }}>SALVAR

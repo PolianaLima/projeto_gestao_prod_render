@@ -115,7 +115,7 @@ const UpdateCliente = () => {
             </Head>
             <div className="container-sm d-flex align-items-center justify-content-start mt-5">
 
-                <form className="form-control-sm w-100" style={{maxWidth:"75%"}}>
+                <form className="form-control-sm w-100 mobile-styles-form" style={{maxWidth:"65%"}}>
 
                     <h3 className="mb-4">Atualizando Clientes</h3>
                     <div className="d-sm-flex flex-column">
@@ -140,9 +140,6 @@ const UpdateCliente = () => {
                                 value={cliente.cpf}
                                 onChange={handleInputChange}
                             />
-                            {resultErro === true ? (
-                                <p className="text-danger fw-bold">{errorApi}</p>
-                            ) : ("")}
                         </div>
 
 
@@ -172,6 +169,12 @@ const UpdateCliente = () => {
 
                     </div>
 
+                    <div>
+                        {resultErro === true ? (
+                            <p className="text-danger fw-bold">{errorApi}</p>
+                        ) : ("")}
+                    </div>
+
                     <div className="d-flex">
                         <button className="btn btn-success pe-3 ps-3 me-3" onClick={(e) => {
                             e.preventDefault();
@@ -186,8 +189,6 @@ const UpdateCliente = () => {
                         }}>CANCELAR
                         </button>
                     </div>
-
-
                     <ModalComponent
                         isOpen={modalIsOpen}
                         onRequestClose={closeModal}
@@ -205,11 +206,7 @@ const UpdateCliente = () => {
                             </>
 
                         )}
-
-
                     </ModalComponent>
-
-
                 </form>
 
 

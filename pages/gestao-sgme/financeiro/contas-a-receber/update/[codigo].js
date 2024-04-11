@@ -96,9 +96,11 @@ const UpdateReceita = () => {
 
     };
 
-
     const handleInputChange = (e) => {
         setReceita({...receita, [e.target.name]: e.target.value});
+        if (receita.valor.includes(",")){
+            setReceita({...receita, valor: receita.valor.replace(",", ".")})
+        }
     };
 
     const handlerCancelar = () => {

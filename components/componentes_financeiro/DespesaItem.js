@@ -7,7 +7,10 @@ function DespesaItem({despesa}) {
     return (
         <tr key={despesa.id}>
             <td>{despesa.nomeFornecedor}</td>
-            <td>R$ {despesa.valor.toFixed(2)}</td>
+            <td>R$ {despesa.valor.toLocaleString('pt-br', {
+                style: 'currency',
+                currency: 'BRL'
+            })}</td>
             <td>{format(parseISO(despesa.data_vencimento), 'dd/MM/yyyy', {locale: ptBR})}</td>
             <td>{despesa.status}</td>
             <td className="d-flex justify-content-end">

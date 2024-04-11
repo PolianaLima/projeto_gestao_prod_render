@@ -86,7 +86,7 @@ const UpdateDespesas = () => {
                     })
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                    console.error('Erro na resposta da API:', error.response.data);
+                   setErroDados('Erro na resposta da API:', error.response.message);
                 } else {
                     console.error('Erro ao enviar dados para a API:', error);
                 }
@@ -100,7 +100,11 @@ const UpdateDespesas = () => {
 
     const handleInputChange = (e) => {
         setDespesa({...despesa, [e.target.name]: e.target.value});
-        console.log(despesa)
+
+        if (despesa.valor.includes(",")){
+            setDespesa({...despesa, valor: despesa.valor.replace(",", ".")})
+        }
+
     };
 
     const handlerCancelar = () => {
