@@ -68,7 +68,15 @@
 
     .mobile-styles-form{
         min-width: 100% !important;
+    }
 
+    .mobile-styles-form-filtro-Dados{
+        flex-direction: column !important;
+        margin-bottom: 1rem;
+    }
+
+    .mobile-styles-form-filtro-Dados >  .form-group{
+        margin-right: 0 !important;
     }
 }
 

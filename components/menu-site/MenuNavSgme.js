@@ -16,11 +16,12 @@ function MenuNavSgme(props) {
             <nav className="navbar navbar-expand-lg" style={{background: " #4682B4"}}>
                 <div className="container">
                     <Link className="navbar-brand " href="/gestao-sgme">
-                        <Image src="/img/logotipo.svg"
-                                width="80"
-                                height="70"
-                                className="w-100"
-                                alt="Logotipo Sistema de Gestao de Microempreendedores"/>
+                        <Image src="/img/logotipo.svg" width="0"
+                               height="0"
+                               alt="Logotipo Sistema de Gestao de Microempreendedores"
+                               style={{width: '150px', height: 'auto'}}
+                               priority={true}
+                        />
                     </Link>
                     <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -59,17 +60,6 @@ function MenuNavSgme(props) {
                                         a Pagar</Link></li>
                                 </ul>
                             </li>
-
-                            {/*<li className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown"
-                                  aria-expanded="false">
-                                Relatorios
-                            </Link>
-                            <ul className="dropdown-menu">
-                                <li><Link className="dropdown-item" href="#">Contas a Receber</Link></li>
-                                <li><Link className="dropdown-item" href="#">Contas a Pagar</Link></li>
-                            </ul>
-                        </li>*/}
 
                         </ul>
                         <div className="nav-item dropdown">

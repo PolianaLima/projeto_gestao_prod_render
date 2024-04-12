@@ -62,6 +62,7 @@ function Index(props) {
                             width={350}
                             height={350}
                             alt="contatoform"
+                            priority={true}
                         />
                     </div>
                     <div className="" style={{minWidth:300} }>

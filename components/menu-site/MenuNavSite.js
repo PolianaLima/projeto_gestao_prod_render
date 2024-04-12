@@ -9,11 +9,13 @@ function MenuNavSite(props) {
 
                 <div className="container d-sm-flex flex-nowrap justify-content-between">
                     <div className="justify-content-between d-flex">
-                        <Link className="navbar-brand nav-link-light img-fluid" href="/">
+                        <Link className="navbar-brand nav-link-light img-fluid" href="/" >
                             <Image src="/img/logotipo.svg" width="0"
                                 height="0"
                                 alt="Logotipo Sistema de Gestao de Microempreendedores"
-                                style={{width: '150px', height: 'auto'}}/>
+                                style={{width: '150px', height: 'auto'}}
+                                priority={true}
+                            />
 
                         </Link>
 
