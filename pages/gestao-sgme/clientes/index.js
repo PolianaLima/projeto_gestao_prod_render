@@ -11,6 +11,9 @@ function Index() {
     const [clientes, setClientes] = useState([]);
     const [selectedCliente, setSelectedCliente] = useState({});
 
+    const [loadingData, setLoadingData] = useState(true);
+    const [loading, setLoading] = useState(true);
+
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
     const openModal = (cliente) => {
@@ -25,7 +28,26 @@ function Index() {
 
 
     useEffect(() => {
-        const dataUser = getUserFromCookie();
+        setLoadingData(true);
+        const fetchData = async () => {
+            const dataUser = getUserFromCookie();
+            try {
+                const response = await http.get(`/clientes?idUsuario=${dataUser.usuario.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${dataUser.token}`
+                    }
+                });
+                setClientes(response.data);
+            } catch (error) {
+                console.log(error.response.data)
+            } finally {
+                setLoadingData(false);
+            }
+        }
+
+        fetchData();
+
+        /*const dataUser = getUserFromCookie();
         http.get(`/clientes?idUsuario=${dataUser.usuario.id}`,  {
             headers:{
                 Authorization:`Bearer ${dataUser.token}`
@@ -38,51 +60,57 @@ function Index() {
                 if(axios.isAxiosError(error)){
                     console.log(error.response.data)
                 }
-            });
+            });*/
     }, []);
 
     return (
         <main className="container border mb-5">
+
+
             <div className="container d-sm-flex flex-row justify-content-between mb-3 mt-5">
                 <h3>Clientes</h3>
                 <Link href="/gestao-sgme/clientes/cadastro" className="btn btn-success">Novo Cliente</Link>
             </div>
+
             <table className="table">
-
-
-                <thead>
-                <tr className="border border-2 border-warning">
-                    <th scope="col">Nome</th>
-                    <th scope="col"  className=" d-flex justify-content-end">Ações</th>
-
-                </tr>
-                </thead>
-                <tbody>
-
-                {clientes && clientes.length> 0 ? (
-                    clientes.map(cliente =>
-                        <tr key={cliente.id}>
-
-                            <td >
-                                {cliente.nome}
-                            </td>
-                            <td className="d-flex justify-content-end">
-                                <img width="30" height="30" className="me-3 pointer-cursor" src="https://img.icons8.com/3d-fluency/94/info.png"
-                                     alt="info"
-                                onClick={()=>openModal(cliente)}/>
-                                <Link href={`/gestao-sgme/clientes/update/${cliente.id}`}
-                                      className="btn btn-success me-2">EDITAR</Link>
-
-                            </td>
-
+                {loadingData ? (
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                ) : (
+                    <>
+                        <thead>
+                        <tr className="border border-2 border-warning">
+                            <th scope="col">Nome</th>
+                            <th scope="col" className=" d-flex justify-content-end">Ações</th>
                         </tr>
-                    )) : (
-                    <tr>
-                    <td colSpan="6">Nenhum cliente encontrado.</td>
-                    </tr>
-                )}
+                        </thead>
+                        <tbody>
 
-                </tbody>
+                        {clientes && clientes.length > 0 ? (
+                            clientes.map(cliente =>
+                                <tr key={cliente.id}>
+
+                                    <td>
+                                        {cliente.nome}
+                                    </td>
+                                    <td className="d-flex justify-content-end">
+                                        <img width="30" height="30" className="me-3 pointer-cursor"
+                                             src="https://img.icons8.com/3d-fluency/94/info.png"
+                                             alt="info"
+                                             onClick={() => openModal(cliente)}/>
+                                        <Link href={`/gestao-sgme/clientes/update/${cliente.id}`}
+                                              className="btn btn-success me-2">EDITAR</Link>
+                                    </td>
+                                </tr>
+                            )) : (
+                            <tr>
+                                <td colSpan="6">Nenhum cliente encontrado.</td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </>
+                )}
             </table>
 
             <ModalInfo
@@ -104,8 +132,6 @@ function Index() {
                 </div>
 
             </ModalInfo>
-
-
         </main>
     );
 }

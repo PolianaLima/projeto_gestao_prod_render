@@ -27,7 +27,7 @@ const ModalInfo = ({isOpen, onRequestClose, children}) => {
     const customStyles = {
         content: {
             width: isMobile ? '90%' : '25%',
-            height: isMobile ? '25%' : '35%',
+            height: isMobile ? '25%' : '45%',
             margin: isMobile ? 'auto' : 'auto',
         },
     };
