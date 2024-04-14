@@ -129,7 +129,26 @@ export default function Home() {
                     <h1 className="w-100 text-center">SEJA BEM VINDO(A)</h1>
                     <h3 className="mb-5 text-center">{usuario.nome}</h3>
 
-                    {loading && <p>Carregando...</p>}
+
+                    {loading? (
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="container d-sm-flex  align-items-center justify-content-between p-4">
+                            <CardDashBoard total={totalReceita} valor={valorReceita} tipo="receber"
+                                           url="/gestao-sgme/financeiro/contas-a-receber"/>
+                            <CardDashBoard total={totalDespesas} valor={valorDespesa} tipo="pagar"
+                                           url="/gestao-sgme/financeiro/contas-a-pagar"/>
+
+                        </div>
+                    )}
+
+                    <p className="d-sm-flex mt-0 w-75 ms-5">Os valores apresentados sao referente total de valores
+                        pendentes!</p>
+
 
                     <p className="fw-bolder text-app-sgme fs-2">Menu Rapido</p>
                     <div className="container-sm d-sm-flex flex-wrap justify-content-between">
@@ -155,17 +174,6 @@ export default function Home() {
                             titleLink="Nova Receita"/>
 
                     </div>
-
-
-                    <div className="container d-sm-flex  align-items-center justify-content-between p-4">
-                        <CardDashBoard total={totalReceita} valor={valorReceita} tipo="receber"
-                                    url="/gestao-sgme/financeiro/contas-a-receber"/>
-                        <CardDashBoard total={totalDespesas} valor={valorDespesa} tipo="pagar"
-                                    url="/gestao-sgme/financeiro/contas-a-pagar"/>
-
-                    </div>
-                    <p className="d-sm-flex mt-0 w-75 ms-5">Os valores apresentados sao referente total de valores pendentes!</p>
-
                 </section>
             </main>
         </>

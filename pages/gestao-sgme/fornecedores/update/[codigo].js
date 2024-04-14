@@ -9,6 +9,8 @@ import ModalComponent from "@/components/ModalComponent";
 
 const UpdateFornecedor = () => {
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [loadingData, setLoadingData] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -29,6 +31,7 @@ const UpdateFornecedor = () => {
 
     const [fornecedor, setFornecedor] = useState(
         {
+            id: "",
             cnpj: "",
             nome: "",
 
@@ -38,43 +41,51 @@ const UpdateFornecedor = () => {
 
     useEffect(() => {
 
-        const dataUser = getUserFromCookie();
+        setLoadingData(true)
 
-        if (codigo) {
-            http.get(`/fornecedores/${codigo}`, {
-                headers: {
-                    Authorization: `Bearer ${dataUser.token}`
-                }
-            })
-                .then((response) => {
+        const fetchData = async () => {
+            const dataUser = getUserFromCookie();
+
+            if (codigo) {
+                try {
+                    const response = await http.get(`/fornecedores/${codigo}`, {
+                        headers: {
+                            Authorization: `Bearer ${dataUser.token}`
+                        }
+                    });
                     setFornecedor(response.data)
-                })
-                .catch((response) => {
-                    console.error('Erro atualizar busca na pagina!')
-                })
+                } catch (error) {
+                    console.log(error.response.data.message)
+                } finally {
+                    setLoadingData(false)
+                }
+            }
+
         }
+        fetchData()
 
     }, [codigo])
 
     const handleUpdateFornecedor = async () => {
+        setLoading(true)
         const dataUser = getUserFromCookie();
 
-        await http.put(`/fornecedores/${codigo}`, fornecedor, {
-            headers: {
-                Authorization: `Bearer ${dataUser.token}`
-            }
-        })
-            .then((response) => {
-                setResultErro(false)
-                abrirModal()
-            })
-            .catch((error) => {
-                if (axios.isAxiosError(error)) {
-                    setResultErro(true)
-                    setErroApi(error.response.data.message)
+        try {
+            await http.put(`/fornecedores/${codigo}`, fornecedor, {
+                headers: {
+                    Authorization: `Bearer ${dataUser.token}`
                 }
             });
-
+            setResultErro(false);
+            abrirModal();
+        } catch (error) {
+            if (axios.isAxiosError(error)) {
+                setResultErro(true)
+                setErroApi(error.response.data.message)
+            }
+        } finally {
+            setLoading(false)
+        }
     }
 
     const abrirModal = (erroApi) => {
@@ -102,71 +113,94 @@ const UpdateFornecedor = () => {
             </Head>
             <div className="container-sm d-flex align-items-center justify-content-start mt-5">
 
-                <form className="form-control-sm w-100 mobile-styles-form" style={{maxWidth:"50%"}}>
+                <form className="form-control-sm w-100 mobile-styles-form" style={{maxWidth: "50%"}}>
                     <h3 className="mb-4">Atualizando Fornecedor</h3>
-                    <div className="d-flex flex-column">
-                        <label htmlFor="valor">Cpnj / CPF: </label>
-                        <input placeholder="Cnpj / Cpf"
-                               className="form-control"
-                               name="codigo"
-                               value={fornecedor.cnpj}
-                               onChange={handleInputChange}
-                        />
 
-                        {resultErro === true ? (
-                            <p className="text-danger fw-bold">{errorApi}</p>
-                        ) : ("")}
-                    </div>
-
-                    <div className="d-flex flex-row justify-content-between mb-3">
-                        <div className="d-flex flex-column w-100">
-                            <label htmlFor="valor">Razão Social / Nome: </label>
-                            <input placeholder="Razao Social / NOme"
-                                   className="form-control"
-                                   name="nome"
-                                   value={fornecedor.nome}
-                                   onChange={handleInputChange}
-                            />
-
-                        </div>
-
-
-                    </div>
-                    <div className="d-flex">
-                        <button className="btn btn-success pe-3 ps-3 me-3" onClick={(e) => {
-                            e.preventDefault();
-                            const promise = handleUpdateFornecedor();
-                            // openModal()
-                        }}>SALVAR
-                        </button>
-
-                        <button className="btn btn-danger pe-3 ps-3" onClick={(e) => {
-                            e.preventDefault();
-                            handlerCancelar();
-
-                        }}>CANCELAR
-                        </button>
-                    </div>
-
-
-                    <ModalComponent
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                    >
-                        {status === true ? (
-                            <div>
-                                <p className="fw-bold text-success">Fornecedor alterado com sucesso</p>
+                    {loadingData ? (
+                            <div className="d-flex justify-content-center align-items-center">
+                                <div className="spinner-border text-primary" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
                             </div>
-
-                        ) : (
+                        ) :
+                        (
                             <>
-                                <p>Erro ao atualizar</p>
-                                <p>{errorApi}</p>
+                                <div className="d-flex flex-column">
+                                    <label>Cpnj / CPF: </label>
+                                    <input placeholder="Cnpj / Cpf"
+                                           className="form-control"
+                                           name="codigo"
+                                           value={fornecedor.cnpj}
+                                           onChange={handleInputChange}
+                                    />
 
+                                    {resultErro === true ? (
+                                        <p className="text-danger fw-bold">{errorApi}</p>
+                                    ) : ("")}
+                                </div>
+
+                                <div className="d-flex flex-row justify-content-between mb-3">
+                                    <div className="d-flex flex-column w-100">
+                                        <label htmlFor="valor">Razão Social / Nome: </label>
+                                        <input placeholder="Razao Social / NOme"
+                                               className="form-control"
+                                               name="nome"
+                                               value={fornecedor.nome}
+                                               onChange={handleInputChange}
+                                        />
+
+                                    </div>
+                                </div>
+                                <div className="d-flex">
+                                    <button className="btn btn-success pe-3 ps-3 me-3" onClick={(e) => {
+                                        e.preventDefault();
+                                        const promise = handleUpdateFornecedor();
+                                        // openModal()
+                                    }}>SALVAR
+                                    </button>
+
+                                    <button className="btn btn-danger pe-3 ps-3" onClick={(e) => {
+                                        e.preventDefault();
+                                        handlerCancelar();
+
+                                    }}>CANCELAR
+                                    </button>
+                                </div>
+
+                                <ModalComponent
+                                    isOpen={modalIsOpen}
+                                    onRequestClose={closeModal}
+                                >
+                                    {loading ? (
+                                        <div className="d-flex justify-content-center align-items-center">
+                                            <div className="spinner-border text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {status === true ? (
+                                                <div>
+                                                    <p className="fw-bold text-success">Fornecedor alterado com
+                                                        sucesso</p>
+                                                </div>
+
+                                            ) : (
+                                                <>
+                                                    <p>Erro ao atualizar</p>
+                                                    <p>{errorApi}</p>
+
+                                                </>
+
+                                            )}
+                                        </>
+                                    )}
+
+                                </ModalComponent>
                             </>
-
                         )}
-                    </ModalComponent>
+
+
                 </form>
 
             </div>

@@ -34,7 +34,7 @@ const UpdateCliente = () => {
 
     const [cliente, setCliente] = useState(
         {
-            id: 0,
+            id: "",
             cpf: "",
             nome: "",
             telefone: "",
@@ -212,19 +212,30 @@ const UpdateCliente = () => {
                                 isOpen={modalIsOpen}
                                 onRequestClose={closeModal}
                             >
-                                {status === true ? (
-                                    <div>
-                                        <p className="fw-bold text-success">Cliente alterado com sucesso</p>
-                                    </div>
 
+                                {loading ? (
+                                    <div className="spinner-border text-primary" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
                                 ) : (
                                     <>
-                                        <p>Erro ao atualizar</p>
-                                        <p>{errorApi}</p>
+                                        {status === true ? (
+                                            <div>
+                                                <p className="fw-bold text-success">Cliente alterado com sucesso</p>
+                                            </div>
 
+                                        ) : (
+                                            <>
+                                                <p>Erro ao atualizar</p>
+                                                <p>{errorApi}</p>
+
+                                            </>
+
+                                        )}
                                     </>
-
                                 )}
+
+
                             </ModalComponent>
                         </>
                     )}

@@ -46,21 +46,6 @@ function Index() {
         }
 
         fetchData();
-
-        /*const dataUser = getUserFromCookie();
-        http.get(`/clientes?idUsuario=${dataUser.usuario.id}`,  {
-            headers:{
-                Authorization:`Bearer ${dataUser.token}`
-            }
-        })
-            .then((response) => {
-                setClientes(response.data)
-            })
-            .catch((error) => {
-                if(axios.isAxiosError(error)){
-                    console.log(error.response.data)
-                }
-            });*/
     }, []);
 
     return (

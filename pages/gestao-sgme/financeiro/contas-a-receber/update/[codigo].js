@@ -15,6 +15,8 @@ const UpdateReceita = () => {
 
     const [erroData, setErroData] = useState(false)
     const [erroDados, setErroDados] = useState("")
+    const [loadingData, setLoadingData] = useState(false)
+    const [loadingUpdate, setLoadingUpdate] = useState(false)
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -36,43 +38,48 @@ const UpdateReceita = () => {
 
 
     useEffect(() => {
-        if (codigo) {
+
+        const fetchData = async () => {
+            setLoadingData(true)
             const dataUser = getUserFromCookie();
-            http.get(`/receitas/${codigo}`, {
-                headers: {
-                    Authorization: `Bearer ${dataUser.token}`
-                }
-            })
-                .then((response) => {
-                        setReceita(response.data)
-                    }
-                )
-                .catch((error) => {
+
+            if (codigo) {
+                try {
+                    const response = await http.get(`/receitas/${codigo}`, {
+                        headers: {
+                            Authorization: `Bearer ${dataUser.token}`
+                        }
+                    });
+                    setReceita(response.data)
+
+                    const responseCliente = await http.get(`/clientes/${response.data.cliente_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${dataUser.token}`
+                        }
+                    });
+
+                    setCliente(responseCliente.data)
+
+                } catch (error) {
                     console.log("Erro ao buscar receita" + error)
-                })
+                } finally {
+                    setLoadingData(false)
+                }
+
+            }
         }
+        fetchData()
 
     }, [codigo])
 
-
-    useEffect(() => {
-        const dataUser = getUserFromCookie();
-        if (receita.cliente_id)
-            http.get(`/clientes/${receita.cliente_id}`, {
-                headers: {
-                    Authorization: `Bearer ${dataUser.token}`
-                }
-            })
-                .then((response) => {
-                    setCliente(response.data)
-                })
-                .catch((error) => console.log("Erro ao buscar cliente" + error))
-    }, [receita.cliente_id])
+    console.log(receita, cliente)
 
     const handleUpdateReceita = async () => {
+        setLoadingUpdate(true)
+
         const dataUser = getUserFromCookie();
 
-        if (erroData !== true){
+        if (erroData !== true) {
             try {
                 await http
                     .put(`/receitas/${codigo}`, receita, {
@@ -89,8 +96,10 @@ const UpdateReceita = () => {
                 } else {
                     console.error('Erro ao enviar dados para a API:', error);
                 }
+            } finally {
+                setLoadingUpdate(false)
             }
-        }else {
+        } else {
             setErroDados("Nao foi possivel atualizar os dados, corrija os erros e tente novamente")
         }
 
@@ -98,7 +107,7 @@ const UpdateReceita = () => {
 
     const handleInputChange = (e) => {
         setReceita({...receita, [e.target.name]: e.target.value});
-        if (receita.valor.includes(",")){
+        if (receita.valor.includes(",")) {
             setReceita({...receita, valor: receita.valor.replace(",", ".")})
         }
     };
@@ -127,140 +136,167 @@ const UpdateReceita = () => {
             <div className="container-sm d-flex align-items-center justify-content-center mt-5">
 
                 <form className="form-control-sm w-100">
-                    <h1>{cliente.nome}</h1>
-                    <input defaultValue={cliente.id}
-                           readOnly={true}
-                           name="cliente_id"
-                           hidden
-                           onChange={handleInputChange}
 
-                    />
-
-                    <div>
-                        <p><b>Status:</b> {receita.status}</p>
-                    </div>
-
-                    <div className="d-sm-flex flex-row justify-content-between mb-3">
-                        <div className="d-flex flex-column w-100 me-3">
-                            <label htmlFor="valor">Valor: </label>
-                            <input placeholder="R$"
-                                   className="form-control"
-                                   value={receita.valor}
-                                   name="valor"
+                    {loadingData ? (
+                        <div className="d-flex justify-content-center">
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <h1>{cliente.nome}</h1>
+                            <input value={cliente.id}
+                                   readOnly={true}
+                                   name="cliente_id"
+                                   hidden
                                    onChange={handleInputChange}
+
                             />
 
-                        </div>
-
-
-                        <div className="d-flex flex-column w-100">
-                            <label htmlFor="data_vencimento">Data Vencimento: </label>
-                            <input type="date"
-                                   className="form-control"
-                                   value={receita.data_vencimento}
-                                   name="data_vencimento"
-                                   onChange={(e) => {
-                                       handleInputChange(e);
-                                       if (!validateDataVencimento(e.target.value)) {
-                                           setErroData(true)
-                                       }
-                                   }}
-                            />
-
-                            {erroData === true ? (
-                                <p className="alert alert-danger mt-3">A data de vencimento deve ser maior ou igual à data atual.</p>
-                            ) : ("")}
-
-                        </div>
-                    </div>
-
-                    <div className="d-sm-flex flex-row justify-content-between mb-3">
-
-                        <div className="d-flex flex-column w-100 me-3">
-                            <label htmlFor="forma_pagamento">Forma de Pagamento</label>
-                            <select className="form-select"
-                                    value={receita.forma_pagamento}
-                                    name="forma_pagamento"
-                                    onChange={handleInputChange}
-                            >
-                                <option hidden value={receita.forma_pagamento}>{receita.forma_pagamento}</option>
-                                <option value="DINHEIRO">DINHEIRO</option>
-                                <option value="PIX">PIX</option>
-                                <option value="CARTAO">CARTAO</option>
-                                <option value="BOLETO">BOLETO</option>
-                            </select>
-
-
-                        </div>
-
-                        <div className="d-flex flex-column w-100 ">
-                            <label htmlFor="status">Status</label>
-                            <select className="form-select"
-                                    value={receita.status}
-                                    name="status"
-                                    onChange={handleInputChange}
-                            >
-                                <option value={receita.status} hidden>{receita.status}</option>
-                                <option value="Pendente">Pendente</option>
-                                <option value="Pago">Pago</option>
-                            </select>
-
-                        </div>
-                    </div>
-
-                    <div className="d-sm-flex flex-row justify-content-between mb-3">
-                        <div className="d-flex flex-column w-100 me-3">
-                            <label htmlFor="Obsercavao">Obervação: </label>
-                            <textarea placeholder="Observacao"
-                                      className="form-control"
-                                      value={receita.observacao}
-                                      name="observacao"
-                                      onChange={handleInputChange}
-                            />
-
-                        </div>
-                    </div>
-
-                    <div className="w-100 d-flex justify-content-end ">
-                        <button className="btn btn-success me-3" onClick={(e) => {
-                            e.preventDefault()
-                            handleUpdateReceita()
-                            openModal()
-                        }}>ALTERAR
-                        </button>
-
-                        <Link href={`/gestao-sgme/financeiro/contas-a-receber/delete/${receita.id}`}
-                              className="btn btn-danger me-3">EXCLUIR
-                        </Link>
-
-                        <button className="btn btn-primary" onClick={(e) => {
-                            e.preventDefault();
-                            handlerCancelar();
-
-                        }}>CANCELAR
-                        </button>
-                    </div>
-
-
-                    <ModalComponent
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                    >
-                        {status === true ? (
                             <div>
-                                <p className="fw-bold text-success">Conta alterada com sucesso</p>
+                                <p><b>Status:</b> {receita.status}</p>
                             </div>
 
-                        ) : (
-                            <>
-                                <p>Erro ao atualizar</p>
-                                <p>{erroDados}</p>
-                            </>
+                            <div className="d-sm-flex flex-row justify-content-between mb-3">
+                                <div className="d-flex flex-column w-100 me-3">
+                                    <label htmlFor="valor">Valor: </label>
+                                    <input placeholder="R$"
+                                           className="form-control"
+                                           value={receita.valor}
+                                           name="valor"
+                                           onChange={handleInputChange}
+                                    />
 
-                        )}
+                                </div>
 
 
-                    </ModalComponent>
+                                <div className="d-flex flex-column w-100">
+                                    <label htmlFor="data_vencimento">Data Vencimento: </label>
+                                    <input type="date"
+                                           className="form-control"
+                                           value={receita.data_vencimento}
+                                           name="data_vencimento"
+                                           onChange={(e) => {
+                                               handleInputChange(e);
+                                               if (!validateDataVencimento(e.target.value)) {
+                                                   setErroData(true)
+                                               }
+                                           }}
+                                    />
+
+                                    {erroData === true ? (
+                                        <p className="alert alert-danger mt-3">A data de vencimento deve ser maior ou
+                                            igual à data atual.</p>
+                                    ) : ("")}
+
+                                </div>
+                            </div>
+
+                            <div className="d-sm-flex flex-row justify-content-between mb-3">
+
+                                <div className="d-flex flex-column w-100 me-3">
+                                    <label htmlFor="forma_pagamento">Forma de Pagamento</label>
+                                    <select className="form-select"
+                                            value={receita.forma_pagamento}
+                                            name="forma_pagamento"
+                                            onChange={handleInputChange}
+                                    >
+                                        <option hidden
+                                                value={receita.forma_pagamento}>{receita.forma_pagamento}</option>
+                                        <option value="DINHEIRO">DINHEIRO</option>
+                                        <option value="PIX">PIX</option>
+                                        <option value="CARTAO">CARTAO</option>
+                                        <option value="BOLETO">BOLETO</option>
+                                    </select>
+
+
+                                </div>
+
+                                <div className="d-flex flex-column w-100 ">
+                                    <label htmlFor="status">Status</label>
+                                    <select className="form-select"
+                                            value={receita.status}
+                                            name="status"
+                                            onChange={handleInputChange}
+                                    >
+                                        <option value={receita.status} hidden>{receita.status}</option>
+                                        <option value="Pendente">Pendente</option>
+                                        <option value="Pago">Pago</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div className="d-sm-flex flex-row justify-content-between mb-3">
+                                <div className="d-flex flex-column w-100 me-3">
+                                    <label htmlFor="Obsercavao">Obervação: </label>
+                                    <textarea placeholder="Observacao"
+                                              className="form-control"
+                                              value={receita.observacao}
+                                              name="observacao"
+                                              onChange={handleInputChange}
+                                    />
+
+                                </div>
+                            </div>
+
+                            <div className="w-100 d-flex justify-content-end ">
+                                <button className="btn btn-success me-3" onClick={(e) => {
+                                    e.preventDefault()
+                                    handleUpdateReceita()
+                                    openModal()
+                                }}>ALTERAR
+                                </button>
+
+                                <Link href={`/gestao-sgme/financeiro/contas-a-receber/delete/${receita.id}`}
+                                      className="btn btn-danger me-3">EXCLUIR
+                                </Link>
+
+                                <button className="btn btn-primary" onClick={(e) => {
+                                    e.preventDefault();
+                                    handlerCancelar();
+
+                                }}>CANCELAR
+                                </button>
+                            </div>
+
+
+                            <ModalComponent
+                                isOpen={modalIsOpen}
+                                onRequestClose={closeModal}
+                            >
+
+                                {
+                                    loadingUpdate ? (
+                                        <div className="d-flex justify-content-center">
+                                            <div className="spinner-border text-primary" role="status">
+                                                <span className="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <>
+                                            {status === true ? (
+                                                <div>
+                                                    <p className="fw-bold text-success">Conta alterada com sucesso</p>
+                                                </div>
+
+                                            ) : (
+                                                <>
+                                                    <p>Erro ao atualizar</p>
+                                                    <p>{erroDados}</p>
+                                                </>
+
+                                            )}
+                                        </>
+
+                                    )
+                                }
+
+
+                            </ModalComponent>
+                        </>
+                    )}
                 </form>
 
             </div>

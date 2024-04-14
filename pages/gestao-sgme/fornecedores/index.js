@@ -11,6 +11,7 @@ function Index(props) {
 
     const [fornecedores, setFornecedores] = useState([]);
     const [selectedFornecedor, setSelectedFornecedor] = useState({});
+    const [loadingData, setLoadingData] = useState(false);
 
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -26,20 +27,25 @@ function Index(props) {
     };
 
     useEffect(() => {
-        const dataUser = getUserFromCookie();
-        http.get(`/fornecedores?idUsuario=${dataUser.usuario.id}`, {
-            headers: {
-                Authorization: `Bearer ${dataUser.token}`
-            }
-        })
-            .then((response) => {
+        setLoadingData(true)
+
+        const fetchData = async () => {
+            const dataUser = getUserFromCookie();
+
+            try {
+                const response = await http.get(`/fornecedores?idUsuario=${dataUser.usuario.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${dataUser.token}`
+                    }
+                });
                 setFornecedores(response.data)
-            })
-            .catch((error) => {
-                if (axios.isAxiosError(error)) {
-                    console.log("Erro ao buscar fornecedores")
-                }
-            });
+            } catch (error) {
+                console.log(error)
+            } finally {
+                setLoadingData(false)
+            }
+        }
+        fetchData()
     }, []);
 
 
@@ -58,49 +64,54 @@ function Index(props) {
                     <Link href="/gestao-sgme/fornecedores/cadastro" className="btn btn-success">Novo Fornecedor</Link>
                 </div>
                 <table className="table">
-                    <thead>
-                    <tr className="border border-2 border-warning">
-                        <th scope="col" className="w-100">Razao Social / Nome</th>
-                        <th scope="col" className="d-flex justify-content-end">Ações</th>
-
-
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    {fornecedores && fornecedores.length > 0 ? (
-                            fornecedores.map(fornecedor =>
-                                <tr key={fornecedor.id}>
-
-                                    <td>
-                                        {fornecedor.nome}
-                                    </td>
-                                    <td className="d-flex  justify-content-start ">
-                                        <img width="30" height="30" className="me-3 pointer-cursor"
-                                             src="https://img.icons8.com/3d-fluency/94/info.png"
-                                             alt="info"
-                                             onClick={() => openModal(fornecedor)}/>
-                                        <Link href={`/gestao-sgme/fornecedores/update/${fornecedor.id}`}
-                                              className="btn btn-success me-2">EDITAR</Link>
-                                    </td>
-                                </tr>
-                            )
-                        ) :
-                        (
-                            <tr>
-                                <td colSpan="6">Nenhum cliente encontrado.</td>
+                    {loadingData ? (
+                        <div className="d-flex justify-content-center">
+                            <div className="spinner-border text-warning" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <thead>
+                            <tr className="border border-2 border-warning">
+                                <th scope="col" className="w-100">Razao Social / Nome</th>
+                                <th scope="col" className="d-flex justify-content-end">Ações</th>
                             </tr>
-                        )}
+                            </thead>
+                            <tbody>
 
+                            {fornecedores && fornecedores.length > 0 ? (
+                                    fornecedores.map(fornecedor =>
+                                        <tr key={fornecedor.id}>
 
-                    </tbody>
+                                            <td>
+                                                {fornecedor.nome}
+                                            </td>
+                                            <td className="d-flex  justify-content-start ">
+                                                <img width="30" height="30" className="me-3 pointer-cursor"
+                                                     src="https://img.icons8.com/3d-fluency/94/info.png"
+                                                     alt="info"
+                                                     onClick={() => openModal(fornecedor)}/>
+                                                <Link href={`/gestao-sgme/fornecedores/update/${fornecedor.id}`}
+                                                      className="btn btn-success me-2">EDITAR</Link>
+                                            </td>
+                                        </tr>
+                                    )
+                                ) :
+                                (
+                                    <tr>
+                                        <td colSpan="6">Nenhum cliente encontrado.</td>
+                                    </tr>
+                                )}
+                            </tbody>
+                        </>
+                    )}
                 </table>
 
                 <ModalInfo
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
                 >
-
                     <div className="w-100 h-100 p-3">
                         <p className="fw-bold"> Informações</p>
                         <p>Nome: {selectedFornecedor.nome}</p>

@@ -9,6 +9,7 @@ import {useForm} from "react-hook-form";
 
 function Index() {
     const [receitas, setReceitas] = useState([]);
+    const [loadingData, setLoadingData] = useState(false);
     const router = useRouter();
     const [dataFiltro, setdataFiltro] = useState({
         dataInicial: "",
@@ -24,12 +25,15 @@ function Index() {
 
     useEffect(() => {
         const getData = async () => {
+            setLoadingData(true);
             try {
                 const receitasData = await getReceitasData();
                 setReceitas(receitasData);
             } catch (error) {
                 console.error("Erro ao buscar dados", error);
                 // Adicione o tratamento de erro aqui, se necessário
+            } finally {
+                setLoadingData(false);
             }
         };
 
@@ -43,8 +47,8 @@ function Index() {
 
     const receitasFiltradas = receitas.filter(receita => {
 
-        const { dataInicial, dataFinal, status } = dataFiltro;
-        if(!dataInicial && !dataFinal && !status) return true;
+        const {dataInicial, dataFinal, status} = dataFiltro;
+        if (!dataInicial && !dataFinal && !status) return true;
 
         // Lógica de filtro para dataInicial
         if (dataInicial && new Date(receita.data_vencimento) < new Date(dataInicial)) {
@@ -91,7 +95,7 @@ function Index() {
                       className="btn btn-success rounded-5">+</Link>
             </div>
 
-            <div >
+            <div>
                 <form className="d-sm-flex flex-row justify-content-between mb-3">
                     <div className="d-sm-flex mobile-styles-form-filtro-Dados">
                         <div className="form-group me-3">
@@ -134,30 +138,40 @@ function Index() {
 
             <div className="overflow-x-scroll mb-5 desktop-styles-info-financeiro-table">
                 <table className="table">
+
                     <thead>
-                    <tr className="border border-2 border-warning ">
-                        <th scope="col">Cliente</th>
-                        <th scope="col">Valor</th>
-                        <th scope="col">Vencimento</th>
-                        <th scope="col">Status</th>
-                        <th scope="col" className=" d-flex justify-content-end">Ações</th>
-                    </tr>
+                        <tr className="border border-2 border-warning ">
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Valor</th>
+                            <th scope="col">Vencimento</th>
+                            <th scope="col">Status</th>
+                            <th scope="col" className=" d-flex justify-content-end">Ações</th>
+                        </tr>
                     </thead>
-                    <tbody>
-                    {receitasOrder && receitasOrder.length > 0 ? (receitasOrder.map(receita => (
-                        <ReceitaItem key={receita.id} receita={receita}/>))) : (<tr>
-                        <td colSpan="6">Nenhuma despesa encontrada.</td>
-                    </tr>)}
+                    {loadingData ? (
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <tbody>
+                            {receitasOrder && receitasOrder.length > 0 ? (receitasOrder.map(receita => (
+                                <ReceitaItem key={receita.id} receita={receita}/>))) : (<tr>
+                                <td colSpan="6">Nenhuma despesa encontrada.</td>
+                            </tr>)}
 
-
-                    <tr>
-                        <td colSpan={4} className="fw-bold pt-3 ">Total</td>
-                        <td className="text-end fw-bold pt-3">{totalReceitas.toLocaleString('pt-br', {
-                            style: 'currency', currency: 'BRL'
-                        })}
-                        </td>
-                    </tr>
-                    </tbody>
+                            <tr>
+                                <td colSpan={4} className="fw-bold pt-3 ">Total</td>
+                                <td className="text-end fw-bold pt-3">{totalReceitas.toLocaleString('pt-br', {
+                                    style: 'currency', currency: 'BRL'
+                                })}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </>
+                    )}
                 </table>
             </div>
 
@@ -169,21 +183,32 @@ function Index() {
                         <th scope="col" className="text-secondary text-end ">Valor</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {receitasOrder && receitasOrder.length > 0 ? (receitasOrder.map(receita =>
-                            <ReceitaItemMobile key={receita.id} receita={receita}/>)) :
-                        (<tr>
-                            <td colSpan="6">Nenhuma despesa encontrada.</td>
-                        </tr>)
-                    }
-                    <tr>
-                        <td className="fw-bold pt-3 ">Total</td>
-                        <td className="text-end fw-bold pt-3">{totalReceitas.toLocaleString('pt-br', {
-                            style: 'currency', currency: 'BRL'
-                        })}
-                        </td>
-                    </tr>
-                    </tbody>
+
+                    {loadingData ?(
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) :(
+                        <>
+                            <tbody>
+                            {receitasOrder && receitasOrder.length > 0 ? (receitasOrder.map(receita =>
+                                    <ReceitaItemMobile key={receita.id} receita={receita}/>)) :
+                                (<tr>
+                                    <td colSpan="6">Nenhuma despesa encontrada.</td>
+                                </tr>)
+                            }
+                            <tr>
+                                <td className="fw-bold pt-3 ">Total</td>
+                                <td className="text-end fw-bold pt-3">{totalReceitas.toLocaleString('pt-br', {
+                                    style: 'currency', currency: 'BRL'
+                                })}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </>
+                    )}
                 </table>
             </div>
         </main>
