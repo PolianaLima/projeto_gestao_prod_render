@@ -4,7 +4,6 @@ import {useForm} from "react-hook-form";
 import axios from "axios";
 import {useRouter} from "next/router";
 import {http} from "@/utils/http";
-import ButtonFechar from "@/components/ButtonFechar";
 import {getUserFromCookie} from "@/utils/Cookies";
 
 function Cadastro(props) {
@@ -63,7 +62,8 @@ function Cadastro(props) {
                     <h3 className="mb-4">Novo Fornecedor</h3>
                     <div className="d-sm-flex flex-column  me-3">
                         <label htmlFor="valor">CPF/CNPJ: </label>
-                        <input placeholder="CPF / Cnpj"
+                        <input type="number"
+                                placeholder="CPF / Cnpj"
                                className="form-control"
                                {...register("cnpj", {required: true})}
                         />

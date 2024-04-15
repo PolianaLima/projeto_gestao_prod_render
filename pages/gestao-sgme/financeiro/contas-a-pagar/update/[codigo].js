@@ -14,6 +14,9 @@ const UpdateDespesas = () => {
     const router = useRouter();
     const {codigo} = router.query;
 
+    const [loadingData, setLoadingData] = useState(false);
+    const [loadingUpdate, setLoadingUpdate] = useState(false);
+
     const [erroData, setErroData] = useState(false)
     const [erroDados, setErroDados] = useState("")
 
@@ -35,42 +38,76 @@ const UpdateDespesas = () => {
 
     const [status, setStatus] = useState([false])
 
-
     useEffect(() => {
-        if (codigo) {
+
+        const fetchData = async () => {
+            setLoadingData(true);
             const dataUser = getUserFromCookie();
-            http.get(`/despesas/${codigo}`, {
-                headers: {
-                    Authorization: `Bearer ${dataUser.token}`
-                }
-            })
-                .then((response) => {
-                        setDespesa(response.data)
-                    }
-                )
-                .catch((error) => {
+
+            if (codigo) {
+                try {
+                    const response = await http.get(`/despesas/${codigo}`, {
+                        headers: {
+                            Authorization: `Bearer ${dataUser.token}`
+                        }
+                    });
+                    setDespesa(response.data)
+
+                    const responseFornecedor = await http.get(`/fornecedores/${response.data.fornecedor_id}`, {
+                        headers: {
+                            Authorization: `Bearer ${dataUser.token}`
+                        }
+                    });
+
+                    setFornecedor(responseFornecedor.data)
+                } catch (error) {
                     console.log("Erro ao buscar receita" + error)
-                })
+                } finally {
+                    setLoadingData(false)
+                }
+            }
         }
+
+        fetchData();
 
     }, [codigo])
 
+    /* useEffect(() => {
+         if (codigo) {
+             const dataUser = getUserFromCookie();
+             http.get(`/despesas/${codigo}`, {
+                 headers: {
+                     Authorization: `Bearer ${dataUser.token}`
+                 }
+             })
+                 .then((response) => {
+                         setDespesa(response.data)
+                     }
+                 )
+                 .catch((error) => {
+                     console.log("Erro ao buscar receita" + error)
+                 })
+         }
 
-    useEffect(() => {
-        const dataUser = getUserFromCookie();
-        if (despesa.fornecedor_id)
-            http.get(`/fornecedores/${despesa.fornecedor_id}`, {
-                headers: {
-                    Authorization: `Bearer ${dataUser.token}`
-                }
-            })
-                .then((response) => {
-                    setFornecedor(response.data)
-                })
-                .catch((error) => console.log("Erro ao buscar cliente" + error))
-    }, [despesa.fornecedor_id])
+     }, [codigo])
+
+
+     useEffect(() => {
+         const dataUser = getUserFromCookie();
+         if (despesa.fornecedor_id)
+             http.get(`/fornecedores/${despesa.fornecedor_id}`, {
+                 headers: {
+                     Authorization: `Bearer ${dataUser.token}`
+                 }
+             })
+                 .then((response) => {
+                     setFornecedor(response.data)
+                 })
+                 .catch((error) => console.log("Erro ao buscar cliente" + error))
+     }, [despesa.fornecedor_id])*/
 
     const handleUpdateDespesa = async () => {
+        setLoadingUpdate(true)
         const dataUser = getUserFromCookie();
 
         if (erroData !== true) {
@@ -86,10 +123,12 @@ const UpdateDespesas = () => {
                     })
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
-                   setErroDados('Erro na resposta da API:', error.response.message);
+                    setErroDados('Erro na resposta da API:', error.response.message);
                 } else {
                     console.error('Erro ao enviar dados para a API:', error);
                 }
+            } finally {
+                setLoadingUpdate(false)
             }
 
         } else {
@@ -101,10 +140,9 @@ const UpdateDespesas = () => {
     const handleInputChange = (e) => {
         setDespesa({...despesa, [e.target.name]: e.target.value});
 
-        if (despesa.valor.includes(",")){
+        if (despesa.valor.includes(",")) {
             setDespesa({...despesa, valor: despesa.valor.replace(",", ".")})
         }
-
     };
 
     const handlerCancelar = () => {
@@ -133,142 +171,164 @@ const UpdateDespesas = () => {
 
                 <form className="form-control-sm w-100">
 
-                    <h1>{fornecedor.nome}</h1>
-                    <input defaultValue={fornecedor.id}
-                           readOnly={true}
-                           name="fornecedor_id"
-                           hidden
-                           onChange={handleInputChange}
-
-                    />
-
-                    <div>
-                        <p><b>Status:</b> {despesa.status}</p>
-                    </div>
-
-                    <div className="d-sm-flex flex-row justify-content-between mb-3">
-                        <div className="d-flex flex-column w-100 me-3">
-                            <label htmlFor="valor">Valor: </label>
-                            <input placeholder="R$"
-                                   className="form-control"
-                                   value={despesa.valor}
-                                   name="valor"
+                    {loadingData ? (
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) : (
+                        <>
+                            <h1>{fornecedor.nome}</h1>
+                            <input defaultValue={fornecedor.id}
+                                   readOnly={true}
+                                   name="fornecedor_id"
+                                   hidden
                                    onChange={handleInputChange}
+
                             />
 
-                        </div>
-
-
-                        <div className="d-flex flex-column w-100">
-                            <label htmlFor="data_vencimento">Data Vencimento: </label>
-                            <input type="date"
-                                   className="form-control"
-                                   value={despesa.data_vencimento}
-                                   name="data_vencimento"
-                                   onChange={(e) => {
-                                       handleInputChange(e);
-                                       if (!validateDataVencimento(e.target.value)) {
-                                           setErroData(true)
-                                       }
-                                   }}
-                            />
-
-                            {erroData === true ? (
-                                <p className="alert alert-danger mt-3">A data de vencimento deve ser maior ou igual à
-                                    data atual.</p>
-                            ) : ("")}
-
-                        </div>
-                    </div>
-
-                    <div className="d-sm-flex flex-row justify-content-between mb-3">
-
-                        <div className="d-flex flex-column me-3 w-100">
-                            <label htmlFor="forma_pagamento">Forma de Pagamento</label>
-                            <select className="form-select"
-                                    value={despesa.forma_pagamento}
-                                    name="forma_pagamento"
-                                    onChange={handleInputChange}
-                            >
-                                <option hidden value={despesa.forma_pagamento}>{despesa.forma_pagamento}</option>
-                                <option value="DINHEIRO">DINHEIRO</option>
-                                <option value="PIX">PIX</option>
-                                <option value="CARTAO">CARTAO</option>
-                                <option value="BOLETO">BOLETO</option>
-                            </select>
-
-
-                        </div>
-
-                        <div className="d-sm-flex flex-column w-100">
-                            <label htmlFor="status">Status</label>
-                            <select className="form-select"
-                                    value={despesa.status}
-                                    name="status"
-                                    onChange={handleInputChange}
-                            >
-                                <option value={despesa.status} hidden>{despesa.status}</option>
-                                <option value="Pendente">Pendente</option>
-                                <option value="Pago">Pago</option>
-                            </select>
-
-                        </div>
-
-                    </div>
-
-                    <div className="d-sm-flex flex-row justify-content-between mb-3">
-                        <div className="d-flex flex-column w-100 me-3">
-                            <label htmlFor="observacao">Observação: </label>
-                            <textarea placeholder="Observação"
-                                      className="form-control"
-                                      value={despesa.observacao}
-                                      name="observacao"
-                                      onChange={handleInputChange}
-                            />
-
-                        </div>
-                    </div>
-
-                    <div className="w-100 d-flex justify-content-end">
-
-                        <button className="btn btn-success me-3" onClick={(e) => {
-                            e.preventDefault();
-                            handleUpdateDespesa()
-                            openModal()
-                        }}>ALTERAR
-                        </button>
-
-                        <Link href={`/gestao-sgme/financeiro/contas-a-pagar/delete/${despesa.id}`}
-                              className="btn btn-danger me-3">EXCLUIR</Link>
-
-                        <button className="btn btn-primary" onClick={(e) => {
-                            e.preventDefault();
-                            handlerCancelar();
-
-                        }}>CANCELAR
-                        </button>
-                    </div>
-
-
-                    <ModalComponent
-                        isOpen={modalIsOpen}
-                        onRequestClose={closeModal}
-                    >
-                        {status === true ? (
                             <div>
-                                <p className="fw-bold text-success">Conta alterada com sucesso</p>
+                                <p><b>Status:</b> {despesa.status}</p>
                             </div>
 
-                        ) : (
-                            <>
-                                <p>Erro ao atualizar</p>
-                                <p>{erroDados}</p>
-                            </>
+                            <div className="d-sm-flex flex-row justify-content-between mb-3">
+                                <div className="d-flex flex-column w-100 me-3">
+                                    <label htmlFor="valor">Valor: </label>
+                                    <input type="number" placeholder="R$"
+                                           className="form-control"
+                                           value={despesa.valor}
+                                           name="valor"
+                                           onChange={handleInputChange}
+                                    />
 
-                        )}
+                                </div>
 
-                    </ModalComponent>
 
+                                <div className="d-flex flex-column w-100">
+                                    <label htmlFor="data_vencimento">Data Vencimento: </label>
+                                    <input type="date"
+                                           className="form-control"
+                                           value={despesa.data_vencimento}
+                                           name="data_vencimento"
+                                           onChange={(e) => {
+                                               handleInputChange(e);
+                                               if (!validateDataVencimento(e.target.value)) {
+                                                   setErroData(true)
+                                               }
+                                           }}
+                                    />
+
+                                    {erroData === true ? (
+                                        <p className="alert alert-danger mt-3">A data de vencimento deve ser maior ou
+                                            igual à
+                                            data atual.</p>
+                                    ) : ("")}
+
+                                </div>
+                            </div>
+
+                            <div className="d-sm-flex flex-row justify-content-between mb-3">
+
+                                <div className="d-flex flex-column me-3 w-100">
+                                    <label htmlFor="forma_pagamento">Forma de Pagamento</label>
+                                    <select className="form-select"
+                                            value={despesa.forma_pagamento}
+                                            name="forma_pagamento"
+                                            onChange={handleInputChange}
+                                    >
+                                        <option hidden
+                                                value={despesa.forma_pagamento}>{despesa.forma_pagamento}</option>
+                                        <option value="DINHEIRO">DINHEIRO</option>
+                                        <option value="PIX">PIX</option>
+                                        <option value="CARTAO">CARTAO</option>
+                                        <option value="BOLETO">BOLETO</option>
+                                    </select>
+
+
+                                </div>
+
+                                <div className="d-sm-flex flex-column w-100">
+                                    <label htmlFor="status">Status</label>
+                                    <select className="form-select"
+                                            value={despesa.status}
+                                            name="status"
+                                            onChange={handleInputChange}
+                                    >
+                                        <option value={despesa.status} hidden>{despesa.status}</option>
+                                        <option value="Pendente">Pendente</option>
+                                        <option value="Pago">Pago</option>
+                                    </select>
+
+                                </div>
+
+                            </div>
+
+                            <div className="d-sm-flex flex-row justify-content-between mb-3">
+                                <div className="d-flex flex-column w-100 me-3">
+                                    <label htmlFor="observacao">Observação: </label>
+                                    <textarea placeholder="Observação"
+                                              className="form-control"
+                                              value={despesa.observacao}
+                                              name="observacao"
+                                              onChange={handleInputChange}
+                                    />
+
+                                </div>
+                            </div>
+
+                            <div className="w-100 d-flex justify-content-end">
+
+                                <button className="btn btn-success me-3" onClick={(e) => {
+                                    e.preventDefault();
+                                    handleUpdateDespesa()
+                                    openModal()
+                                }}>ALTERAR
+                                </button>
+
+                                <Link href={`/gestao-sgme/financeiro/contas-a-pagar/delete/${despesa.id}`}
+                                      className="btn btn-danger me-3">EXCLUIR</Link>
+
+                                <button className="btn btn-primary" onClick={(e) => {
+                                    e.preventDefault();
+                                    handlerCancelar();
+
+                                }}>CANCELAR
+                                </button>
+                            </div>
+
+
+                            <ModalComponent
+                                isOpen={modalIsOpen}
+                                onRequestClose={closeModal}
+                            >
+                                {loadingUpdate ? (
+                                    <div className="d-flex justify-content-center align-items-center">
+                                        <div className="spinner-border text-primary" role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {status === true ? (
+                                            <div>
+                                                <p className="fw-bold text-success">Conta alterada com sucesso</p>
+                                            </div>
+
+                                        ) : (
+                                            <>
+                                                <p>Erro ao atualizar</p>
+                                                <p>{erroDados}</p>
+                                            </>
+
+                                        )}
+                                    </>
+                                )}
+
+
+                            </ModalComponent>
+                        </>
+                    )}
 
                 </form>
 

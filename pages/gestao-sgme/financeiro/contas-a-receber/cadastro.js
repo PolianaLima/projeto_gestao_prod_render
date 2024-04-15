@@ -107,7 +107,8 @@ function Cadastro() {
                     <div className="d-sm-flex flex-row justify-content-between mb-3">
                         <div className="d-flex flex-column w-100 me-3">
                             <label htmlFor="valor">Valor: </label>
-                            <input placeholder="R$"
+                            <input type="number"
+                                    placeholder="R$"
                                    className="form-control"
                                    {...register("valor", {required: true})}
                             />

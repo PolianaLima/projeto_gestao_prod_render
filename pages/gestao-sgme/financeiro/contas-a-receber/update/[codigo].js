@@ -13,10 +13,11 @@ const UpdateReceita = () => {
     const router = useRouter();
     const {codigo} = router.query;
 
-    const [erroData, setErroData] = useState(false)
-    const [erroDados, setErroDados] = useState("")
     const [loadingData, setLoadingData] = useState(false)
     const [loadingUpdate, setLoadingUpdate] = useState(false)
+
+    const [erroData, setErroData] = useState(false)
+    const [erroDados, setErroDados] = useState("")
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -72,7 +73,6 @@ const UpdateReceita = () => {
 
     }, [codigo])
 
-    console.log(receita, cliente)
 
     const handleUpdateReceita = async () => {
         setLoadingUpdate(true)
@@ -161,7 +161,8 @@ const UpdateReceita = () => {
                             <div className="d-sm-flex flex-row justify-content-between mb-3">
                                 <div className="d-flex flex-column w-100 me-3">
                                     <label htmlFor="valor">Valor: </label>
-                                    <input placeholder="R$"
+                                    <input type="number"
+                                           placeholder="R$"
                                            className="form-control"
                                            value={receita.valor}
                                            name="valor"

@@ -127,9 +127,10 @@ const UpdateFornecedor = () => {
                             <>
                                 <div className="d-flex flex-column">
                                     <label>Cpnj / CPF: </label>
-                                    <input placeholder="Cnpj / Cpf"
+                                    <input type="number"
+                                            placeholder="Cnpj / Cpf"
                                            className="form-control"
-                                           name="codigo"
+                                           name="cnpj"
                                            value={fornecedor.cnpj}
                                            onChange={handleInputChange}
                                     />

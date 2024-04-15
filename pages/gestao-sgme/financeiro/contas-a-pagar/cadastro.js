@@ -104,7 +104,8 @@ function Cadastro() {
                     <div className="d-sm-flex flex-row justify-content-between mb-3">
                         <div className="d-sm-flex flex-column w-100 me-3">
                             <label htmlFor="valor">Valor: </label>
-                            <input placeholder="R$"
+                            <input type="number"
+                                    placeholder="R$"
                                    className="form-control"
                                    {...register("valor", {required: true})}
                             />
@@ -175,7 +176,7 @@ function Cadastro() {
                     </div>
 
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-warning me-3 "
+                        <button className="btn btn-success me-3 "
                                 onClick={(e) => {
                                     e.preventDefault();
                                     handleSubmit(onSubmit)();

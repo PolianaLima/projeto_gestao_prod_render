@@ -9,6 +9,7 @@ import {getUserFromCookie} from "@/utils/Cookies";
 const DeleteDespesa = () => {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const openModal = () => {
         setModalIsOpen(true);
@@ -27,19 +28,25 @@ const DeleteDespesa = () => {
     const [despesaId, setDespesaId] = useState(codigo);
 
     const handleDeleteDespesa = () => {
-        const dataUser = getUserFromCookie();
-        http
-            .delete(`/despesas/${despesaId}`,{
-                headers:{
-                    Authorization:`Bearer ${dataUser.token}`
-                }
-            })
-            .then(() => {
-                setStatus(true)
-            })
-            .catch((error) => {
+
+        const fetchData = async () => {
+            try {
+                setLoading(true);
+                const dataUser = getUserFromCookie();
+                const response = await http.delete(`/despesas/${despesaId}`, {
+                    headers: {
+                        Authorization: `Bearer ${dataUser.token}`
+                    }
+                });
+                setStatus(true);
+            } catch (error) {
                 console.error("Erro ao excluir despesa:" + error);
-            });
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchData();
     };
 
 
@@ -85,7 +92,8 @@ const DeleteDespesa = () => {
                                 <button className="btn btn-success mt-2" onClick={(e) => {
                                     e.preventDefault();
                                     handlerCancelar()
-                                }}>Cancelar</button>
+                                }}>Cancelar
+                                </button>
                             </td>
                         </tr>
                         </tbody>
@@ -96,16 +104,25 @@ const DeleteDespesa = () => {
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
                 >
-                    {status===true ? (
-                        <div>
-                            <p className="fw-bold text-success">Despesa excluida com sucesso</p>
+                    {loading ? (
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="spinner-border text-primary" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
                         </div>
+                    ) : (
+                        <>
+                            {status === true ? (
+                                <div>
+                                    <p className="fw-bold text-success">Despesa excluida com sucesso</p>
+                                </div>
 
-                    ):(
-                        <p>Erro ao deletar</p>
+                            ) : (
+                                <p>Erro ao deletar</p>
+                            )}
+                        </>
+
                     )}
-
-
                 </ModalComponent>
 
             </div>

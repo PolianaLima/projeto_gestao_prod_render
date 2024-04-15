@@ -6,7 +6,7 @@ import {ptBR} from "date-fns/locale";
 function ReceitaItemMobile({receita}) {
     return (
         <>
-            <tr>
+            <tr key={receita.id}>
                 <td className="fw-medium  ">
                     {format(parseISO(receita.data_vencimento), "dd/MM/yyyy", {
                         locale: ptBR,

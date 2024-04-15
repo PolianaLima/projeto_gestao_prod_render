@@ -55,8 +55,8 @@ function Index(props) {
             <main className="container-sm">
 
                 <div
-                    className="container-sm  d-sm-flex  justify-content-center align-items-center pt-5">
-                    <div className="">
+                    className="container-sm  d-sm-flex  justify-content-center align-items-center pt-2">
+                    <div className="mobile-styles-login">
                         <Image
                             src="/img/ICON-LOGIN.jpg"
                             width={350}
