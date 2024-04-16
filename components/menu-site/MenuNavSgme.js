@@ -58,12 +58,13 @@ function MenuNavSgme(props) {
                                         a Receber</Link></li>
                                     <li><Link className="dropdown-item" href="/gestao-sgme/financeiro/contas-a-pagar">Contas
                                         a Pagar</Link></li>
+                                    <li><Link className="dropdown-item" href="/gestao-sgme/fluxo-caixa">Fluxo diario Financeiro</Link></li>
                                 </ul>
                             </li>
 
                         </ul>
                         <div className="nav-item dropdown">
-                            <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
+                        <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
                                 data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 <Image width="48" height="48" src="/img/user.gif" alt="Icone de Usuario"/>
