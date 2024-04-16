@@ -79,6 +79,9 @@
         margin-right: 0 !important;
     }
 
+    .mobile-styles-component-fluxo-caixa{
+        min-width: 100% !important;
+    }
 }
 
 

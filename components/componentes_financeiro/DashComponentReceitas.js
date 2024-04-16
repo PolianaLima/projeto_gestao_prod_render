@@ -3,7 +3,7 @@ import Image from "next/image";
 
 function DashComponentReceitas({receitas}) {
     return (
-        <div className="d-sm-flex flex-column w-50 p-2">
+        <div className="d-sm-flex flex-column w-50 p-2 mobile-styles-component-fluxo-caixa">
             <div className="bg-success p-3 rounded-1 d-flex flex-row justify-content-between w-100">
                 <div>
                     <Image src="/img/icons-receita-94.png" width={50} height={50} alt="Receitas"/>
