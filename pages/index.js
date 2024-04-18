@@ -22,7 +22,7 @@ function Index(props) {
     } = useForm();
 
     const [erroLogin, setErroLogin] = useState(false);
-    const [erroLoginMessage, setErroLoginMessage] = useState(false);
+    const [erroLoginMessage, setErroLoginMessage] = useState("");
 
     
     const onSubmit = async (data) => {
@@ -39,7 +39,8 @@ function Index(props) {
                     setErroLogin(true)
                     setErroLoginMessage(error.response.data.message);
                 } else {
-                    console.error("Erro ao enviar dados para a API:", error);
+                    setErroLogin(true)
+                    setErroLoginMessage("Servidor indisponível, tente novamente mais tarde!", error.message)
                 }
             });
 

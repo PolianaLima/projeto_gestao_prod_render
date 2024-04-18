@@ -18,6 +18,9 @@ export default function Home() {
     const [token, setToken] = useState({token: ""})
     const [loading, setLoading] = useState(true);
 
+    const [error, setError] = useState(false);
+    const [erroMessage, setErroMessage] = useState();
+
     const router = useRouter();
 
     const mes = moment().format('MM')
@@ -51,7 +54,7 @@ export default function Home() {
             }else{
                 router.push("/")
             }
-            
+
         }
 
 
@@ -71,11 +74,15 @@ export default function Home() {
             setReceitas(response.data);
         } catch (e) {
             if (axios.isAxiosError(e)) {
+                setError(true)
+                setErroMessage("Servidor indisponivel, nao foi possivel carregar o dados", e.message)
                 console.log(e)
             }
         }
 
     }
+
+    console.log("Erro mensagem: ", error)
 
     //Buscando Despesas
     const getDataDespesas = async (token, userId) => {
@@ -132,13 +139,25 @@ export default function Home() {
                             </div>
                         </div>
                     ) : (
-                        <div className="container d-sm-flex  align-items-center justify-content-between p-4">
-                            <CardDashBoard total={totalReceita} valor={valorReceita} tipo="receber"
-                                           url="/gestao-sgme/financeiro/contas-a-receber"/>
-                            <CardDashBoard total={totalDespesas} valor={valorDespesa} tipo="pagar"
-                                           url="/gestao-sgme/financeiro/contas-a-pagar"/>
+                        <>
+                            {error ? (
+                                <div className="alert alert-danger" role="alert">
+                                    {erroMessage}
+                                </div>
+                            ) : (
 
-                        </div>
+                                <div className="container d-sm-flex  align-items-center justify-content-between p-4">
+                                    <CardDashBoard total={totalReceita} valor={valorReceita} tipo="receber"
+                                                   url="/gestao-sgme/financeiro/contas-a-receber"/>
+                                    <CardDashBoard total={totalDespesas} valor={valorDespesa} tipo="pagar"
+                                                   url="/gestao-sgme/financeiro/contas-a-pagar"/>
+
+                                </div>
+                            )
+                            }
+                        </>
+
+
                     )}
 
                     <p className="d-sm-flex mt-0 w-75 ms-5">Os valores apresentados sao referente total de valores

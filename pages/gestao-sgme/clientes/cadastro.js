@@ -71,10 +71,10 @@ function Cadastro(props) {
                         <label htmlFor="valor">Nome Completo: </label>
                         <input placeholder="Nome"
                                className="form-control"
-                               {...register("nome", {required: true})}
+                               {...register("nome",{required:true} )}
                         />
-                        {errors?.cpf?.type === "required" && (
-                            <p className="alert alert-danger mt-3">CPF obrigatorio!</p>
+                        {errors?.nome?.type === "required" && (
+                            <p className="alert alert-danger mt-3">Nome obrigatorio!</p>
                         )}
                     </div>
 
@@ -82,15 +82,10 @@ function Cadastro(props) {
                         <div className="d-flex flex-column w-100 me-3">
                             <label htmlFor="valor">CPF: </label>
 
-                            <InputMask
-                                mask="999.999.999-99"
-                                maskChar="_"
-                                placeholder="Cpf"
+                            <input type="number"
+                                placeholder="Cnpj / CPF"
                                 className="form-control"
-                                {...register("cpf", {required: true})} />
-                            {errors?.cpf?.type === "required" && (
-                                <p className="alert alert-danger mt-3">CPF obrigatorio!</p>
-                            )}
+                                {...register("cpf" )} />
 
                             {resultErro === true ? (
                                 <p className="text-danger fw-bold">{errorApi}</p>
@@ -101,11 +96,8 @@ function Cadastro(props) {
                             <label htmlFor="data_vencimento">Data Nascimento: </label>
                             <input type="date"
                                    className="form-control"
-                                   {...register("data_nascimento", {required: true})}
+                                   {...register("data_nascimento")}
                             />
-                            {errors?.data_nascimento?.type === "required" && (
-                                <p className="alert alert-danger mt-3">Data de nascimento e obrigatorio!</p>
-                            )}
 
                         </div>
                         <div className="d-flex flex-column w-100 mb-3">

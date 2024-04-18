@@ -111,7 +111,7 @@ function Index(props) {
                                 ))
                             ) : (
                                 <tr>
-                                    <td colSpan="6">Nenhuma despesa encontrada.</td>
+                                    <td colSpan="6">Nenhuma receita encontrada.</td>
                                 </tr>
                             )}
                             <tr>

@@ -110,7 +110,11 @@ function Index() {
                     <div className="w-100 h-100 p-3">
                         <p className="fw-bold"> Informações</p>
                         <p>Nome: {selectedCliente.nome}</p>
-                        <p>CPF: {selectedCliente.cpf}</p>
+
+                        {selectedCliente.cpf && (
+                            <p>Cpf: {selectedCliente.cpf}</p>
+                        )}
+
                         {selectedCliente.data_nascimento && (
                             <p><img width="30" height="30" src="https://img.icons8.com/office/16/birthday.png"
                                     alt="birthday"/> {format(parseISO(selectedCliente.data_nascimento), 'dd/MM', {locale: ptBR})}

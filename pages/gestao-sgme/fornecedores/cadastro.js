@@ -65,7 +65,7 @@ function Cadastro(props) {
                                {...register("cnpj", {required: true})}
                         />
                         {errors?.cnpj?.type === "required" && (
-                            <p className="alert alert-danger mt-3">CPF obrigatorio!</p>
+                            <p className="alert alert-danger mt-3">CPF / Cnpj obrigatorio!</p>
                         )}
                         {resultErro === true ? (
                             <p className="text-danger fw-bold">{errorApi}</p>

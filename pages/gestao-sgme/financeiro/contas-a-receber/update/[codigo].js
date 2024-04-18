@@ -107,11 +107,10 @@ const UpdateReceita = () => {
     };
 
     const handleInputChange = (e) => {
-        setReceita({...receita, [e.target.name]: e.target.value});
-        if (receita.valor.includes(",")) {
-            setReceita({...receita, valor: receita.valor.replace(",", ".")})
-        }
+        setReceita({...receita, [e.target.name]: e.target.value})
     };
+
+    console.log(receita)
 
     const handlerCancelar = () => {
         router.push('/gestao-sgme/financeiro/contas-a-receber');

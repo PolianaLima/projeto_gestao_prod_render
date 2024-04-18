@@ -106,10 +106,6 @@ const UpdateDespesas = () => {
 
     const handleInputChange = (e) => {
         setDespesa({...despesa, [e.target.name]: e.target.value});
-
-        if (despesa.valor.includes(",")) {
-            setDespesa({...despesa, valor: despesa.valor.replace(",", ".")})
-        }
     };
 
     const handlerCancelar = () => {

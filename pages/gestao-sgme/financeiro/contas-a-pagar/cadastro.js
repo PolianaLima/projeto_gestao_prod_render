@@ -44,8 +44,6 @@ function Cadastro() {
 
     const onSubmit = async (data) => {
 
-            data.valor = data.valor.replace(",", ".");
-
             const dataUser = getUserFromCookie();
             data = {...data, usuario_id: dataUser.usuario.id}
 

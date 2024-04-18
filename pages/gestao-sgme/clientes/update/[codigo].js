@@ -145,10 +145,8 @@ const UpdateCliente = () => {
                             <div className="d-sm-flex flex-row justify-content-between mb-3">
                                 <div className="d-sm-flex flex-column w-100 me-3">
                                     <label htmlFor="valor">CPF: </label>
-                                    <InputMask
-                                        mask="999.999.999-99"
-                                        maskChar="_"
-                                        placeholder="Cpf"
+                                    <input type="number"
+                                        placeholder="Cnpj / Cnpj"
                                         className="form-control"
                                         name="cpf"
                                         value={cliente.cpf}

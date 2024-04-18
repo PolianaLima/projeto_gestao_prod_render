@@ -43,11 +43,7 @@ function Cadastro() {
 
     const onSubmit = async (data) => {
         const dataUser = getUserFromCookie();
-
-        data.valor = data.valor.replace(",", ".")
-
         data = {...data, usuario_id: dataUser.usuario.id}
-
         try {
            await http.post(`/receitas/cadastro`, data, {
                 headers: {
