@@ -11,83 +11,88 @@ function MenuNavSgme(props) {
     const router = useRouter()
 
     return (
-        <>
 
-            <nav className="navbar navbar-expand-lg" style={{background: " #4682B4"}}>
-                <div className="container">
-                    <Link className="navbar-brand " href="/gestao-sgme">
-                        <Image src="/img/logotipo.svg" width="0"
-                               height="0"
-                               alt="Logotipo Sistema de Gestao de Microempreendedores"
-                               style={{width: '150px', height: 'auto'}}
-                               priority={true}
-                        />
-                    </Link>
-                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
-                    </button>
-                    <div className="collapse navbar-collapse " id="navbarSupportedContent">
-                        <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
-                            <li className="nav-item ">
-                                <Link className="nav-link text-light" href="/gestao-sgme">DashBoard</Link>
-                            </li>
+        <nav className="navbar navbar-expand-lg" style={{background: " #4682B4"}}>
+            <div className="container">
+                <Link className="navbar-brand " href="/gestao-sgme">
+                    <Image src="/img/logotipo.svg" width="0"
+                           height="0"
+                           alt="Logotipo Sistema de Gestao de Microempreendedores"
+                           style={{width: '150px', height: 'auto'}}
+                           priority={true}
+                    />
+                </Link>
+                <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span className="navbar-toggler-icon"></span>
+                </button>
+                <div className="collapse navbar-collapse " id="navbarSupportedContent">
+                    <ul className="navbar-nav me-auto mb-2 mb-lg-0">
 
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
-                                        data-bs-toggle="dropdown"
-                                        aria-expanded="false">
-                                    Cadastro
-                                </Link>
-                                <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item" href="/gestao-sgme/clientes">Clientes</Link></li>
-                                    <li><Link className="dropdown-item"
-                                            href="/gestao-sgme/fornecedores">Fornecedores</Link></li>
-                                </ul>
-                            </li>
-                            <li className="nav-item dropdown">
-                                <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                    Financeiro
-                                </Link>
-                                <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item" href="/gestao-sgme/financeiro/contas-a-receber">Contas
-                                        a Receber</Link></li>
-                                    <li><Link className="dropdown-item" href="/gestao-sgme/financeiro/contas-a-pagar">Contas
-                                        a Pagar</Link></li>
-                                    <li><Link className="dropdown-item" href="/gestao-sgme/fluxo-caixa">Fluxo diario Financeiro</Link></li>
-                                </ul>
-                            </li>
+                        <li className="nav-item ">
+                            <Link className="nav-link text-light" href="/gestao-sgme/pdv">PDV</Link>
+                        </li>
 
-                        </ul>
-                        <div className="nav-item dropdown">
-                        <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
-                                data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                <Image width="48" height="48" src="/img/user.gif" alt="Icone de Usuario"/>
-                                {user.nome}
+                        <li className="nav-item dropdown">
+                            <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false">
+                                Cadastro
                             </Link>
                             <ul className="dropdown-menu">
-                                <li>
-                                    <button className="dropdown-item" onClick={(e) => {
-                                        e.preventDefault();
-                                        logout()
-                                        router.push('/')
-                                    }}>Sair
-                                    </button>
+                                <li><Link className="dropdown-item" href="/gestao-sgme/clientes">Clientes</Link>
+                                </li>
+                                <li><Link className="dropdown-item"
+                                          href="/gestao-sgme/fornecedores">Fornecedores</Link>
+                                </li>
+                                <li><Link className="dropdown-item"
+                                          href="/gestao-sgme/produtos">Produtos</Link>
                                 </li>
                             </ul>
-                        </div>
+                        </li>
+                        <li className="nav-item dropdown">
+                            <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
+                                  data-bs-toggle="dropdown"
+                                  aria-expanded="false">
+                                Financeiro
+                            </Link>
+                            <ul className="dropdown-menu">
+                                <li><Link className="dropdown-item" href="/gestao-sgme/financeiro/contas-a-receber">Contas
+                                    a Receber</Link></li>
+                                <li><Link className="dropdown-item" href="/gestao-sgme/financeiro/contas-a-pagar">Contas
+                                    a Pagar</Link></li>
+                                <li>
+                                    <Link className="dropdown-item" href="/gestao-sgme/fluxo-caixa">Fluxo diario
+                                        Financeiro</Link>
+                                </li>
+                            </ul>
+                        </li>
 
 
+                    </ul>
+                    <div className="nav-item dropdown">
+                        <Link className="nav-link dropdown-toggle text-light" href="#" role="button"
+                              data-bs-toggle="dropdown"
+                              aria-expanded="false">
+                            <Image width="48" height="48" src="/img/user.gif" alt="Icone de Usuario"/>
+                            {user.nome}
+                        </Link>
+                        <ul className="dropdown-menu">
+                            <li>
+                                <button className="dropdown-item" onClick={(e) => {
+                                    e.preventDefault();
+                                    logout()
+                                    router.push('/')
+                                }}>Sair
+                                </button>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </nav>
-
-        </>
+            </div>
+        </nav>
     )
 
 }

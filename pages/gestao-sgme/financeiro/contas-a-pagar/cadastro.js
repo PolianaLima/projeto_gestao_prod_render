@@ -156,7 +156,7 @@ function Cadastro() {
                             >
                                 <option value="0">Selecione status</option>
                                 <option value="Pendente">Pendente</option>
-                                <option value="Pago">Pago</option>
+                                <option value="Paga">Pago</option>
                             </select>
                             {errors?.status?.type === "validate" && (
                                 <p className="alert alert-danger mt-3">Selecione o status!</p>

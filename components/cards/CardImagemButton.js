@@ -5,7 +5,8 @@ import Link from "next/link";
 function CardImagemButton({img, link, titleLink}) {
     return (
         <div className="col-sm-2 container-sm d-sm-flex flex-column align-items-center">
-            <Image src={img}  width="0"
+            <Image src={img}
+                   width="0"
                    height="0"
                    sizes="100vw"
                    style={{ width: '80%', height: 'auto' }}

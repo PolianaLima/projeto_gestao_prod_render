@@ -1,131 +1,208 @@
 import React, {useEffect, useState} from 'react';
-import Link from "next/link";
 import {http} from "@/utils/http";
-import axios from "axios";
 import {getUserFromCookie} from "@/utils/Cookies";
-import ModalInfo from "@/components/ModalInfo";
-import {format, parseISO} from "date-fns";
-import {ptBR} from "date-fns/locale";
 import HeadSgme from "@/components/head/HeadSgme";
+import Image from "next/image";
+import ComponentCadastroCliente from "@/components/componentes_cadastro/ComponentCadastroCliente";
+import ComponentEditarCliente from "@/components/componentes_cadastro/ComponentEditarCliente";
+import ToltipInfoAlterarFuncao from "@/components/componentes_cadastro/ToltipInfoAlterarFuncao";
+import ToltipInfoCancelar from "@/components/componentes_cadastro/ToltipInfoCancelar";
 
 function Index() {
     const [clientes, setClientes] = useState([]);
-    const [selectedCliente, setSelectedCliente] = useState({});
+    const [statusForm, setStatusForm] = useState(false);
+    const [statusNovoCliente, setStatusNovoCliente] = useState(false);
+    const [statusHidden, setStatusHidden] = useState(true);
+    const [statusHiddenInfo, setStatusHiddenInfo] = useState(true);
+    const [clienteEditando, setClienteEditando] = useState({
+        nome: "",
+        documento: "",
+        data_nascimento: "",
+        telefone: "",
+        status: ""
+    });
 
+    const [selectedCliente, setSelectedCliente] = useState({
+        id: "",
+        nome: "",
+        documento: "",
+        data_nascimento: "",
+        telefone: "",
+        status: ""
+    });
     const [loadingData, setLoadingData] = useState(true);
-    const [loading, setLoading] = useState(true);
 
-    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const cadastrarCliente = () => {
+        if (statusForm === true && statusNovoCliente === false) {
+            setStatusHidden(false)
+        } else {
+            setStatusForm(true);
+            setStatusNovoCliente(true);
+        }
+    }
 
-    const openModal = (cliente) => {
-        setSelectedCliente(cliente)
-        setModalIsOpen(true);
-    };
+    const detalharCliente = (cliente) => {
+        setSelectedCliente(cliente);
+        if (statusForm === true && statusNovoCliente === true) {
+            setStatusHidden(false)
+        } else {
+            setStatusForm(true);
+        }
+    }
 
-    const closeModal = () => {
-        setSelectedCliente({})
-        setModalIsOpen(false);
-    };
-
+    const listarClientes = async () => {
+        const dataUser = getUserFromCookie();
+        try {
+            const response = await http.get(`/clientes`, {
+                headers: {
+                    Authorization: `Bearer ${dataUser.token}`
+                }
+            });
+            setClientes(response.data);
+        } catch (error) {
+            console.log(error.response.data)
+        } finally {
+            setLoadingData(false);
+        }
+    }
 
     useEffect(() => {
-        setLoadingData(true);
-        const fetchData = async () => {
-            const dataUser = getUserFromCookie();
-            try {
-                const response = await http.get(`/clientes?idUsuario=${dataUser.usuario.id}`, {
-                    headers: {
-                        Authorization: `Bearer ${dataUser.token}`
-                    }
-                });
-                setClientes(response.data);
-            } catch (error) {
-                console.log(error.response.data)
-            } finally {
-                setLoadingData(false);
-            }
-        }
-
-        fetchData();
+        listarClientes().then(r => r);
     }, []);
+
 
     return (
 
         <>
-            <HeadSgme title="SGME - Clientes" />
-            <main className="container border mb-5">
-
-
-                <div className="container d-sm-flex flex-row justify-content-between mb-3 mt-5">
-                    <h3>Clientes</h3>
-                    <Link href="/gestao-sgme/clientes/cadastro" className="btn btn-success">Novo Cliente</Link>
+            <HeadSgme title="SGME - Clientes"/>
+            {loadingData ? (
+                <div className="container d-flex justify-content-center align-items-center">
+                    <div className="container spinner-border text-primary text-center " style={{
+                        width: '4rem',
+                        height: '4rem'
+                    }}>
+                        <div className="visually-hidden">Loading...</div>
+                    </div>
                 </div>
 
-                <table className="table">
-                    {loadingData ? (
-                        <div className="spinner-border text-primary" role="status">
-                            <span className="visually-hidden">Loading...</span>
+
+            ) : (
+                <main className="container-sm mb-5" style={{height: '75vh'}}>
+                    <div className="d-flex justify-content-between" style={{height: '100%'}}>
+                        <div className="w-100 p-2 " style={{height: '100%'}}>
+                            <div className="d-flex justify-content-between align-items-center mb-3">
+                                <h1 className="mb-3">Clientes</h1>
+                                <button className="btn btn-warning btn-lg"
+                                        onClick={(event) => {
+                                            event.preventDefault();
+                                            cadastrarCliente();
+                                        }}
+                                >Novo Cliente
+                                </button>
+                            </div>
+
+                            <div className="border p-2 rounded-2 shadow "
+                                 style={{height: '90%'}}>
+                                <div className="table" style={{height: '100%'}}>
+                                    <div>
+                                        <div className="d-flex justify-content-between border-bottom border-1">
+                                            <div style={{width: 70}}>Cod.</div>
+                                            <div className="w-100">Nome</div>
+                                            <div style={{minWidth: 80}}>Status</div>
+                                            <div style={{minWidth: 70}}>Detalhes</div>
+                                        </div>
+                                    </div>
+                                    <div className="overflow-auto" style={{height: '90%'}}>
+                                        {clientes && clientes.length > 0 ? (
+                                            clientes.map((cliente, index) =>
+                                                <div key={cliente.id} className="d-flex justify-content-between ">
+                                                    <div style={{width: 70}}>{index + 1}</div>
+                                                    <div className="w-100">{cliente.nome}</div>
+                                                    <div style={{minWidth: 80}}>{(cliente.status).toLowerCase()}</div>
+                                                    <div style={{minWidth: 60}}>
+                                                        <button className="border-0" onClick={(event) => {
+                                                            event.preventDefault();
+                                                            detalharCliente(cliente);
+                                                        }}>
+                                                            <Image src="/img/verDetalhes.png"
+                                                                   alt="Icon editar"
+                                                                   width="0"
+                                                                   height="0"
+                                                                   sizes="100vw"
+                                                                   style={{
+                                                                       width: 20,
+                                                                       height: 20,
+                                                                       cursor: 'pointer'
+                                                                   }}
+                                                            />
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+                                            )) : (
+                                            <div>
+                                                <p colSpan="3">Nenhum cliente encontrado.</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    ) : (
-                        <>
-                            <thead>
-                            <tr className="border border-2 border-warning">
-                                <th scope="col">Nome</th>
-                                <th scope="col" className=" d-flex justify-content-end">Ações</th>
-                            </tr>
-                            </thead>
-                            <tbody>
 
-                            {clientes && clientes.length > 0 ? (
-                                clientes.map(cliente =>
-                                    <tr key={cliente.id}>
+                        {/*FORM PARA EDIÇÃO E CADASTRO DE NOVOS CLIENTES*/}
 
-                                        <td>
-                                            {cliente.nome}
-                                        </td>
-                                        <td className="d-flex justify-content-end">
-                                            <img width="30" height="30" className="me-3 pointer-cursor"
-                                                 src="https://img.icons8.com/3d-fluency/94/info.png"
-                                                 alt="info"
-                                                 onClick={() => openModal(cliente)}/>
-                                            <Link href={`/gestao-sgme/clientes/update/${cliente.id}`}
-                                                  className="btn btn-success me-2">EDITAR</Link>
-                                        </td>
-                                    </tr>
-                                )) : (
-                                <tr>
-                                    <td colSpan="6">Nenhum cliente encontrado.</td>
-                                </tr>
+                        <div className="w-100 p-2 d-flex flex-column justify-content-center align-items-center">
+                            {statusForm ? (
+                                <>
+                                    {statusNovoCliente ? (
+                                        <ComponentCadastroCliente setStatusForm={setStatusForm}
+                                                                  setStatusNovoCliente={setStatusNovoCliente}
+                                                                  statusNovoCliente={statusNovoCliente}
+                                                                  atualizarClientes={listarClientes}
+                                        />
+                                    ) : (
+                                        <ComponentEditarCliente setStatusForm={setStatusForm}
+                                                                setStatusNovoCliente={setStatusNovoCliente}
+                                                                cliente={selectedCliente}
+                                                                setCliente={setSelectedCliente}
+                                                                atualizarClientes={listarClientes}
+
+                                        />
+                                    )
+                                    }
+                                    <ToltipInfoAlterarFuncao
+                                        statusHidden={statusHidden}
+                                        setStatusHidden={setStatusHidden}
+                                        setStatusComponent={setStatusNovoCliente}
+                                        statusComponent={statusNovoCliente}
+                                        tituloInfo="Atenção"
+                                        conteudoInfo="Deseja descartar as alterações?"
+                                    />
+
+                                </>
+                            ) : (
+                                <>
+                                    <Image src="/img/icone_nova_venda.png"
+                                           alt="Icon Excluir"
+                                           width="0"
+                                           height="0"
+                                           sizes="100vw"
+                                           style={{
+                                               width: "50%",
+                                               height: "auto",
+                                           }}
+                                           priority={true}
+                                    />
+                                    <h3>Selecione um cliente para editar</h3>
+                                    <h4>ou Crie um novo </h4>
+                                    <h5>Consulte os dos dos clientes ao lado</h5>
+                                </>
                             )}
-                            </tbody>
-                        </>
-                    )}
-                </table>
 
-                <ModalInfo
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
-                >
-
-                    <div className="w-100 h-100 p-3">
-                        <p className="fw-bold"> Informações</p>
-                        <p>Nome: {selectedCliente.nome}</p>
-
-                        {selectedCliente.cpf && (
-                            <p>Cpf: {selectedCliente.cpf}</p>
-                        )}
-
-                        {selectedCliente.data_nascimento && (
-                            <p><img width="30" height="30" src="https://img.icons8.com/office/16/birthday.png"
-                                    alt="birthday"/> {format(parseISO(selectedCliente.data_nascimento), 'dd/MM', {locale: ptBR})}
-                            </p>
-                        )}
-                        <p>Telefone: {selectedCliente.telefone}</p>
-
+                        </div>
                     </div>
-
-                </ModalInfo>
-            </main>
+                </main>
+            )}
         </>
 
     );

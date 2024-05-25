@@ -1,11 +1,11 @@
 import { getUserFromCookie } from "@/utils/Cookies";
 import { http } from "@/utils/http";
 
-export const getReceitasData = async () => {
+export const    getReceitasData = async () => {
     try {
         const dataUser = getUserFromCookie();
 
-        const response = await http.get(`/receitas?idUsuario=${dataUser.usuario.id}`, {
+        const response = await http.get(`/receitas`, {
             headers: {
                 Authorization: `Bearer ${dataUser.token}`
             }

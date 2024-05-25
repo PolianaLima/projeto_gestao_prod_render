@@ -3,6 +3,19 @@
     padding: 0;
     box-sizing: border-box;
     color: #393939;
+    font-size: 16px;
+}
+
+.style-heigth-90vh{
+    height: 90vh;
+}
+
+.style-heigth-65vh{
+    height: 60vh;
+}
+
+.style-heigth-100vh{
+    height: 90%;
 }
 
 .link{
@@ -36,6 +49,10 @@
 
 .paleta_Azul{
     color: #4682B4;
+}
+
+.bg-paleta_Azul{
+    background-color: #4682B4;
 }
 
 .pointer-cursor{

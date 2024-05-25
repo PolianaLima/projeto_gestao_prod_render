@@ -1,10 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import Link from "next/link";
-import Head from "next/head";
 import {getDespesasData} from "@/utils/getDespesas";
 import DespesaItem from "@/components/componentes_financeiro/DespesaItem";
 import DespesaItemMobile from "@/components/componentes_financeiro/DespesaItemMobile";
-import {useForm} from "react-hook-form";
 import FormFiltroDados from "@/components/componentes_financeiro/FormFiltroDados";
 import HeadSgme from "@/components/head/HeadSgme";
 
@@ -103,7 +101,7 @@ function Index(props) {
                             </div>
                         </div>
                     ) : (
-                        <>
+
                             <tbody>
                             {despesasOrdenada && despesasOrdenada.length > 0 ? (
                                 despesasOrdenada.map(despesa => (
@@ -126,7 +124,7 @@ function Index(props) {
                                 </td>
                             </tr>
                             </tbody>
-                        </>
+
                     )}
                 </table>
 

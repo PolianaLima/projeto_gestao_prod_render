@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
+import MenuNavSgme from "components/menu-site/MenuNavSgme";
+import MenuNavSite from "components/menu-site/MenuNavSite";
+import Footer from "components/menu-site/Footer";
 import {useAuth} from "@/context/authContext";
-import MenuNavSgme from "@/components/menu-site/MenuNavSgme";
-import MenuNavSite from "@/components/menu-site/MenuNavSite";
-import Footer from "@/components/menu-site/Footer";
+
 
 function MainContainer({children}) {
 

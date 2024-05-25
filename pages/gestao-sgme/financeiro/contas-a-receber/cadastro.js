@@ -157,7 +157,7 @@ function Cadastro() {
                             >
                                 <option value="0">Selecione status</option>
                                 <option value="Pendente">Pendente</option>
-                                <option value="Pago">Pago</option>
+                                <option value="Paga">Pago</option>
                             </select>
                             {errors?.status?.type === "validate" && (
                                 <p className="alert alert-danger mt-3">Selecione um status!</p>
@@ -172,7 +172,7 @@ function Cadastro() {
                     </div>
 
                     <div className="d-flex justify-content-end">
-                        <button className="btn btn-warning  me-3" onClick={(e) => {
+                        <button className="btn btn-success  me-3" onClick={(e) => {
                             e.preventDefault();
                             handleSubmit(onSubmit)();
                         }}>SALVAR

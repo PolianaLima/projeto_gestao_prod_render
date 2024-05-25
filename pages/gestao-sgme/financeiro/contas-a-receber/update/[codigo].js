@@ -217,7 +217,7 @@ const UpdateReceita = () => {
                                     >
                                         <option value={receita.status} hidden>{receita.status}</option>
                                         <option value="Pendente">Pendente</option>
-                                        <option value="Pago">Pago</option>
+                                        <option value="Paga">Pago</option>
                                     </select>
 
                                 </div>

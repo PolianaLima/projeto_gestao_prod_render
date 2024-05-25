@@ -1,14 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import Link from "next/link";
 import {http} from "@/utils/http";
-import Head from "next/head";
 import {getUserFromCookie} from "@/utils/Cookies";
-import axios from "axios";
 import ModalInfo from "@/components/ModalInfo";
 import HeadSgme from "@/components/head/HeadSgme";
+import Image from "next/image";
 
 function Index(props) {
-
 
     const [fornecedores, setFornecedores] = useState([]);
     const [selectedFornecedor, setSelectedFornecedor] = useState({});
@@ -62,7 +60,7 @@ function Index(props) {
                 <table className="table">
                     {loadingData ? (
                         <div className="d-flex justify-content-center">
-                            <div className="spinner-border text-warning" role="status">
+                            <div className="spinner-border text-warning">
                                 <span className="visually-hidden">Loading...</span>
                             </div>
                         </div>
@@ -84,10 +82,20 @@ function Index(props) {
                                                 {fornecedor.nome}
                                             </td>
                                             <td className="d-flex  justify-content-start ">
-                                                <img width="30" height="30" className="me-3 pointer-cursor"
-                                                     src="https://img.icons8.com/3d-fluency/94/info.png"
-                                                     alt="info"
-                                                     onClick={() => openModal(fornecedor)}/>
+                                                <Image src="/img/info.png"
+                                                       alt="Icon info png"
+                                                       width="0"
+                                                       height="0"
+                                                       sizes="100vw"
+                                                       style={{
+                                                           width: 30,
+                                                           height: 30,
+                                                           cursor: 'pointer'
+                                                       }}
+                                                       priority={true}
+                                                       onClick={() => openModal(fornecedor)}
+                                                />
+
                                                 <Link href={`/gestao-sgme/fornecedores/update/${fornecedor.id}`}
                                                       className="btn btn-success me-2">EDITAR</Link>
                                             </td>
@@ -111,7 +119,8 @@ function Index(props) {
                     <div className="w-100 h-100 p-3">
                         <p className="fw-bold"> Informações</p>
                         <p>Nome: {selectedFornecedor.nome}</p>
-                        <p>Cpf / CNPJ: {selectedFornecedor.cnpj}</p>
+                        <p>Cpf / CNPJ: {selectedFornecedor.documento}</p>
+                        <p>Status: {selectedFornecedor.status}</p>
                     </div>
 
                 </ModalInfo>

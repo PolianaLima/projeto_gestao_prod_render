@@ -1,12 +1,11 @@
-import Head from "next/head";
 import Image from "next/image";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";
-import {http} from "@/utils/http";
+import {http} from "utils/http";
 import React, {useState} from "react";
-import {useAuth} from "@/context/authContext";
 import axios from "axios";
-import HeadSgme from "@/components/head/HeadSgme";
+import HeadSgme from "components/head/HeadSgme";
+import {useAuth} from "@/context/authContext";
 
 function Index(props) {
 

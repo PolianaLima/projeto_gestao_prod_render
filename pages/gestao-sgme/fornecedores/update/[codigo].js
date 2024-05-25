@@ -2,7 +2,6 @@
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import Head from "next/head";
 import {getUserFromCookie} from "@/utils/Cookies";
 import {http} from "@/utils/http";
 import ModalComponent from "@/components/ModalComponent";
@@ -35,6 +34,7 @@ const UpdateFornecedor = () => {
             id: "",
             cnpj: "",
             nome: "",
+            status: ""
 
         }
     );
@@ -78,10 +78,12 @@ const UpdateFornecedor = () => {
                 }
             });
             setResultErro(false);
+            setStatus(true)
             abrirModal();
         } catch (error) {
             if (axios.isAxiosError(error)) {
                 setResultErro(true)
+                setStatus(false)
                 setErroApi(error.response.data.message)
             }
         } finally {
@@ -94,8 +96,6 @@ const UpdateFornecedor = () => {
         openModal()
     }
 
-    console.log(errorApi)
-
     const handleInputChange = (e) => {
         setFornecedor({...fornecedor, [e.target.name]: e.target.value});
     };
@@ -106,7 +106,7 @@ const UpdateFornecedor = () => {
     return (
         <>
            <HeadSgme title="SGME - Alterando Fornecedor" />
-            <div className="container-sm d-flex align-items-center justify-content-start mt-5">
+            <main className="container-sm d-flex align-items-center justify-content-start mt-5">
 
                 <form className="form-control-sm w-100 mobile-styles-form" style={{maxWidth: "50%"}}>
                     <h3 className="mb-4">Atualizando Fornecedor</h3>
@@ -123,10 +123,10 @@ const UpdateFornecedor = () => {
                                 <div className="d-flex flex-column">
                                     <label>Cpnj / CPF: </label>
                                     <input type="number"
-                                            placeholder="Cnpj / Cpf"
+                                           placeholder="Cnpj / Cpf"
                                            className="form-control"
-                                           name="cnpj"
-                                           value={fornecedor.cnpj}
+                                           name="documento"
+                                           value={fornecedor.documento}
                                            onChange={handleInputChange}
                                     />
 
@@ -147,7 +147,36 @@ const UpdateFornecedor = () => {
 
                                     </div>
                                 </div>
-                                <div className="d-flex">
+
+                                <div className="d-sm-flex justify-content-between flex-row mt-3 ">
+                                    <div className="d-flex flex-column w-100 me-3">
+                                        <label htmlFor="status">Status</label>
+                                        <div>
+                                            <input type="radio"
+                                                   id="ativo"
+                                                   name="status"
+                                                   value="ATIVO"
+                                                   checked={fornecedor.status === "ATIVO"}
+                                                   onChange={handleInputChange}
+                                                   className="me-3"
+                                            />
+                                            <label htmlFor="ATIVO">Ativo</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio"
+                                                   id="inativo"
+                                                   name="status"
+                                                   value="INATIVO"
+                                                   checked={fornecedor.status === "INATIVO"}
+                                                   onChange={handleInputChange}
+                                                   className="me-3"
+                                            />
+                                            <label htmlFor="ATIVO">Inativo</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="d-flex mt-3">
                                     <button className="btn btn-success pe-3 ps-3 me-3" onClick={(e) => {
                                         e.preventDefault();
                                         const promise = handleUpdateFornecedor();
@@ -199,7 +228,7 @@ const UpdateFornecedor = () => {
 
                 </form>
 
-            </div>
+            </main>
         </>
     )
 }

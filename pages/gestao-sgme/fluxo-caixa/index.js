@@ -51,18 +51,25 @@ function Index() {
         setdataFiltro(data);
     };
 
-    const receitasFiltradas = receitas.filter(receita => {
+    console.log(dataFiltro)
 
+    const receitasFiltradas = receitas.filter(receita => {
         const {dataInicial, dataFinal, status} = dataFiltro;
         if (!dataInicial && !dataFinal && !status) return false;
 
+        // Converta as datas para o formato ISO antes de compará-las
+        const dataCriacaoReceita = new Date(receita.data_created).toISOString().slice(0,10);
+        const dataInicialFiltro = new Date(dataInicial).toISOString().slice(0,10);
+        const dataFinalFiltro = new Date(dataFinal).toISOString().slice(0,10);
+
+
         // Lógica de filtro para dataInicial
-        if (dataInicial && new Date(receita.data_created) < new Date(dataInicial)) {
+        if (dataInicial && dataCriacaoReceita < dataInicialFiltro) {
             return false;
         }
 
         // Lógica de filtro para dataFinal
-        if (dataFinal && new Date(receita.data_created) > new Date(dataFinal)) {
+        if (dataFinal && dataCriacaoReceita > dataFinalFiltro) {
             return false;
         }
 
@@ -73,18 +80,25 @@ function Index() {
 
         return true; // Retorna true se a receita passar por todos os filtros
     });
+
+
     const despesasFiltradas = despesas.filter(despesa => {
 
         const {dataInicial, dataFinal, status} = dataFiltro;
         if (!dataInicial && !dataFinal && !status) return false;
 
-        // Lógica de filtro para dataInicial
-        if (dataInicial && new Date(despesa.data_created) < new Date(dataInicial)) {
+        // Converta as datas para o formato ISO antes de compará-las
+        const dataCriacaoDespesa = new Date(despesa.data_created).toISOString().slice(0,10);
+        const dataInicialFiltro = new Date(dataInicial).toISOString().slice(0,10);
+        const dataFinalFiltro = new Date(dataFinal).toISOString().slice(0,10);
+
+
+        if (dataInicial && dataCriacaoDespesa < dataInicialFiltro) {
             return false;
         }
 
         // Lógica de filtro para dataFinal
-        if (dataFinal && new Date(despesa.data_created) > new Date(dataFinal)) {
+        if (dataFinal && dataCriacaoDespesa > dataFinalFiltro) {
             return false;
         }
 
@@ -93,8 +107,9 @@ function Index() {
             return false;
         }
 
-        return true; // Retorna true se a receita passar por todos os filtros
+        return true; // Retorna true se a despesa passar por todos os filtros
     });
+
 
     const totalReceitas = {
         total: receitasFiltradas.reduce((acc, receita) => acc + receita.valor, 0),

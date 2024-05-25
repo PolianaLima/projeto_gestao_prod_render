@@ -22,7 +22,6 @@ function Cadastro(props) {
 
     const onSubmit = async (data) => {
         const dataUser = getUserFromCookie();
-        data = {...data, usuario_id: dataUser.usuario.id}
 
         try {
             await http.post('/fornecedores/cadastro', data, {
@@ -52,17 +51,17 @@ function Cadastro(props) {
         <>
             <HeadSgme title="SGME - Cadastro de Fornecedores"/>
 
-            <div className="container-sm d-sm-flex align-items-center justify-content-start mt-5">
+            <main className="container-sm d-sm-flex align-items-center justify-content-start mt-5">
 
                 <form className="form-control-sm w-100" style={{maxWidth: "75%"}}>
 
                     <h3 className="mb-4">Novo Fornecedor</h3>
                     <div className="d-sm-flex flex-column  me-3">
-                        <label htmlFor="valor">CPF/CNPJ: </label>
+                        <label htmlFor="documento">CPF/CNPJ: </label>
                         <input type="number"
                                 placeholder="CPF / Cnpj"
                                className="form-control"
-                               {...register("cnpj", {required: true})}
+                               {...register("documento", {required: true})}
                         />
                         {errors?.cnpj?.type === "required" && (
                             <p className="alert alert-danger mt-3">CPF / Cnpj obrigatorio!</p>
@@ -89,7 +88,7 @@ function Cadastro(props) {
 
 
                     <div className="d-flex ">
-                        <button className="btn btn-warning pe-5 ps-5 me-3" onClick={(e) => {
+                        <button className="btn btn-success pe-5 ps-5 me-3" onClick={(e) => {
                             e.preventDefault();
                             handleSubmit(onSubmit)();
                         }}>SALVAR
@@ -103,7 +102,7 @@ function Cadastro(props) {
                     </div>
 
                 </form>
-            </div>
+            </main>
         </>
     );
 }
