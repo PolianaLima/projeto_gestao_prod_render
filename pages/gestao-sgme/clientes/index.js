@@ -6,7 +6,7 @@ import Image from "next/image";
 import ComponentCadastroCliente from "@/components/componentes_cadastro/ComponentCadastroCliente";
 import ComponentEditarCliente from "@/components/componentes_cadastro/ComponentEditarCliente";
 import ToltipInfoAlterarFuncao from "@/components/componentes_cadastro/ToltipInfoAlterarFuncao";
-import ToltipInfoCancelar from "@/components/componentes_cadastro/ToltipInfoCancelar";
+import ToltipInfoAlterarSelecao from "@/components/componentes_cadastro/ToltipInfoAlterarSelecao";
 
 function Index() {
     const [clientes, setClientes] = useState([]);
@@ -14,13 +14,8 @@ function Index() {
     const [statusNovoCliente, setStatusNovoCliente] = useState(false);
     const [statusHidden, setStatusHidden] = useState(true);
     const [statusHiddenInfo, setStatusHiddenInfo] = useState(true);
-    const [clienteEditando, setClienteEditando] = useState({
-        nome: "",
-        documento: "",
-        data_nascimento: "",
-        telefone: "",
-        status: ""
-    });
+    const [statusComponetEditarCliente, setStatusComponentEditarCliente] = useState(false);
+    const [statusHiddenEditar, setStatusHiddenEditar] = useState(true);
 
     const [selectedCliente, setSelectedCliente] = useState({
         id: "",
@@ -30,6 +25,7 @@ function Index() {
         telefone: "",
         status: ""
     });
+
     const [loadingData, setLoadingData] = useState(true);
 
     const cadastrarCliente = () => {
@@ -42,11 +38,15 @@ function Index() {
     }
 
     const detalharCliente = (cliente) => {
-        setSelectedCliente(cliente);
-        if (statusForm === true && statusNovoCliente === true) {
-            setStatusHidden(false)
-        } else {
-            setStatusForm(true);
+        if(statusComponetEditarCliente === true){
+            setStatusHiddenEditar(false)
+        }else{
+            setSelectedCliente(cliente);
+            if (statusForm === true && statusNovoCliente === true) {
+                setStatusHidden(false)
+            } else {
+                setStatusForm(true);
+            }
         }
     }
 
@@ -69,6 +69,8 @@ function Index() {
     useEffect(() => {
         listarClientes().then(r => r);
     }, []);
+
+    console.log("StatusComponetEditarCliente", statusComponetEditarCliente)
 
 
     return (
@@ -158,6 +160,7 @@ function Index() {
                                         <ComponentCadastroCliente setStatusForm={setStatusForm}
                                                                   setStatusNovoCliente={setStatusNovoCliente}
                                                                   statusNovoCliente={statusNovoCliente}
+                                                                  setStausCompoentEditarCliente={setStatusComponentEditarCliente}
                                                                   atualizarClientes={listarClientes}
                                         />
                                     ) : (
@@ -165,11 +168,12 @@ function Index() {
                                                                 setStatusNovoCliente={setStatusNovoCliente}
                                                                 cliente={selectedCliente}
                                                                 setCliente={setSelectedCliente}
+                                                                statusComponetEditarCliente={statusComponetEditarCliente}
+                                                                setStatusComponetEditarCliente={setStatusComponentEditarCliente}
                                                                 atualizarClientes={listarClientes}
 
                                         />
-                                    )
-                                    }
+                                    )}
                                     <ToltipInfoAlterarFuncao
                                         statusHidden={statusHidden}
                                         setStatusHidden={setStatusHidden}
@@ -177,6 +181,15 @@ function Index() {
                                         statusComponent={statusNovoCliente}
                                         tituloInfo="Atenção"
                                         conteudoInfo="Deseja descartar as alterações?"
+                                    />
+
+                                    <ToltipInfoAlterarSelecao
+                                        statusHidden={statusHiddenEditar}
+                                        setStatusHidden={setStatusHiddenEditar}
+                                        setStatusComponetEditarCliente={setStatusComponentEditarCliente}
+                                        tituloInfo="Atenção"
+                                        conteudoInfo="Deseja descartar as alterações?"
+
                                     />
 
                                 </>
