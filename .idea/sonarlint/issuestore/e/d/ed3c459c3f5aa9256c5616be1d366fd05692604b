@@ -1,0 +1,6 @@
+
+javascript:S3776"TRefactor this function to reduce its Cognitive Complexity from 18 to the 15 allowed.(ñŸ÷8¹Î»çù1J$6e7de24b-1784-4975-b475-328c036eaf37
+„javascript:S1481""6Remove the declaration of the unused 'error' variable.(‹¡Ğ³úÿÿÿÿ8ºÎ»çù1J$ef5c160a-dc19-4a0e-a105-be80ddf96451
+javascript:S1854""3Remove this useless assignment to variable "error".(‹¡Ğ³úÿÿÿÿ8»Î»çù1J$f825f959-487d-421b-8382-de07fbfa3a69
+mjavascript:S6479¸"Do not use Array index in keys(Ô’ŞÏøÿÿÿÿ8¼Î»çù1J$ac525ed4-be6c-463d-894e-b00af6892ee5
+hjavascript:S6479‚"Do not use Array index in keys(…ƒÉ8¼Î»çù1J$dbb27ac4-f94e-49c1-b595-18b7961bc8e5

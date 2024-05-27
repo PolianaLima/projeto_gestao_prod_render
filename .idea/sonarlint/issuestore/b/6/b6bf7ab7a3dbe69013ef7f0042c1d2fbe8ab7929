@@ -1,0 +1,16 @@
+
+?javascript:S1128"$Remove this unused import of 'Head'.(›„ÒS
+[javascript:S6754":useState call is not destructured into value + setter pair(Œ¾“·üÿÿÿÿ
+Ujavascript:S1481"9Remove the declaration of the unused 'register' variable.(·÷ß
+Rjavascript:S1854"6Remove this useless assignment to variable "register".(·÷ß
+^javascript:S1481"=Remove the declaration of the unused 'handleSubmit' variable.(ö‰´‘şÿÿÿÿ
+[javascript:S1854":Remove this useless assignment to variable "handleSubmit".(ö‰´‘şÿÿÿÿ
+Sjavascript:S1481"7Remove the declaration of the unused 'errors' variable.(îóµü
+Pjavascript:S1854"4Remove this useless assignment to variable "errors".(îóµü
+Xjavascript:S1126?"<Replace this if-then-else flow by a single return statement.(´Í†˜
+qjavascript:S6819l"UUse <output> instead of the "status" role to ensure accessibility across all devices.(ÁÙ†á
+^javascript:S6843l"BInteractive elements should not be assigned non-interactive roles.(ÁÙ†á
+Mjavascript:S6749q",A fragment with only one child is redundant.(™åÑğüÿÿÿÿ
+rjavascript:S6819‘"UUse <output> instead of the "status" role to ensure accessibility across all devices.(ÁÙ†á
+_javascript:S6843‘"BInteractive elements should not be assigned non-interactive roles.(ÁÙ†á
+Njavascript:S6749–",A fragment with only one child is redundant.(™åÑğüÿÿÿÿ
