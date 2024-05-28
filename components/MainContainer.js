@@ -8,18 +8,21 @@ import {useAuth} from "@/context/authContext";
 function MainContainer({children}) {
 
     const {token, user} = useAuth();
-        return (
-            <div>
-                {user !== null ? (
-                    <MenuNavSgme/>
-                ) : (
-                    <MenuNavSite />
-                )}
-                <div className="min-vh mt-5" >{children}</div>
-
+    return (
+        <div>
+            {user !== null ? (
+                <MenuNavSgme/>
+            ) : (
+                ""
+            )}
+            <div className="vh-100">{children}</div>
+            {user !== null ? (
                 <Footer/>
-            </div>
-        );
+            ) : (""
+            )}
+
+        </div>
+    );
 }
 
 export default MainContainer;

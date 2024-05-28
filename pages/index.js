@@ -23,7 +23,7 @@ function Index(props) {
     const [erroLogin, setErroLogin] = useState(false);
     const [erroLoginMessage, setErroLoginMessage] = useState("");
 
-    
+
     const onSubmit = async (data) => {
         const response = http.post(
             "/auth/login",
@@ -47,24 +47,32 @@ function Index(props) {
 
     return (
         <>
-            <HeadSgme title="SGME - Login" />
-
-            <main className="container-sm">
-
+            <HeadSgme title="SGME - Login"/>
+            <main className="container-sm d-flex align-items-center" style={{height: '100%'}}>
                 <div
-                    className="container-sm  d-sm-flex  justify-content-center align-items-center pt-2">
-                    <div className="mobile-styles-login">
+                    className="container-sm d-sm-flex  justify-content-center align-items-center pt-2">
+                    <div className="mobile-styles-login w-100 d-flex justify-content-center">
                         <Image
-                            src="/img/ICON-LOGIN.jpg"
-                            width={350}
-                            height={350}
+                            src="/img/icon_login.svg"
+                            width="0"
+                            height="0"
+                            sizes="100vw"
+                            style={{width: '75%', height: 'auto'}}
                             alt="contatoform"
                             priority={true}
                         />
                     </div>
-                    <div className="" style={{minWidth:300} }>
-                        <div className="mb-5">
-                            <h2 className="text-center ">LOGIN</h2>
+                    <div className="p-5 ">
+                        <div className="mb-5 d-flex justify-content-center">
+                            <Image src="/img/logotipo.svg"
+                                   alt="Logotipo"
+                                   width="0"
+                                   height="0"
+                                   sizes="100vw"
+                                   style={{width: '60%', height: 'auto'}}
+                                   priority={true}
+
+                            />
                         </div>
 
                         <div className=" w-100 ">
@@ -93,7 +101,8 @@ function Index(props) {
 
                             <button className="btn btn-primary w-100 mb-3" onClick={(e) => {
                                 e.preventDefault()
-                                handleSubmit(onSubmit)()}}>
+                                handleSubmit(onSubmit)()
+                            }}>
                                 Entrar
                             </button>
                             {erroLogin === true ? (
@@ -101,8 +110,6 @@ function Index(props) {
                         </div>
                     </div>
                 </div>
-
-
             </main>
         </>
     );

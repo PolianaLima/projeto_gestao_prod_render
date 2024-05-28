@@ -47,7 +47,7 @@ function Index(props) {
         fetchData()
     }, []);
 
-    console.log(produtos)
+
 
     return (
         <>
