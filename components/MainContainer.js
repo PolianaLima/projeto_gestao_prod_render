@@ -1,26 +1,21 @@
-import React, {useState} from 'react';
-import MenuNavSgme from "components/menu-site/MenuNavSgme";
-import MenuNavSite from "components/menu-site/MenuNavSite";
-import Footer from "components/menu-site/Footer";
+import React from 'react';
 import {useAuth} from "@/context/authContext";
+import MenuLateral from "@/components/menu/MenuLateral";
+import Login from "@/pages/Login";
 
 
-function MainContainer({children}) {
+function MainContainer({children, Component}) {
 
     const {token, user} = useAuth();
     return (
         <div>
             {user !== null ? (
-                <MenuNavSgme/>
+                <MenuLateral>
+                    {children}
+                </MenuLateral>
             ) : (
-                ""
+             <Login/>
             )}
-            <div className="vh-100">{children}</div>
-            {user !== null ? (
-                <Footer/>
-            ) : (""
-            )}
-
         </div>
     );
 }

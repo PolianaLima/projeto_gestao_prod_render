@@ -1,11 +1,9 @@
 'use client';
-import Head from "next/head";
 import React, {useEffect, useState} from "react";
 import {useRouter} from "next/router";
 import axios from "axios";
 import {http} from "@/utils/http";
 import ModalComponent from "@/components/ModalComponent";
-import ButtonFechar from "@/components/ButtonFechar";
 import {getUserFromCookie} from "@/utils/Cookies";
 import {isAfter, parseISO} from "date-fns";
 import Link from "next/link";

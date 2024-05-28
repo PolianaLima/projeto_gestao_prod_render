@@ -3,6 +3,7 @@ import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import {useEffect} from "react";
 import {AuthProvider} from "../context/authContext";
 import MainContainer from "components/MainContainer";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 
 export default function App({Component, pageProps}) {
