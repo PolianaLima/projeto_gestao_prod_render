@@ -7,63 +7,63 @@ import axios from "axios";
 import HeadSgme from "components/head/HeadSgme";
 import {useAuth} from "@/context/authContext";
 
-function Index(props) {
-
+// Custom hook for login logic
+const useLogin = () => {
     const router = useRouter();
-
     const {login, token} = useAuth();
-
-
-    const {
-        register,
-        handleSubmit,
-        formState: {errors}
-    } = useForm();
-
     const [erroLogin, setErroLogin] = useState(false);
     const [erroLoginMessage, setErroLoginMessage] = useState("");
 
-
     const onSubmit = async (data) => {
-        const response = http.post(
-            "/auth/login",
-            data
-        )
-            .then((response) => {
-                login(response.data)
-                router.push("/gestao-sgme")
-            })
-            .catch((error) => {
-                if (axios.isAxiosError(error) && error.response) {
-                    setErroLogin(true)
-                    setErroLoginMessage(error.response.data.message);
-                } else {
-                    setErroLogin(true)
-                    setErroLoginMessage("Servidor indisponível, tente novamente mais tarde!", error.message)
-                }
-            });
+        try {
+            const response = await http.post("/auth/login", data);
+            login(response.data);
+            router.push("/gestao-sgme");
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                setErroLogin(true);
+                setErroLoginMessage(error.response.data.message);
+            } else {
+                setErroLogin(true);
+                setErroLoginMessage("Servidor indisponível, tente novamente mais tarde!", error.message);
+            }
+        }
+    };
 
-    }
+    return {erroLogin, erroLoginMessage, onSubmit};
+};
+
+function Index(props) {
+    const {register, handleSubmit, formState: {errors}} = useForm();
+    const {erroLogin, erroLoginMessage, onSubmit} = useLogin();
 
     return (
         <>
             <HeadSgme title="SGME - Login"/>
-            <main className="container-sm d-flex align-items-center" style={{height: '100%'}}>
-                <div
-                    className="container-sm d-sm-flex  justify-content-center align-items-center pt-2">
-                    <div className="mobile-styles-login w-100 d-flex justify-content-center">
+            <main className="container-fluid d-flex align-items-center bg-paleta_Azul"
+                  style={{height: '100%',
+                      backgroundImage: `url('/img/fundo_login.jpg')`,
+                        backgroundSize: 'cover',
+                        backgroundRepeat: 'no-repeat',
+                        backgroundPosition: 'center',
+            }}>
+                <div className="container-sm d-sm-flex  justify-content-center align-items-center pt-2"
+                     style={{height: '90%', width:'60%'}}>
+                    <div className="mobile-styles-login bg-paleta_Azul w-100 d-flex justify-content-center  " style={{
+                        height:'100%'
+                    }}>
                         <Image
                             src="/img/icon_login.svg"
                             width="0"
                             height="0"
                             sizes="100vw"
-                            style={{width: '75%', height: 'auto'}}
+                            style={{width: '80%', height: 'auto'}}
                             alt="contatoform"
                             priority={true}
                         />
                     </div>
-                    <div className="p-5 ">
-                        <div className="mb-5 d-flex justify-content-center">
+                    <div className="bg-white p-5 d-flex flex-column align-items-center justify-content-center rounded-start-5" style={{height:'100%', marginLeft:-40}}>
+                        <div className="d-flex flex-column bg-white  justify-content-center w-100 mb-3 align-items-center">
                             <Image src="/img/logotipo.svg"
                                    alt="Logotipo"
                                    width="0"
@@ -71,14 +71,15 @@ function Index(props) {
                                    sizes="100vw"
                                    style={{width: '60%', height: 'auto'}}
                                    priority={true}
-
                             />
+                            <h3 className="text-center text-secondary">Sistema de Gestão para Microempreendedores</h3>
                         </div>
 
-                        <div className=" w-100 ">
+                        <div className="w-100 mt-5" >
+                            <p className="pb-2">Entre com seu e-mail e senha para acessar a conta</p>
                             <input
-                                type="usuário"
-                                className="form-control  mb-4  border-primary"
+                                type="text"
+                                className="form-control border-secondary-subtle mb-4 p-2"
                                 id="login"
                                 placeholder="Email"
                                 {...register("login", {required: true})}
@@ -89,7 +90,7 @@ function Index(props) {
 
                             <input
                                 type="password"
-                                className="form-control mb-4 border-primary"
+                                className="form-control border-secondary-subtle mb-4 p-2"
                                 id="senha"
                                 placeholder="Senha"
                                 {...register("senha", {required: true})}
@@ -100,8 +101,8 @@ function Index(props) {
                             )}
 
                             <button className="btn btn-primary w-100 mb-3" onClick={(e) => {
-                                e.preventDefault()
-                                handleSubmit(onSubmit)()
+                                e.preventDefault();
+                                handleSubmit(onSubmit)();
                             }}>
                                 Entrar
                             </button>
