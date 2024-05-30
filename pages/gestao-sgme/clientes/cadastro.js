@@ -56,7 +56,7 @@ function Cadastro(props) {
     return (
         <>
             <HeadSgme title="SGME - Cadastro de Cliente"/>
-            <div className="m-5 border border-1 border-secondary-subtle mt-3">
+            <main className="m-5 border border-1 border-secondary-subtle mt-3">
                 <h3 className="bg-secondary-subtle p-2">
                     <i className=" h3 bi bi-person-add"> </i>
                     Cadasto de Cliente
@@ -135,7 +135,7 @@ function Cadastro(props) {
                     </div>
                 </div>
                 <ModalInfo statusVisibleModal={statusVisibleModal} toggleModal={toggleModal} message="Cliente salvo com sucesso"/>
-            </div>
+            </main>
         </>
     );
 }

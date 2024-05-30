@@ -43,3 +43,16 @@ export const getClienteId = async (id) => {
         throw error;
     }
 }
+
+export const putCliente = async (id, data) => {
+    try {
+        const response = await http.put(`${CLIENTES_URL}/${id}`, data, {
+            headers: {
+                Authorization: `Bearer ${dataUser.token}`
+            }
+        })
+        return response.data;
+    }catch (error) {
+        throw error;
+    }
+}

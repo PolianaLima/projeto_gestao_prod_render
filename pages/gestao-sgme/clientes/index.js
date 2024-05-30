@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
 import Link from "next/link";
 import {getClientes} from "@/api/clienteApi";
-import MessageLoadingData from "@/components/message/messageLoadingData";
+import MessageLoadingData from "@/utils/message/messageLoadingData";
 
 function Index() {
     const [erroApi, setErroApi] = useState('');
