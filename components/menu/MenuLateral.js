@@ -10,9 +10,9 @@ function MenuLateral({children}) {
 
     return (
         <>
-            <div className="container-fluid">
-                <div className="row flex-nowrap">
-                    <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-paleta_Azul">
+            <div className="container-fluid" style={{height:'100%'}}>
+                <div className="row flex-nowrap" style={{height:'100%'}}>
+                    <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-paleta_Azul" style={{height:'100%'}}>
                         <div
                             className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                             <Link href="/"
@@ -47,7 +47,7 @@ function MenuLateral({children}) {
                                             <Link href="/gestao-sgme/clientes" className="nav-link px-0 ">
                                                 <i className="bi bi-person-fill-add fs-5"></i>
                                                 <span
-                                                    className="d-none d-sm-inline "> Cliente</span></Link>
+                                                    className="d-none d-sm-inline "> Clientes</span></Link>
                                         </li>
                                         <li>
                                             <Link href="/gestao-sgme/fornecedores" className="nav-link px-0 ">
@@ -115,8 +115,21 @@ function MenuLateral({children}) {
                             </div>
                         </div>
                     </div>
-                    <div className="col py-3">
-                        {children}
+
+                    <div className="col py-3 d-flex justify-content-between flex-column" style={{maxHeight:"100%"}}>
+                        <div className="w-100 shadow ">
+                            <h6 className="w-100 text-end">SEJA BEM VINDO(A), {user.nome}</h6>
+                            <p className=" text-end fw-bold text-primary">“Definir um objetivo é o ponto de partida de toda a realização”
+                                – W. Clement Stone.</p>
+                        </div>
+                        <div className="d-flex flex-column justify-content-between" style={{flexGrow: 1, overflow: 'auto'}}>
+                            {children}
+                            <div>
+                                <hr/>
+                                <p className="text-center fw-bolder paleta_Azul">2024 - SGME - Você no controle do seu
+                                    négocio</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

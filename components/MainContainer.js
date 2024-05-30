@@ -8,7 +8,7 @@ function MainContainer({children, Component}) {
 
     const {token, user} = useAuth();
     return (
-        <div>
+        <div style={{height:'100vh'}}>
             {user !== null ? (
                 <MenuLateral>
                     {children}
