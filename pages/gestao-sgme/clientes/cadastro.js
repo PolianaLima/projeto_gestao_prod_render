@@ -5,7 +5,6 @@ import Image from "next/image";
 import InputMask from "react-input-mask";
 import ModalInfo from "@/components/modal/ModalInfo";
 import {useRouter} from "next/router";
-import {reset} from "next/dist/lib/picocolors";
 import {postCliente} from "@/api/clienteApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import {toggleModalCancelarController, toggleModalController} from "@/utils/controller/modal";

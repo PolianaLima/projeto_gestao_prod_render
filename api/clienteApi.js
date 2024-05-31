@@ -5,7 +5,6 @@ const  CLIENTES_URL = '/clientes';
 const dataUser = getUserFromCookie();
 
 export const getClientes = async () => {
-    /*const dataUser = getUserFromCookie();*/
     try {
         const response = await http.get(CLIENTES_URL, {
             headers: {

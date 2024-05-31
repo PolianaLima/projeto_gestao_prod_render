@@ -2,7 +2,7 @@ import HeadSgme from "@/components/head/HeadSgme";
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
 import {getClienteId, putCliente} from "@/api/clienteApi";
-import MessageLoadingData from "@/utils/message/messageLoadingData";
+import MessageLoadingData from "@/components/message/messageLoadingData";
 import InputMask from "react-input-mask";
 import Image from "next/image";
 import ModalInfo from "@/components/modal/ModalInfo";
