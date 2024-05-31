@@ -4,10 +4,11 @@ import React, {useEffect, useState} from "react";
 import {getClienteId, putCliente} from "@/api/clienteApi";
 import MessageLoadingData from "@/utils/message/messageLoadingData";
 import InputMask from "react-input-mask";
-import {reset} from "next/dist/lib/picocolors";
 import Image from "next/image";
 import ModalInfo from "@/components/modal/ModalInfo";
 import {handleApiError} from "@/utils/errors/handleErroApi";
+import ModalCancelar from "@/components/modal/ModalCancelar";
+import {toggleModalCancelarController, toggleModalController} from "@/utils/controller/modal";
 
 const ROUTE_PATH = '/gestao-sgme/clientes';
 
@@ -27,6 +28,7 @@ function UpdateCliente() {
     const [statusErroApi, setStatusErroApi] = useState(false);
 
     const [statusVisibleModal, setStatusVisibleModal] = useState(false);
+    const [statusVisibleModalCancelar, setStatusVisibleModalCancelar] = useState(false);
 
 
     //Pegando o dado do cliente
@@ -45,7 +47,6 @@ function UpdateCliente() {
         }
     }
 
-
     //Monitorando o estado do cliente
     const handleInputChange = (e) => {
         setCliente({...cliente, [e.target.name]: e.target.value})
@@ -63,9 +64,20 @@ function UpdateCliente() {
         }
     }
 
+    const toggleModalCancelar = () => {
+        toggleModalCancelarController(setStatusVisibleModalCancelar, statusVisibleModalCancelar, ROUTE_PATH)
+    }
+
     const toggleModal = () => {
-        setStatusVisibleModal(!statusVisibleModal);
-        router.push(ROUTE_PATH)
+        toggleModalController(setStatusVisibleModal, statusVisibleModal, ROUTE_PATH)
+    }
+
+    const concelar = () => {
+        if (statusButtonEditar === false) {
+            setStatusVisibleModalCancelar(true);
+        } else {
+            router.push(ROUTE_PATH);
+        }
     }
 
     return (
@@ -89,7 +101,6 @@ function UpdateCliente() {
                                        name="nome"
                                        value={cliente.nome}
                                        onChange={handleInputChange}
-                                       area-label="Nome"
                                 />
                             </div>
                             <div className="d-flex mb-3">
@@ -101,7 +112,6 @@ function UpdateCliente() {
                                        name="documento"
                                        value={cliente.documento}
                                        onChange={handleInputChange}
-                                       area-label="Documento"
                                 />
                             </div>
 
@@ -116,7 +126,6 @@ function UpdateCliente() {
                                     disabled={statusInputDisabled}
                                     value={cliente.telefone}
                                     onChange={handleInputChange}
-                                    area-label="Telefone"
                                 />
                             </div>
 
@@ -129,7 +138,6 @@ function UpdateCliente() {
                                        name="data_nascimento"
                                        value={cliente.data_nascimento}
                                        onChange={handleInputChange}
-                                       aria-label="Data de Nascimento"
                                 />
                             </div>
 
@@ -144,7 +152,6 @@ function UpdateCliente() {
                                                value="ATIVO"
                                                checked={cliente.status === "ATIVO"}
                                                onChange={handleInputChange}
-                                               area-label="Status"
                                         />
                                         <label htmlFor="ATIVO">Ativo</label>
                                     </div>
@@ -156,7 +163,6 @@ function UpdateCliente() {
                                                checked={cliente.status === "INATIVO"}
                                                onChange={handleInputChange}
                                                className="me-3"
-                                               area-label="Status"
                                         />
                                         <label htmlFor="ATIVO">Inativo</label>
                                     </div>
@@ -175,8 +181,7 @@ function UpdateCliente() {
                                 <button className="btn btn-warning pe-3 ps-3 me-3"
                                         onClick={(event) => {
                                             event.preventDefault()
-                                            reset()
-                                            router.push(ROUTE_PATH)
+                                            concelar();
                                         }}
                                 >CANCELAR
                                 </button>
@@ -219,8 +224,15 @@ function UpdateCliente() {
                                    style={{width: "60%", height: "auto"}}/>
                         </div>
                     </div>
-                    <ModalInfo statusVisibleModal={statusVisibleModal} toggleModal={toggleModal}
+                    <ModalInfo statusVisibleModal={statusVisibleModal}
+                               toggleModal={toggleModal}
                                message="Cliente Alterado com sucesso"/>
+
+                    <ModalCancelar message="Deseja descartar as alterações?"
+                                   toggleModal={toggleModalCancelar}
+                                   statusVisibleModalCancelar={statusVisibleModalCancelar}
+                                   setStatusVisibleModalCancelar={setStatusVisibleModalCancelar}
+                    />
                 </main>
             )}
         </>

@@ -3,30 +3,28 @@ import HeadSgme from "@/components/head/HeadSgme";
 import Link from "next/link";
 import {getClientes} from "@/api/clienteApi";
 import MessageLoadingData from "@/utils/message/messageLoadingData";
+import {handleApiError} from "@/utils/errors/handleErroApi";
 
 function Index() {
-    const [erroApi, setErroApi] = useState('');
+    const [erroApiMessage, setErroApiMessage] = useState('');
     const [statusErroApi, setStatusErroApi] = useState(false);
     const [loading, setLoading] = useState(true);
     const [clientes, setClientes] = useState([]);
 
-    useEffect(() => {
-        const fetchData = async ()=>{
-            try {
-                const data = await getClientes();
-                setClientes(data);
-            }catch (error){
-                setErroApi(`Servidor indisponível. Tente novamente mais tarde. - ${error}`);
-                setStatusErroApi(true);
-            }finally {
-                setLoading(false);
-            }
+    const fetchData = async ()=>{
+        try {
+            const data = await getClientes();
+            setClientes(data);
+        }catch (error){
+            handleApiError(error, setErroApiMessage, setStatusErroApi)
+        }finally {
+            setLoading(false);
         }
+    }
+
+    useEffect(() => {
         fetchData();
-
     }, [])
-
-    console.log(erroApi)
 
     return (
         <>
@@ -68,7 +66,7 @@ function Index() {
                             ) : (
                                 <tr>
                                     {statusErroApi?(
-                                        <td colSpan="3" className="text-center text-danger">{erroApi}</td>
+                                        <td colSpan="3" className="text-center text-danger">{erroApiMessage}</td>
                                     ) : (
                                         <td colSpan="3" className="text-center">Nenhum cliente cadastrado</td>
                                     )}

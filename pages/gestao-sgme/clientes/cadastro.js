@@ -3,22 +3,18 @@ import {useForm} from "react-hook-form";
 import HeadSgme from "@/components/head/HeadSgme";
 import Image from "next/image";
 import InputMask from "react-input-mask";
-import axios from "axios";
-import {http} from "@/utils/http";
-import {getUserFromCookie} from "@/utils/Cookies";
 import ModalInfo from "@/components/modal/ModalInfo";
 import {useRouter} from "next/router";
 import {reset} from "next/dist/lib/picocolors";
 import {postCliente} from "@/api/clienteApi";
+import {handleApiError} from "@/utils/errors/handleErroApi";
+import {toggleModalCancelarController, toggleModalController} from "@/utils/controller/modal";
+import ModalCancelar from "@/components/modal/ModalCancelar";
+
+const ROUTE_PATH = `/gestao-sgme/clientes`;
 
 function Cadastro(props) {
     const router = useRouter();
-
-    const toggleModal = () => {
-        setStatusVisibleModal(!statusVisibleModal);
-        router.push("/gestao-sgme/clientes")
-    }
-
     const {
         register,
         handleSubmit,
@@ -27,27 +23,34 @@ function Cadastro(props) {
     const [loadingApi, setLoadingApi] = useState(false);
     const [statusErroApi, setStatusErroApi] = useState("");
     const [erroApiMessage, setErroApiMessage] = useState("");
+
     const [statusVisibleModal, setStatusVisibleModal] = useState(false);
+    const [statusVisibleModalCancelar, setStatusVisibleModalCancelar] = useState(false);
+
+    const toggleModalCancelar = () => {
+        toggleModalCancelarController(setStatusVisibleModalCancelar, statusVisibleModalCancelar, ROUTE_PATH)
+    }
+
+    const toggleModal = () => {
+        toggleModalController(setStatusVisibleModal, statusVisibleModal, ROUTE_PATH)
+    }
+
+    const verificaTelefone = (telefone) => {
+        if (telefone) {
+            const telefoneCleaned = telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
+            return telefoneCleaned;
+        }
+        return telefone;
+    }
 
     const onsubmit = async (data) => {
-        if (data.telefone) {
-            const telefoneCleaned = data.telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
-            data.telefone = telefoneCleaned;
-        }
+        verificaTelefone(data.telefone);
         setLoadingApi(true)
         try {
             await postCliente(data);
             setStatusVisibleModal(true)
         } catch (error) {
-            if(axios.isAxiosError(error)){
-                if(error.response){
-                    setStatusErroApi(true)
-                    setErroApiMessage(error.response.data.message)
-                }else{
-                    setStatusErroApi(true)
-                    setErroApiMessage( `Erro ao salvar cliente: ${error.message}`)
-                }
-            }
+            handleApiError(error, setErroApiMessage, setStatusErroApi)
         } finally {
             setLoadingApi(false)
         }
@@ -66,7 +69,8 @@ function Cadastro(props) {
                         <div className="d-flex mb-3">
                             <label className="fw-bolder me-5 w-25" htmlFor="nome">Nome</label>
                             <input type="text"
-                                   className="border border-1 border-secondary-subtle w-100 p-1" {...register('nome')}/>
+                                   className="border border-1 border-secondary-subtle w-100 p-1"
+                                   {...register('nome')}/>
                         </div>
                         <div className="d-flex mb-3">
                             <label className="fw-bolder me-5 w-25" htmlFor="documento">Documento</label>
@@ -103,8 +107,7 @@ function Cadastro(props) {
                             <button className="btn btn-warning pe-3 ps-3 me-3"
                                     onClick={(event) => {
                                         event.preventDefault()
-                                        reset()
-                                        router.push("/gestao-sgme/clientes")
+                                        setStatusVisibleModalCancelar(true);
                                     }}
                             >CANCELAR
                             </button>
@@ -134,7 +137,15 @@ function Cadastro(props) {
                                style={{width: "60%", height: "auto"}}/>
                     </div>
                 </div>
-                <ModalInfo statusVisibleModal={statusVisibleModal} toggleModal={toggleModal} message="Cliente salvo com sucesso"/>
+                <ModalInfo statusVisibleModal={statusVisibleModal}
+                           toggleModal={toggleModal}
+                           message="Cliente salvo com sucesso"/>
+
+                <ModalCancelar toggleModal={toggleModalCancelar}
+                               setStatusVisibleModalCancelar={setStatusVisibleModalCancelar}
+                               statusVisibleModalCancelar={statusVisibleModalCancelar}
+                               message="Deseja descartar as alterações?"
+                />
             </main>
         </>
     );
