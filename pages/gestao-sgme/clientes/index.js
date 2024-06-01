@@ -3,7 +3,7 @@ import HeadSgme from "@/components/head/HeadSgme";
 import {getClientes} from "@/api/clienteApi";
 import MessageLoadingData from "@/components/message/messageLoadingData";
 import {handleApiError} from "@/utils/errors/handleErroApi";
-import ListagemDadosLayout from "@/components/listagem_dados/ListagemDadosLayout";
+import DashBoardIndexProdClieForn from "@/components/layouts/DashBoardIndexProdClieForn";
 
 const CLIENTES_URL = '/gestao-sgme/clientes';
 
@@ -35,7 +35,7 @@ function Index() {
                <MessageLoadingData message="Carregando lista de clientes" />
             ) : (
                 <main className="container mt-5">
-                    <ListagemDadosLayout
+                    <DashBoardIndexProdClieForn
                         dados={clientes}
                         url={`${CLIENTES_URL}/cadastro`}
                         titleListagem="Clientes"

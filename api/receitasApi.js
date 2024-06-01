@@ -1,13 +1,12 @@
-import {http} from "@/utils/http";
 import {getUserFromCookie} from "@/utils/Cookies";
+import {http} from "@/utils/http";
 
-
-const DESPESAS_URL = `/despesas`
+const RECEITAS_URL = `/receitas`
 const dataUser = getUserFromCookie();
 
-export const getDespesas = async () => {
+export const getReceitas = async () => {
     try {
-        const response = await http.get(DESPESAS_URL, {
+        const response = await http.get(RECEITAS_URL, {
             headers: {
                 Authorization: `Bearer ${dataUser.token}`
             }
@@ -18,9 +17,9 @@ export const getDespesas = async () => {
     }
 }
 
-export const deleteDespesa = async (id) => {
+export const deleteReceita = async (id) => {
     try {
-        const response = await http.delete(`${DESPESAS_URL}/${id}`, {
+        const response = await http.delete(`${RECEITAS_URL}/${id}`, {
             headers: {
                 Authorization: `Bearer ${dataUser.token}`
             }

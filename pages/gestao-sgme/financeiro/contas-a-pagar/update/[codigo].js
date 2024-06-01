@@ -51,7 +51,6 @@ const UpdateDespesas = () => {
                         }
                     });
                     setDespesa(response.data)
-
                     const responseFornecedor = await http.get(`/fornecedores/${response.data.fornecedor_id}`, {
                         headers: {
                             Authorization: `Bearer ${dataUser.token}`

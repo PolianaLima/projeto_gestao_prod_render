@@ -18,6 +18,7 @@ export const useFormModalNewUpdate = (ROUTE_PATH) => {
 
     const [statusVisibleModal, setStatusVisibleModal] = useState(false);
     const [statusVisibleModalCancelar, setStatusVisibleModalCancelar] = useState(false);
+
     const toggleModalCancelar = () => {
         toggleModalCancelarController(setStatusVisibleModalCancelar, statusVisibleModalCancelar, ROUTE_PATH)
     }
@@ -26,7 +27,7 @@ export const useFormModalNewUpdate = (ROUTE_PATH) => {
         toggleModalController(setStatusVisibleModal, statusVisibleModal, ROUTE_PATH)
     }
 
-    const concelar = () => {
+    const cancelar = () => {
         if (statusButtonEditar === false) {
             setStatusVisibleModalCancelar(true);
         } else {
@@ -55,7 +56,7 @@ export const useFormModalNewUpdate = (ROUTE_PATH) => {
         setStatusVisibleModalCancelar,
         toggleModalCancelar,
         toggleModal,
-        concelar
+        cancelar
     };
 
 }

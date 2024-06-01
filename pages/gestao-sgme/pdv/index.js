@@ -6,7 +6,7 @@ import {http} from "@/utils/http";
 import {getUserFromCookie} from "@/utils/Cookies";
 import Image from "next/image";
 import axios from "axios";
-import ListaVenda from "@/components/componentes_pdvs/ListaVenda";
+import ListaVenda from "@/components/pdvs/ListaVenda";
 
 function Index() {
 

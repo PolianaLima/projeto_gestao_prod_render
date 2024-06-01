@@ -7,7 +7,7 @@ import {getUserFromCookie} from "@/utils/Cookies";
 import axios from "axios";
 import {useRouter} from "next/router";
 import Link from "next/link";
-import ToltipInfoCancelarRegistroVenda from "@/components/componentes_pdvs/ToltipInfoCancelarRegistroVenda";
+import ToltipInfoCancelarRegistroVenda from "@/components/pdvs/ToltipInfoCancelarRegistroVenda";
 
 function Checkout_id() {
     const router = useRouter();

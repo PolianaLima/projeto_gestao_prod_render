@@ -7,14 +7,14 @@ function GroupButtonFormUpdate({
                                    setStatusButtonSalvar,
                                    setStatusButtonEditar,
                                    setStatusInputDisabled,
-                                   concelar
+                                   cancelar,
                                }) {
     return (
         <div className="d-sm-flex justify-content-end">
             <button className="btn btn-warning pe-3 ps-3 me-3"
                     onClick={(event) => {
                         event.preventDefault()
-                        concelar();
+                        cancelar();
                     }}
             >CANCELAR
             </button>

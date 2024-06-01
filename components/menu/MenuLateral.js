@@ -22,7 +22,6 @@ function MenuLateral({children}) {
                                            height={100}
                                            priority={true}
                                     />
-                                    p
                                 </span>
                             </Link>
                             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"

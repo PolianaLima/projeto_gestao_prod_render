@@ -1,8 +1,8 @@
 import HeadSgme from "@/components/head/HeadSgme";
 import {useForm} from "react-hook-form";
-import FormFiltroDados from "@/components/componentes_financeiro/FormFiltroDados";
-import DashComponentReceitas from "@/components/componentes_financeiro/DashComponentReceitas";
-import DashComponentDespesas from "@/components/componentes_financeiro/DashComponentDespesas";
+import FormFiltroDados from "@/components/financeiro/FormFiltroDados";
+import DashComponentReceitas from "@/components/financeiro/DashComponentReceitas";
+import DashComponentDespesas from "@/components/financeiro/DashComponentDespesas";
 import {getReceitasData} from "@/utils/getReceitas";
 import {useEffect, useState} from "react";
 import {getDespesasData} from "@/utils/getDespesas";

@@ -3,17 +3,29 @@ import Link from "next/link";
 import {format, parseISO} from "date-fns";
 import {ptBR} from "date-fns/locale";
 
-function LayoutFinanceiroIndex({despesas, erroApiMessage, statusErroApi, setdataFiltro, totalDespesas, handleSubmit, register}) {
+function FinanceiroIndexLayout({
+                                   dados,
+                                   urlDetalhes,
+                                   erroApiMessage,
+                                   statusErroApi,
+                                   setdataFiltro,
+                                   valorTotal,
+                                   handleSubmit,
+                                   register,
+                                   title,
+                                   titleButtonAdd,
+                                   urlExcluir
+                               }) {
     return (
         <>
             <div className="d-sm-flex justify-content-between align-items-center">
                 <div>
-                    <h1>Contas a pagar</h1>
+                    <h1>{title}</h1>
                     <p className="text-secondary fw-light">Acompanhe de perto como estar as suas finanças!! </p>
                 </div>
                 <div>
                     <Link href="/gestao-sgme/financeiro/contas-a-pagar/cadastro" className="btn btn-success">
-                        Nova despesa
+                        {titleButtonAdd}
                     </Link>
                 </div>
             </div>
@@ -63,27 +75,36 @@ function LayoutFinanceiroIndex({despesas, erroApiMessage, statusErroApi, setdata
                         <th scope="col" style={{minWidth: 100}}>Vencimento</th>
                         <th scope="col" style={{minWidth: 100}}>Status</th>
                         <th scope="col" style={{minWidth: 100}}>Detalhar</th>
+                        <th scope="col" style={{minWidth: 100}}></th>
                     </tr>
                     </thead>
                     <tbody>
-                    {despesas && despesas.length > 0 ? (
-                        despesas.map((despesa, index) =>
+                    {dados && dados.length > 0 ? (
+                        dados.map((dado, index) =>
                             <tr key={index}>
                                 <td style={{minWidth: 100}}>{index + 1}</td>
-                                <td className="w-100">{despesa.nome_fornecedor}</td>
-                                <td style={{minWidth: 100}}>{despesa.valor.toLocaleString('pt-br', {
+                                <td className="w-100">{dado.nome}</td>
+                                <td style={{minWidth: 100}}>{dado.valor.toLocaleString('pt-br', {
                                     style: 'currency',
                                     currency: 'BRL'
                                 })}</td>
-                                <td style={{minWidth: 100}}>{format(parseISO(despesa.data_vencimento), 'dd/MM/yyyy', {locale: ptBR})}</td>
-                                <td style={{minWidth: 100}}>{despesa.status.toLowerCase()}</td>
+                                <td style={{minWidth: 100}}>{format(parseISO(dado.data_vencimento), 'dd/MM/yyyy', {locale: ptBR})}</td>
+                                <td style={{minWidth: 100}}>{dado.status.toLowerCase()}</td>
                                 <td className="d-flex justify-content-center align-items-center"
                                     style={{minWidth: 100}}>
-                                    <Link href={`/gestao-sgme/financeiro/contas-a-pagar/update/${despesa.id}`}
+                                    <Link href={`${urlDetalhes}/${dado.id}`}
                                           className="btn btn-success">
                                         <i className="bi bi-search text-white"></i>
                                     </Link>
                                 </td>
+
+                                <td>
+                                    <Link href={`${urlExcluir}/${dado.id}`} className="btn btn-danger"
+                                    >
+                                        <i className="bi bi-trash text-white"></i>
+                                    </Link>
+                                </td>
+
                             </tr>
                         )) : (
                         <tr>
@@ -99,10 +120,10 @@ function LayoutFinanceiroIndex({despesas, erroApiMessage, statusErroApi, setdata
                 </table>
                 <div className="d-flex justify-content-between align-items-center bg-secondary-subtle">
                     <p className="fw-bolder mt-3 ps-3">
-                        Total de despesas
+                        Valor Total
                     </p>
                     <p className="fw-bolder mt-3 ps-3">
-                        {totalDespesas.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}
+                        {valorTotal.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}
                     </p>
                 </div>
             </div>
@@ -110,4 +131,4 @@ function LayoutFinanceiroIndex({despesas, erroApiMessage, statusErroApi, setdata
     );
 }
 
-export default LayoutFinanceiroIndex;
+export default FinanceiroIndexLayout;

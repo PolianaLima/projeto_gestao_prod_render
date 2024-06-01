@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from "next/link";
 
-function ListagemDadosLayout({dados, erroApiMessage, statusErroApi, url, urlDetalhes, titleListagem, titleButtonAdd}) {
+function DashBoardIndexProdClieForn({dados, erroApiMessage, statusErroApi, url, urlDetalhes, titleListagem, titleButtonAdd}) {
     return (
         <>
             <div className="d-flex justify-content-between">
@@ -52,4 +52,4 @@ function ListagemDadosLayout({dados, erroApiMessage, statusErroApi, url, urlDeta
     );
 }
 
-export default ListagemDadosLayout;
+export default DashBoardIndexProdClieForn;

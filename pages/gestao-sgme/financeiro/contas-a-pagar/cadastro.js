@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react';
 import axios from "axios";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";
-import Head from "next/head";
 import {http} from "@/utils/http";
 import {getUserFromCookie} from "@/utils/Cookies";
-import {format, isAfter, isBefore, parseISO} from "date-fns";
 import HeadSgme from "@/components/head/HeadSgme";
 
 
@@ -24,11 +22,11 @@ function Cadastro() {
 
     const [status, setStatus] = useState([false])
 
-    /*CHAMADA DA API PARA LISTA DE CLIENTES*/
+    /*CHAMADA DA API PARA LISTA DE FORNECEDORES*/
     const [fornecedores, setFornecedores] = useState([]);
     useEffect(() => {
         const dataUser = getUserFromCookie();
-        http.get(`/fornecedores?idUsuario=${dataUser.usuario.id}`, {
+        http.get(`/fornecedores?idUsuario`, {
             headers: {
                 Authorization: `Bearer ${dataUser.token}`
             }
@@ -44,26 +42,26 @@ function Cadastro() {
 
     const onSubmit = async (data) => {
 
-            const dataUser = getUserFromCookie();
-            data = {...data, usuario_id: dataUser.usuario.id}
+        const dataUser = getUserFromCookie();
+        data = {...data, usuario_id: dataUser.usuario.id}
 
-            try {
-               await http.post(`/despesas/cadastro`, data, {
-                    headers: {
-                        Authorization: `Bearer ${dataUser.token}`
-                    }
-                })
-                    .then((response) => {
-                        setStatus(true)
-                        router.push('/gestao-sgme/financeiro/contas-a-pagar')
-
-                    })
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    setResultErro(true)
-                    setErroApi(error.response.data.message)
+        try {
+            await http.post(`/despesas/cadastro`, data, {
+                headers: {
+                    Authorization: `Bearer ${dataUser.token}`
                 }
+            })
+                .then((response) => {
+                    setStatus(true)
+                    router.push('/gestao-sgme/financeiro/contas-a-pagar')
+
+                })
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                setResultErro(true)
+                setErroApi(error.response.data.message)
             }
+        }
 
     }
 
@@ -73,7 +71,7 @@ function Cadastro() {
 
     return (
         <>
-            <HeadSgme title="SGME - Cadastrando contas a pagar" />
+            <HeadSgme title="SGME - Cadastrando contas a pagar"/>
 
             <div className="container d-flex align-items-center justify-content-center mt-5">
                 <form className="form-control-sm w-100">
@@ -99,7 +97,7 @@ function Cadastro() {
                         <div className="d-sm-flex flex-column w-100 me-3">
                             <label htmlFor="valor">Valor: </label>
                             <input type="number"
-                                    placeholder="R$"
+                                   placeholder="R$"
                                    className="form-control"
                                    {...register("valor", {required: true})}
                             />

@@ -3,7 +3,7 @@ import HeadSgme from "@/components/head/HeadSgme";
 import {getProdutos} from "@/api/produtosApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import MessageLoadingData from "@/components/message/messageLoadingData";
-import ListagemDadosLayout from "@/components/listagem_dados/ListagemDadosLayout";
+import DashBoardIndexProdClieForn from "@/components/layouts/DashBoardIndexProdClieForn";
 
 const PRODUTOS_URL = '/gestao-sgme/produtos';
 
@@ -35,13 +35,13 @@ function Index(props) {
                 <MessageLoadingData message="Carregando lista de produtos" />
             ): (
                 <main className="container mt-5">
-                    <ListagemDadosLayout dados={produtos}
-                                         statusErroApi={statusErroApi}
-                                         erroApiMessage={erroApiMessage}
-                                         url={`${PRODUTOS_URL}/cadastro`}
-                                         titleListagem="Produtos"
-                                         titleButtonAdd="Novo Produto"
-                                         urlDetalhes={`${PRODUTOS_URL}/update`}
+                    <DashBoardIndexProdClieForn dados={produtos}
+                                 statusErroApi={statusErroApi}
+                                 erroApiMessage={erroApiMessage}
+                                 url={`${PRODUTOS_URL}/cadastro`}
+                                 titleListagem="Produtos"
+                                 titleButtonAdd="Novo Produto"
+                                 urlDetalhes={`${PRODUTOS_URL}/update`}
                     />
                 </main>
 

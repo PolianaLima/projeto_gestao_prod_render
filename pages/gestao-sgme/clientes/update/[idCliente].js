@@ -39,7 +39,7 @@ function UpdateCliente() {
         setStatusVisibleModalCancelar,
         toggleModalCancelar,
         toggleModal,
-        concelar
+        cancelar
 
     }= useFormModalNewUpdate(ROUTE_PATH);
 
@@ -177,7 +177,7 @@ function UpdateCliente() {
 
                             <GroupButtonFormUpdate
                                 onSubmit={onSubmit}
-                                concelar={concelar}
+                                concelar={cancelar}
                                 setStatusButtonEditar={setStatusButtonEditar}
                                 setStatusButtonSalvar={setStatusButtonSalvar}
                                 setStatusInputDisabled={setStatusInputDisabled}

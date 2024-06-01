@@ -3,7 +3,7 @@ import HeadSgme from "@/components/head/HeadSgme";
 import {getFornecedores} from "@/api/fornecedoresApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import MessageLoadingData from "@/components/message/messageLoadingData";
-import ListagemDadosLayout from "@/components/listagem_dados/ListagemDadosLayout";
+import DashBoardIndexProdClieForn from "@/components/layouts/DashBoardIndexProdClieForn";
 
 const FORNECEDORES_URL = '/gestao-sgme/fornecedores';
 
@@ -11,6 +11,7 @@ function Index(props) {
     const [erroApiMessage, setErroApiMessage] = useState('');
     const [statusErroApi, setStatusErroApi] = useState(false);
     const [loading, setLoading] = useState(true);
+
     const [fornecedores, setFornecedores] = useState([]);
 
     const fetchData = async ()=>{
@@ -32,12 +33,11 @@ function Index(props) {
     return (
         <>
             <HeadSgme title="SGME - Fornecedores" />
-
             <main className="container mt-5">
                 {loading ? (
                     <MessageLoadingData message="Carregando lista de fornecedores"/>
                 ):(
-                     <ListagemDadosLayout
+                     <DashBoardIndexProdClieForn
                         dados={fornecedores}
                         url={`${FORNECEDORES_URL}/cadastro`}
                         urlDetalhes={`${FORNECEDORES_URL}/update`}
@@ -49,7 +49,6 @@ function Index(props) {
                         )}
             </main>
         </>
-
     );
 }
 
