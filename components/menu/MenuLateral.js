@@ -19,7 +19,11 @@ function MenuLateral({children}) {
                                   className="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
                                 <span className="fs-5 d-none d-sm-inline text-white">
                                     <Image src="/assets/img/logotipo.svg" alt="Logotipo" width={200}
-                                           height={100}/></span>
+                                           height={100}
+                                           priority={true}
+                                    />
+                                    p
+                                </span>
                             </Link>
                             <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
                                 id="menu">
@@ -84,7 +88,7 @@ function MenuLateral({children}) {
 
                                         <li>
                                             <Link href="/gestao-sgme/fluxo-caixa" className="nav-link px-0">
-                                                <i class="fs-5 bi bi-currency-exchange"></i><span
+                                                <i className="fs-5 bi bi-currency-exchange"></i><span
                                                 className="d-none d-sm-inline "> Fluxo Caixa</span> </Link>
                                         </li>
                                     </ul>
