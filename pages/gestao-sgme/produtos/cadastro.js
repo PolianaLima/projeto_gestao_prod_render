@@ -6,6 +6,7 @@ import ModalCancelar from "@/components/modal/ModalCancelar";
 import {postProduto} from "@/api/produtosApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import {useFormModal} from "@/utils/hooks/useFormModalNewCadastro";
+import GroupButtonCadastro from "@/components/buttons_group/GroupButtonCadastro";
 
 const ROUTE_PATH = `/gestao-sgme/produtos`;
 
@@ -98,21 +99,11 @@ function Cadastro(props) {
 
                         )}
 
-                        <div className="d-sm-flex justify-content-end">
-                            <button className="btn btn-warning pe-3 ps-3 me-3"
-                                    onClick={(event) => {
-                                        event.preventDefault()
-                                        setStatusVisibleModalCancelar(true);
-                                    }}
-                            >CANCELAR
-                            </button>
-                            <button className="btn btn-success pe-4 ps-4"
-                                    onClick={(event) => {
-                                        event.preventDefault()
-                                        handleSubmit(onsubmit)();
-                                    }}>SALVAR
-                            </button>
-                        </div>
+                        <GroupButtonCadastro
+                            onSubmit={onsubmit}
+                            setStatusVisibleModalCancelar={setStatusVisibleModalCancelar}
+                            handleSubmit={handleSubmit}
+                        />
 
                         {loadingApi && (
                             <p className="p-2 text-success fw-bolder">

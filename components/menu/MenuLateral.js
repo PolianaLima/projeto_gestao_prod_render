@@ -53,7 +53,7 @@ function MenuLateral({children}) {
                                             <Link href="/gestao-sgme/fornecedores" className="nav-link px-0 ">
                                                 <i className="bi bi-box-seam-fill fs-5"></i>
                                                 <span
-                                                    className="d-none d-sm-inline "> Fornecedor</span> </Link>
+                                                    className="d-none d-sm-inline "> Fornecedores</span> </Link>
                                         </li>
                                     </ul>
                                 </li>

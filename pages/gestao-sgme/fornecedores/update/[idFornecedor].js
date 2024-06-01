@@ -1,23 +1,24 @@
-import HeadSgme from "@/components/head/HeadSgme";
+'use client';
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
-import {getClienteId, putCliente} from "@/api/clienteApi";
+import HeadSgme from "@/components/head/HeadSgme";
+import {useFormModalNewUpdate} from "@/utils/hooks/useFormNewUpdate";
+import {getFornecedorId, putFornecedor} from "@/api/fornecedoresApi";
 import MessageLoadingData from "@/components/message/messageLoadingData";
-import InputMask from "react-input-mask";
+import GroupButtonFormUpdate from "@/components/buttons_group/GroupButtonFormUpdate";
 import Image from "next/image";
 import ModalInfo from "@/components/modal/ModalInfo";
-import {handleApiError} from "@/utils/errors/handleErroApi";
 import ModalCancelar from "@/components/modal/ModalCancelar";
-import {useFormModalNewUpdate} from "@/utils/hooks/useFormNewUpdate";
-import GroupButtonFormUpdate from "@/components/buttons_group/GroupButtonFormUpdate";
+import {putCliente} from "@/api/clienteApi";
+import {handleApiError} from "@/utils/errors/handleErroApi";
 
-const ROUTE_PATH = '/gestao-sgme/clientes';
+const ROUTE_PATH = '/gestao-sgme/fornecedores';
 
-function UpdateCliente() {
-
+const UpdateFornecedor = () => {
     const router = useRouter();
-    const {idCliente} = router.query;
+    const {idFornecedor} = router.query;
 
+    console.log(idFornecedor)
     const {
         loadingData,
         setLoadingData,
@@ -43,64 +44,53 @@ function UpdateCliente() {
 
     }= useFormModalNewUpdate(ROUTE_PATH);
 
-
-    const [cliente, setCliente] = useState({});
-
-    //Pegando o dado do cliente
-    useEffect(() => {
-        fetchData();
-    }, [idCliente]);
+    const [fornecedor, setFornecedor] = useState({});
 
     const fetchData = async () => {
         try {
-            const data = await getClienteId(idCliente);
-            setCliente(data);
-        } catch (error) {
-            handleApiError(error, setErroApiMessage, setStatusErroApi)
-        } finally {
-            setLoadingData(false);
+            const data = await getFornecedorId(idFornecedor);
+            setFornecedor(data);
+        }catch (error) {
+
+        }finally {
+            setLoadingData(false)
         }
     }
 
+    useEffect(() => {
+        fetchData();
+    }, [idFornecedor]);
+
+    //Monitorando o estado do cliente
     const handleInputChange = (e) => {
-        setCliente({...cliente, [e.target.name]: e.target.value})
+        setFornecedor({...fornecedor, [e.target.name]: e.target.value})
     }
 
     const onSubmit = async () => {
         setLoadingApi(true)
         try {
-            await putCliente(idCliente, cliente);
+            await putFornecedor(idFornecedor, fornecedor);
             setStatusVisibleModal(true)
-        } catch (error) {
+        }catch (error) {
             handleApiError(error, setErroApiMessage, setStatusErroApi)
-        } finally {
+        }finally {
             setLoadingApi(false)
         }
     }
 
     return (
         <>
-            <HeadSgme title="SGME - Cliente"/>
+           <HeadSgme title="SGME - Alterando Fornecedor" />
             {loadingData ? (
-                <MessageLoadingData message="Carregando dados do cliente"/>
-            ) : (
+                <MessageLoadingData message="Carregando dados do cliente" />
+                ):(
                 <main className="m-5 border border-1 border-secondary-subtle mt-3">
                     <h3 className="bg-secondary-subtle p-2">
                         <i className="h3 bi bi-person-up"> </i>
-                        Alterar Cliente
+                        Alterar Fornecedor
                     </h3>
                     <div className="d-sm-flex justify-content-between w-100">
                         <form className="p-2 mt-3 w-100">
-                            <div className="d-flex mb-3">
-                                <label className="fw-bolder me-5 w-25" htmlFor="nome">Nome</label>
-                                <input type="text"
-                                       className="border border-1 border-secondary-subtle w-100 p-1"
-                                       disabled={statusInputDisabled}
-                                       name="nome"
-                                       value={cliente.nome}
-                                       onChange={handleInputChange}
-                                />
-                            </div>
                             <div className="d-flex mb-3">
                                 <label className="fw-bolder me-5 w-25" htmlFor="documento">Documento</label>
                                 <input type="text"
@@ -108,33 +98,18 @@ function UpdateCliente() {
                                        placeholder="CPF/CNPJ"
                                        disabled={statusInputDisabled}
                                        name="documento"
-                                       value={cliente.documento}
+                                       value={fornecedor.documento}
                                        onChange={handleInputChange}
                                 />
                             </div>
 
                             <div className="d-flex mb-3">
-                                <label className="fw-bolder me-5 w-25" htmlFor="telefone">Telefone</label>
-                                <InputMask
-                                    mask="(99) 99999-9999"
-                                    maskChar="_"
-                                    placeholder="Telefone/Celular"
-                                    className="form-control"
-                                    name="telefone"
-                                    disabled={statusInputDisabled}
-                                    value={cliente.telefone}
-                                    onChange={handleInputChange}
-                                />
-                            </div>
-
-                            <div className="d-flex mb-3">
-                                <label className="fw-bolder me-5 w-25" htmlFor="data_nascimento">Data de
-                                    Nasc</label>
-                                <input type="date"
+                                <label className="fw-bolder me-5 w-25" htmlFor="nome">Nome</label>
+                                <input type="text"
                                        className="border border-1 border-secondary-subtle w-100 p-1"
                                        disabled={statusInputDisabled}
-                                       name="data_nascimento"
-                                       value={cliente.data_nascimento}
+                                       name="nome"
+                                       value={fornecedor.nome}
                                        onChange={handleInputChange}
                                 />
                             </div>
@@ -148,7 +123,7 @@ function UpdateCliente() {
                                                id="ativo"
                                                name="status"
                                                value="ATIVO"
-                                               checked={cliente.status === "ATIVO"}
+                                               checked={fornecedor.status === "ATIVO"}
                                                onChange={handleInputChange}
                                         />
                                         <label htmlFor="ATIVO">Ativo</label>
@@ -158,7 +133,7 @@ function UpdateCliente() {
                                                id="inativo"
                                                name="status"
                                                value="INATIVO"
-                                               checked={cliente.status === "INATIVO"}
+                                               checked={fornecedor.status === "INATIVO"}
                                                onChange={handleInputChange}
                                                className="me-3"
                                         />
@@ -166,14 +141,6 @@ function UpdateCliente() {
                                     </div>
                                 </div>
                             </div>
-
-                            {statusErroApi && (
-                                <p className="p-2 text-danger fw-bolder">
-                                    <i className="bi bi-exclamation-triangle"> </i>
-                                    {erroApiMessage}
-                                </p>
-
-                            )}
 
                             <GroupButtonFormUpdate
                                 onSubmit={onSubmit}
@@ -185,17 +152,17 @@ function UpdateCliente() {
                                 statusButtonEditar={statusButtonEditar}
                             />
 
-
-                            {loadingApi && (
-                                <p className="p-2 text-success fw-bolder">
-                                    <i className="bi bi-info-circle"> </i>
-                                    Salvando cliente, aguarde...
+                            {statusErroApi && (
+                                <p className="p-2 text-danger fw-bolder">
+                                    <i className="bi bi-exclamation-triangle"> </i>
+                                    {erroApiMessage}
                                 </p>
+
                             )}
                         </form>
 
                         <div className="w-100 d-flex justify-content-center">
-                            <Image src="/assets/img/icone_cad_cliente.svg"
+                            <Image src="/assets/img/icone_cad_fornecedor.png"
                                    alt="Cadastro de Cliente"
                                    width="0"
                                    height="0"
@@ -204,10 +171,9 @@ function UpdateCliente() {
                                    style={{width: "60%", height: "auto"}}/>
                         </div>
                     </div>
-
                     <ModalInfo statusVisibleModal={statusVisibleModal}
                                toggleModal={toggleModal}
-                               message="Cliente Alterado com sucesso"/>
+                               message="Fornecedor Alterado com sucesso"/>
 
                     <ModalCancelar message="Deseja descartar as alterações?"
                                    toggleModal={toggleModalCancelar}
@@ -220,4 +186,4 @@ function UpdateCliente() {
     )
 }
 
-export default UpdateCliente;
+export default UpdateFornecedor;
