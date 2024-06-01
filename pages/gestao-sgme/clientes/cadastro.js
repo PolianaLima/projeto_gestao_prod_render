@@ -1,38 +1,34 @@
-import React, {useState} from 'react';
-import {useForm} from "react-hook-form";
+import React from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
 import Image from "next/image";
 import InputMask from "react-input-mask";
 import ModalInfo from "@/components/modal/ModalInfo";
-import {useRouter} from "next/router";
 import {postCliente} from "@/api/clienteApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
-import {toggleModalCancelarController, toggleModalController} from "@/utils/controller/modal";
 import ModalCancelar from "@/components/modal/ModalCancelar";
+import {useFormModal} from "@/utils/hooks/useFormModalNewCadastro";
 
 const ROUTE_PATH = `/gestao-sgme/clientes`;
 
 function Cadastro(props) {
-    const router = useRouter();
+
     const {
         register,
         handleSubmit,
-        formState: erros
-    } = useForm()
-    const [loadingApi, setLoadingApi] = useState(false);
-    const [statusErroApi, setStatusErroApi] = useState("");
-    const [erroApiMessage, setErroApiMessage] = useState("");
-
-    const [statusVisibleModal, setStatusVisibleModal] = useState(false);
-    const [statusVisibleModalCancelar, setStatusVisibleModalCancelar] = useState(false);
-
-    const toggleModalCancelar = () => {
-        toggleModalCancelarController(setStatusVisibleModalCancelar, statusVisibleModalCancelar, ROUTE_PATH)
-    }
-
-    const toggleModal = () => {
-        toggleModalController(setStatusVisibleModal, statusVisibleModal, ROUTE_PATH)
-    }
+        errors,
+        loadingApi,
+        setLoadingApi,
+        statusErroApi,
+        setStatusErroApi,
+        erroApiMessage,
+        setErroApiMessage,
+        statusVisibleModal,
+        setStatusVisibleModal,
+        statusVisibleModalCancelar,
+        setStatusVisibleModalCancelar,
+        toggleModalCancelar,
+        toggleModal
+    } = useFormModal(ROUTE_PATH);
 
     const verificaTelefone = (telefone) => {
         if (telefone) {
@@ -69,12 +65,19 @@ function Cadastro(props) {
                             <label className="fw-bolder me-5 w-25" htmlFor="nome">Nome</label>
                             <input type="text"
                                    className="border border-1 border-secondary-subtle w-100 p-1"
-                                   {...register('nome')}/>
+                                   placeholder= "Digite o nome do cliente"
+                                   {...register('nome', {required:true})}/>
                         </div>
+
+                        {errors.nome && (
+                            <p className="text-danger fw-bolder">Campo obrigatório</p>
+                        )}
+
                         <div className="d-flex mb-3">
                             <label className="fw-bolder me-5 w-25" htmlFor="documento">Documento</label>
                             <input type="text"
-                                   className="border border-1 border-secondary-subtle w-100 p-1"  {...register('documento')}/>
+                                   className="border border-1 border-secondary-subtle w-100 p-1"
+                                   {...register('documento')}/>
                         </div>
 
                         <div className="d-flex mb-3">
@@ -91,8 +94,13 @@ function Cadastro(props) {
                         <div className="d-flex mb-3">
                             <label className="fw-bolder me-5 w-25" htmlFor="data_nascimento">Data de Nasc</label>
                             <input type="date"
-                                   className="border border-1 border-secondary-subtle w-100 p-1" {...register('data_nascimento')}/>
+                                   className="border border-1 border-secondary-subtle w-100 p-1"
+                                   {...register('data_nascimento', {required:true})}/>
                         </div>
+
+                        {errors.data_nascimento && (
+                            <p className="text-danger fw-bolder">Campo obrigatório</p>
+                        )}
 
                         {statusErroApi && (
                             <p className="p-2 text-danger fw-bolder">

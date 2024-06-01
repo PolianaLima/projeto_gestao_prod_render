@@ -8,17 +8,45 @@ import Image from "next/image";
 import ModalInfo from "@/components/modal/ModalInfo";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import ModalCancelar from "@/components/modal/ModalCancelar";
-import {toggleModalCancelarController, toggleModalController} from "@/utils/controller/modal";
+import {useFormModalNewUpdate} from "@/utils/hooks/useFormNewUpdate";
+import GroupButtonFormUpdate from "@/components/buttons_group/GroupButtonFormUpdate";
 
 const ROUTE_PATH = '/gestao-sgme/clientes';
 
 function UpdateCliente() {
+
     const router = useRouter();
+    const {idCliente} = router.query;
+
+    const {
+        loadingData,
+        setLoadingData,
+        loadingApi,
+        setLoadingApi,
+        statusButtonSalvar,
+        setStatusButtonSalvar,
+        statusButtonEditar,
+        setStatusButtonEditar,
+        statusInputDisabled,
+        setStatusInputDisabled,
+        erroApiMessage,
+        setErroApiMessage,
+        statusErroApi,
+        setStatusErroApi,
+        statusVisibleModal,
+        setStatusVisibleModal,
+        statusVisibleModalCancelar,
+        setStatusVisibleModalCancelar,
+        toggleModalCancelar,
+        toggleModal,
+        concelar
+
+    }= useFormModalNewUpdate(ROUTE_PATH);
+
+
+   /* const router = useRouter();
     const [loadingData, setLoadingData] = useState(true);
     const [loadingApi, setLoadingApi] = useState(false);
-
-    const {idCliente} = router.query;
-    const [cliente, setCliente] = useState({});
 
     const [statusButtonSalvar, setStatusButtonSalvar] = useState(true);
     const [statusButtonEditar, setStatusButtonEditar] = useState(true);
@@ -28,8 +56,11 @@ function UpdateCliente() {
     const [statusErroApi, setStatusErroApi] = useState(false);
 
     const [statusVisibleModal, setStatusVisibleModal] = useState(false);
-    const [statusVisibleModalCancelar, setStatusVisibleModalCancelar] = useState(false);
+    const [statusVisibleModalCancelar, setStatusVisibleModalCancelar] = useState(false);*/
 
+
+
+    const [cliente, setCliente] = useState({});
 
     //Pegando o dado do cliente
     useEffect(() => {
@@ -52,7 +83,7 @@ function UpdateCliente() {
         setCliente({...cliente, [e.target.name]: e.target.value})
     }
 
-    const onsubmit = async () => {
+    const onSubmit = async () => {
         setLoadingApi(true)
         try {
             await putCliente(idCliente, cliente);
@@ -64,7 +95,7 @@ function UpdateCliente() {
         }
     }
 
-    const toggleModalCancelar = () => {
+ /*   const toggleModalCancelar = () => {
         toggleModalCancelarController(setStatusVisibleModalCancelar, statusVisibleModalCancelar, ROUTE_PATH)
     }
 
@@ -78,7 +109,7 @@ function UpdateCliente() {
         } else {
             router.push(ROUTE_PATH);
         }
-    }
+    }*/
 
     return (
         <>
@@ -177,34 +208,16 @@ function UpdateCliente() {
 
                             )}
 
-                            <div className="d-sm-flex justify-content-end">
-                                <button className="btn btn-warning pe-3 ps-3 me-3"
-                                        onClick={(event) => {
-                                            event.preventDefault()
-                                            concelar();
-                                        }}
-                                >CANCELAR
-                                </button>
+                            <GroupButtonFormUpdate
+                                onSubmit={onSubmit}
+                                concelar={concelar}
+                                setStatusButtonEditar={setStatusButtonEditar}
+                                setStatusButtonSalvar={setStatusButtonSalvar}
+                                setStatusInputDisabled={setStatusInputDisabled}
+                                statusButtonSalvar={statusButtonSalvar}
+                                statusButtonEditar={statusButtonEditar}
+                            />
 
-                                {!statusButtonSalvar && (
-                                    <button className="btn btn-success pe-4 ps-4"
-                                            onClick={(event) => {
-                                                event.preventDefault()
-                                                onsubmit();
-                                            }}>SALVAR
-                                    </button>
-                                )}
-                                {statusButtonEditar && (
-                                    <button className="btn btn-success pe-4 ps-4"
-                                            onClick={(event) => {
-                                                event.preventDefault();
-                                                setStatusButtonSalvar(false);
-                                                setStatusButtonEditar(false);
-                                                setStatusInputDisabled(false);
-                                            }}>EDITAR
-                                    </button>
-                                )}
-                            </div>
 
                             {loadingApi && (
                                 <p className="p-2 text-success fw-bolder">
@@ -224,6 +237,7 @@ function UpdateCliente() {
                                    style={{width: "60%", height: "auto"}}/>
                         </div>
                     </div>
+
                     <ModalInfo statusVisibleModal={statusVisibleModal}
                                toggleModal={toggleModal}
                                message="Cliente Alterado com sucesso"/>
