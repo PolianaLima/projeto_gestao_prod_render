@@ -75,8 +75,6 @@ function Index() {
         totalTransacoes: vendas.length
     };
 
-    console.log(totalVendas)
-
     return (
         <>
             <HeadSgme title="SGME - PDV"/>

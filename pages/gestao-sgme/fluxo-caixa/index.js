@@ -14,7 +14,7 @@ import GraficoVendasFluxoFinanceiro from "@/components/graficos/GraficoVendasFlu
 import ModalCheckoutFechado from "@/components/modal/ModalCheckoutFechado";
 import {getVendasCheckout} from "@/api/vendasApi";
 
-const ROUTE_PATH = "/gestao-sgme/pdv"
+const ROUTE_PATH = "/"
 
 function Index() {
 
@@ -99,7 +99,7 @@ function Index() {
                            <ModalCheckoutFechado
                                statusVisibleModal={statusVisibleModal}
                                setStatusVisibleModal={setStatusVisibleModal}
-                               urlNewCheckout = {`${ROUTE_PATH}/fluxo-caixa/novo-caixa`}
+                               urlNewCheckout = {`${ROUTE_PATH}/gestao-sgme/fluxo-caixa/novo-caixa`}
                                urlDashboard={ROUTE_PATH}
                                message="Não tem caixa em aberto, deseja abrir o caixa?"
                            />
