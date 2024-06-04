@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from 'react';
-import {getUserFromCookie, removeUserFromCookie, saveUserToCookie} from "@/utils/Cookies";
+import {getUserFromCookie, removeUserFromCookie, saveUserToCookie} from "../utils/Cookies";
 import {useRouter} from "next/router";
 
 const AuthContext = createContext();

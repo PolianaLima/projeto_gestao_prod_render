@@ -1,110 +1,68 @@
-import Head from "next/head";
+import React from "react";
 import Image from "next/image";
-import {useForm} from "react-hook-form";
-import {useRouter} from "next/router";
-import {http} from "@/utils/http";
-import React, {useState} from "react";
+import CardImagemButton from "@/components/cards/CardImagemButton";
 import {useAuth} from "@/context/authContext";
-import axios from "axios";
 import HeadSgme from "@/components/head/HeadSgme";
+
+// Custom hook for login logic
 
 function Index(props) {
 
-    const router = useRouter();
-
-    const {login, token} = useAuth();
-
-
-    const {
-        register,
-        handleSubmit,
-        formState: {errors}
-    } = useForm();
-
-    const [erroLogin, setErroLogin] = useState(false);
-    const [erroLoginMessage, setErroLoginMessage] = useState("");
-
-    
-    const onSubmit = async (data) => {
-        const response = http.post(
-            "/auth/login",
-            data
-        )
-            .then((response) => {
-                login(response.data)
-                router.push("/gestao-sgme")
-            })
-            .catch((error) => {
-                if (axios.isAxiosError(error) && error.response) {
-                    setErroLogin(true)
-                    setErroLoginMessage(error.response.data.message);
-                } else {
-                    setErroLogin(true)
-                    setErroLoginMessage("Servidor indisponível, tente novamente mais tarde!", error.message)
-                }
-            });
-
-    }
+    const {user} = useAuth();
 
     return (
         <>
-            <HeadSgme title="SGME - Login" />
+            <HeadSgme title="SGME - Dashboard"/>
 
-            <main className="container-sm">
+            <main className="mt-5">
+                <section
+                    className="container d-sm-flex flex-sm-column align-items-center justify-content-center pb-5"
+                >
 
-                <div
-                    className="container-sm  d-sm-flex  justify-content-center align-items-center pt-2">
-                    <div className="mobile-styles-login">
-                        <Image
-                            src="/img/ICON-LOGIN.jpg"
-                            width={350}
-                            height={350}
-                            alt="contatoform"
-                            priority={true}
-                        />
-                    </div>
-                    <div className="" style={{minWidth:300} }>
-                        <div className="mb-5">
-                            <h2 className="text-center ">LOGIN</h2>
-                        </div>
-
-                        <div className=" w-100 ">
-                            <input
-                                type="usuário"
-                                className="form-control  mb-4  border-primary"
-                                id="login"
-                                placeholder="Email"
-                                {...register("login", {required: true})}
-                            />
-                            {errors?.login?.type === "required" && (
-                                <p className=" text-danger fw-bold">Email Obrigatório!</p>
-                            )}
-
-                            <input
-                                type="password"
-                                className="form-control mb-4 border-primary"
-                                id="senha"
-                                placeholder="Senha"
-                                {...register("senha", {required: true})}
-                            />
-
-                            {errors?.senha?.type === "required" && (
-                                <p className=" text-danger fw-bold">Senha Obrigatório!</p>
-                            )}
-
-                            <button className="btn btn-primary w-100 mb-3" onClick={(e) => {
-                                e.preventDefault()
-                                handleSubmit(onSubmit)()}}>
-                                Entrar
-                            </button>
-                            {erroLogin === true ? (
-                                <p className="alert alert-danger">{erroLoginMessage}</p>) : ("")}
+                    <div className="d-sm-flex justify-content-center align-items-center">
+                        <div>
+                            <h1 className="w-100 text-center">SEJA BEM VINDO(A)</h1>
+                            <h3 className="mb-5 text-center">{user.nome}</h3>
                         </div>
                     </div>
-                </div>
+
+                    <p className="fw-bolder text-app-sgme fs-2">Menu Rapido</p>
+                    <div className="container-sm d-sm-flex flex-wrap justify-content-between">
 
 
+                        <CardImagemButton
+                            link="/gestao-sgme/pdv"
+                            img="/assets/img/icone_pdv_venda.svg"
+                            titleLink="Nova Venda"/>
+
+                        <CardImagemButton
+                            link="/gestao-sgme/produtos/cadastro"
+                            img="/assets/img/icone_cad_produto.svg"
+                            titleLink="Novo Produto"/>
+
+                        <CardImagemButton
+                            link="/gestao-sgme/clientes/cadastro"
+                            img="/assets/img/icone_cad_cliente.svg"
+                            titleLink="Novo Cliente"/>
+
+                        <CardImagemButton
+                            link="/gestao-sgme/fornecedores/cadastro"
+                            img="/assets/img/icone_cad_fornecedor.png"
+                            titleLink="Novo Fornecedor"/>
+
+                        <CardImagemButton
+                            link="/gestao-sgme/financeiro/contas-a-pagar/cadastro"
+                            img="/assets/img/icone_contas_pagar.svg"
+                            titleLink="Nova Despesa"/>
+
+                        <CardImagemButton
+                            link="/gestao-sgme/financeiro/contas-a-receber/cadastro"
+                            img="/assets/img/icone_contas_receber.svg"
+                            titleLink="Nova Receita"/>
+                    </div>
+                </section>
             </main>
+
         </>
     );
 }

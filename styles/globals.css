@@ -1,8 +1,33 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 *{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     color: #393939;
+    font-family: 'Roboto', sans-serif;
+    font-weight:400 ;
+    font-size: 17px;
+
+}
+
+.form-controll-sgme{
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 0.375rem 0.75rem;
+    width: 100%;
+}
+
+.style-heigth-90vh{
+    height: 90vh;
+}
+
+.style-heigth-65vh{
+    height: 60vh;
+}
+
+.style-heigth-100vh{
+    height: 90%;
 }
 
 .link{
@@ -12,22 +37,12 @@
 .tip-before::before{
     content: "";
     display: inline-block;
-    width: 50px;
-    height: 10px;
-    margin-right: 20px;
-    background: #ff5510;
+    width: 10px;
+    height: 100%;
+    margin-right: 5px;
+    margin-left: 0;
+    background: #4682B4;
 
-}
-
-
-.tip-before::after{
-    content: "";
-    display: inline-block;
-    width: 50px;
-    height: 10px;
-    margin-left: 20px;
-    margin-bottom: 20px;
-    background: #ff5510;
 }
 
 .text-paleta_laranja{
@@ -36,6 +51,10 @@
 
 .paleta_Azul{
     color: #4682B4;
+}
+
+.bg-paleta_Azul{
+    background-color: #4682B4;
 }
 
 .pointer-cursor{

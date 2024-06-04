@@ -1,145 +1,193 @@
 import HeadSgme from "@/components/head/HeadSgme";
-import {useForm} from "react-hook-form";
-import FormFiltroDados from "@/components/componentes_financeiro/FormFiltroDados";
-import DashComponentReceitas from "@/components/componentes_financeiro/DashComponentReceitas";
-import DashComponentDespesas from "@/components/componentes_financeiro/DashComponentDespesas";
-import {getReceitasData} from "@/utils/getReceitas";
-import {useEffect, useState} from "react";
-import {getDespesasData} from "@/utils/getDespesas";
-import {formatISO} from "date-fns";
+import React, {useEffect, useState} from "react";
+import {handleApiError} from "@/utils/errors/handleErroApi";
+import {useFormListFinanceiro} from "@/utils/hooks/useFormListFinanceiro";
+import {finalizarCheckout, getCheckout} from "@/api/checkoutApi";
+import {format, parseISO} from "date-fns";
+import {ptBR} from "date-fns/locale";
+import MessageLoadingData from "@/components/message/messageLoadingData";
+import DashboadDadosFechamentoCaixa from "@/components/financeiro/DashboardDadosFechamentoCaixa";
+import ModalFecharCaixa from "@/components/modal/ModalFecharCaixa";
+import ModalInfo from "@/components/modal/ModalInfo";
+import {toggleModalController} from "@/utils/controller/modal";
+import GraficoVendasFluxoFinanceiro from "@/components/graficos/GraficoVendasFluxoFinanceiro";
+import ModalCheckoutFechado from "@/components/modal/ModalCheckoutFechado";
+import {getVendasCheckout} from "@/api/vendasApi";
+
+const ROUTE_PATH = "/gestao-sgme/pdv"
 
 function Index() {
-    const [receitas, setReceitas] = useState([]);
-    const [despesas, setDespesas] = useState([]);
-    const [loadingData, setLoadingData] = useState(false);
 
+    const [checkout, setCheckout] = useState([]);
+    const [vendas, setVendas] = useState([]);
 
-    const [dataFiltro, setdataFiltro] = useState({
-        dataInicial: formatISO(new Date(), {representation: 'date'}),
-        dataFinal: formatISO(new Date(), {representation: 'date'}),
-        status: ""
-    });
 
     const {
-        register,
-        handleSubmit,
-        formState: {errors}
-    } = useForm();
+        erroApiMessage,
+        setErroApiMessage,
+        statusErroApi,
+        loading,
+        setLoading,
+        setStatusErroApi,
+        statusVisibleModal,
+        setStatusVisibleModal,
+        setStatusVisibleModalCancelar,
+        statusVisibleModalCancelar,
+        id,
+        setId,
+        loadingApi,
+        setLoadingApi
+    } = useFormListFinanceiro()
 
 
     useEffect(() => {
         const getData = async () => {
-            setLoadingData(true);
+            setLoading(true);
             try {
-                const receitasData = await getReceitasData();
-                setReceitas(receitasData);
+                const checkoutData = await getCheckout();
+                setCheckout(checkoutData);
 
-                const despesasData = await getDespesasData();
-                setDespesas(despesasData)
+                const vendasData = await getVendasCheckout(checkoutData.id);
+                setVendas(vendasData);
             } catch (error) {
-                console.error("Erro ao buscar dados", error);
+                handleApiError(error, setErroApiMessage, setStatusErroApi);
+                setStatusVisibleModal(true);
             } finally {
-                setLoadingData(false);
+                setLoading(false);
             }
         };
 
         getData();
-    }, []);
+    }, [setErroApiMessage, setLoading, setStatusErroApi, setStatusVisibleModal]);
 
-
-    const filtrarDados = async (data) => {
-        setdataFiltro(data);
+    const totalVendas = {
+        total: vendas.reduce((acc, venda) => acc + venda.valor_total, 0),
+        totalPix: vendas.reduce((acc, venda) => acc + (venda.forma_pagamento === "PIX" ? venda.valor_total : 0), 0),
+        totalDinheiro: vendas.reduce((acc, venda) => acc + (venda.forma_pagamento === "DINHEIRO" ? venda.valor_total : 0), 0),
+        totalCartao: vendas.reduce((acc, venda) => acc + (venda.forma_pagamento === "CARTAO" ? venda.valor_total : 0), 0),
+        totalBoleto: vendas.reduce((acc, venda) => acc + (venda.forma_pagamento === "BOLETO" ? venda.valor_total : 0), 0),
+        totalTransacoes: vendas.length
     };
 
-    const receitasFiltradas = receitas.filter(receita => {
-
-        const {dataInicial, dataFinal, status} = dataFiltro;
-        if (!dataInicial && !dataFinal && !status) return false;
-
-        // Lógica de filtro para dataInicial
-        if (dataInicial && new Date(receita.data_created) < new Date(dataInicial)) {
-            return false;
+    const onConfirmar = async (id) => {
+        setLoadingApi(true);
+        try {
+            await finalizarCheckout(id);
+            toggleModal()
+        } catch (error) {
+            handleApiError(error, setErroApiMessage, setStatusErroApi);
+        } finally {
+            setLoadingApi(false);
         }
+    }
 
-        // Lógica de filtro para dataFinal
-        if (dataFinal && new Date(receita.data_created) > new Date(dataFinal)) {
-            return false;
-        }
-
-        // Lógica de filtro para status
-        if (status && receita.status !== status) {
-            return false;
-        }
-
-        return true; // Retorna true se a receita passar por todos os filtros
-    });
-    const despesasFiltradas = despesas.filter(despesa => {
-
-        const {dataInicial, dataFinal, status} = dataFiltro;
-        if (!dataInicial && !dataFinal && !status) return false;
-
-        // Lógica de filtro para dataInicial
-        if (dataInicial && new Date(despesa.data_created) < new Date(dataInicial)) {
-            return false;
-        }
-
-        // Lógica de filtro para dataFinal
-        if (dataFinal && new Date(despesa.data_created) > new Date(dataFinal)) {
-            return false;
-        }
-
-        // Lógica de filtro para status
-        if (status && despesa.status !== status) {
-            return false;
-        }
-
-        return true; // Retorna true se a receita passar por todos os filtros
-    });
-
-    const totalReceitas = {
-        total: receitasFiltradas.reduce((acc, receita) => acc + receita.valor, 0),
-        totalPix: receitasFiltradas.reduce((acc, receita) => acc + (receita.forma_pagamento === "PIX" ? receita.valor : 0), 0),
-        totalDinheiro: receitasFiltradas.reduce((acc, receita) => acc + (receita.forma_pagamento === "DINHEIRO" ? receita.valor : 0), 0),
-        totalCartao: receitasFiltradas.reduce((acc, receita) => acc + (receita.forma_pagamento === "CARTAO" ? receita.valor : 0), 0),
-        totalBoleto: receitasFiltradas.reduce((acc, receita) => acc + (receita.forma_pagamento === "BOLETO" ? receita.valor : 0), 0),
-        totalTransacoes: receitasFiltradas.length
-    };
-
-    const totalDespesas = {
-        total: despesasFiltradas.reduce((acc, despesa) => acc + despesa.valor, 0),
-        totalPix: despesasFiltradas.reduce((acc, despesa) => acc + (despesa.forma_pagamento === "PIX" ? despesa.valor : 0), 0),
-        totalDinheiro: despesasFiltradas.reduce((acc, despesa) => acc + (despesa.forma_pagamento === "DINHEIRO" ? despesa.valor : 0), 0),
-        totalCartao: despesasFiltradas.reduce((acc, despesa) => acc + (despesa.forma_pagamento === "CARTAO" ? despesa.valor : 0), 0),
-        totalBoleto: despesasFiltradas.reduce((acc, despesa) => acc + (despesa.forma_pagamento === "BOLETO" ? despesa.valor : 0), 0),
-        totalTransacoes: despesasFiltradas.length
+    const toggleModal = () => {
+        toggleModalController(setStatusVisibleModal, statusVisibleModal, ROUTE_PATH)
     }
 
     return (
-        <div>
+        <>
             <HeadSgme title="SGME - Fluxo caixa Diario"/>
-            <main className="container">
-                <h1>Fluxo de caixa diário</h1>
 
-                <div>
-                    <FormFiltroDados filtrarDados={filtrarDados}/>
-                </div>
+            {loading ? (
+                <MessageLoadingData message="Carregando dados "/>
+            ) : (
+                <>
+                    {statusErroApi ? (
 
-                <div className="d-sm-flex justify-content-between ">
-                    <DashComponentReceitas receitas={totalReceitas}/>
-                    <DashComponentDespesas despesas={totalDespesas}/>
-                </div>
+                        <div>
+                           <ModalCheckoutFechado
+                               statusVisibleModal={statusVisibleModal}
+                               setStatusVisibleModal={setStatusVisibleModal}
+                               urlNewCheckout = {`${ROUTE_PATH}/fluxo-caixa/novo-caixa`}
+                               urlDashboard={ROUTE_PATH}
+                               message="Não tem caixa em aberto, deseja abrir o caixa?"
+                           />
+                        </div>
+                    ): (
+                        <main className="m-2 mt-5 d-flex justify-content-between">
+                            <div className="w-100">
+                                <h1>Controle de caixa</h1>
+                                <p className="fw-bolder">
+                                    <i className="fw-bolder bi  bi-calendar-date"> </i>
+                                    Periodo: <span>{format(parseISO(checkout.data_created), 'dd/MM/yyyy', {locale: ptBR})} </span>
+                                    : até agora</p>
+                                <p className="fw-bolder"><i className="fw-bolder bi bi-cash"> </i>
+                                    Abertura de
+                                    caixa {checkout.valor_inicial.toLocaleString('pt-br', {
+                                        style: 'currency',
+                                        currency: 'BRL'
+                                    })}
+                                </p>
 
-                <hr/>
-                <h3>Resumo do caixa</h3>
-                <div>
-                    <p className="text-success fw-bold">Entradas : {totalReceitas.total.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}</p>
-                    <p className="text-danger fw-bold">Saidas : {totalDespesas.total.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}</p>
-                    <p className="fw-bold">Saldo : {(totalReceitas.total-totalDespesas.total).toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})}</p>
-                </div>
+
+                                <div className="d-sm-flex justify-content-between ">
+                                    <div className="d-flex border shadow p-3 w-100">
+                                        <DashboadDadosFechamentoCaixa dados={totalVendas} title="Vendas"/>
+                                    </div>
+
+                                </div>
+
+                                <hr/>
+                                <h4>Resumo do caixa (Dinheiro)</h4>
+                                <div>
+                                    <p className="fw-bold d-flex justify-content-between">Valor Total de vendas
+                                        :<span>{totalVendas.totalDinheiro.toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        })}</span></p>
+                                    <p className="fw-bold d-flex justify-content-between">Abertura de caixa
+                                        : <span>{checkout.valor_inicial.toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        })}</span></p>
+                                    <p className="fw-bold bg-paleta_Azul d-flex justify-content-between p-2 text-white">Saldo
+                                        Final do Caixa ( Dinheiro)
+                                        :<span
+                                            className="fw-bolder text-white">{(totalVendas.totalDinheiro + checkout.valor_inicial).toLocaleString('pt-br', {
+                                            style: 'currency',
+                                            currency: 'BRL'
+                                        })}</span></p>
+                                </div>
+
+                                <button className="btn btn-success"
+                                        onClick={(event) => {
+                                            event.preventDefault()
+                                            setId(checkout.id)
+                                            setStatusVisibleModal(true)
+                                        }}
+                                >FINALIZAR CAIXA
+                                </button>
+                            </div>
+                            <div className="w-100 d-flex align-items-center justify-content-center">
+                                <GraficoVendasFluxoFinanceiro totalVendas={totalVendas}/>
+
+                            </div>
+
+                            <ModalFecharCaixa loadingApi={loadingApi}
+                                              id={checkout.id}
+                                              setStatusVisibleModal={setStatusVisibleModal}
+                                              statusVisibleModal={statusVisibleModal}
+                                              message="Deseja realmente fechar o caixa?"
+                                              onConfirmar={onConfirmar}
+                            />
+
+                            <ModalInfo
+                                statusVisibleModal={statusErroApi}
+                                message="Caixa finalizado com Sucesso"
+                                setStatusVisibleModal={setStatusErroApi}
+                                toggleModal={toggleModal}
+                            />
+
+                        </main>
+                    )}
+
+                </>
 
 
-            </main>
-        </div>
+            )}
+
+        </>
     )
 }
 

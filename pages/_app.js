@@ -1,8 +1,9 @@
-import '@/styles/globals.css';
+import '../styles/globals.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import {useEffect} from "react";
-import {AuthProvider} from "@/context/authContext";
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import MainContainer from "@/components/MainContainer";
+import {AuthProvider} from "@/context/authContext";
 
 
 export default function App({Component, pageProps}) {
@@ -11,6 +12,7 @@ export default function App({Component, pageProps}) {
     }, []);
     return (
         <AuthProvider>
+
             <MainContainer>
                 <Component {...pageProps} />
             </MainContainer>

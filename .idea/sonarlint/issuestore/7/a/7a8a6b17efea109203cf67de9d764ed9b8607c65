@@ -1,0 +1,11 @@
+
+ejavascript:S1128"$Remove this unused import of 'Head'.(›„ÒSJ$857d9260-952b-48ec-8792-e9bf7d45cbf6
+gjavascript:S1128	"&Remove this unused import of 'format'.(ÀÆ¹FJ$21679193-860d-43e9-b55c-fd550c93c0e4
+hjavascript:S1128	"'Remove this unused import of 'isAfter'.(ÀÆ¹FJ$b453c962-c36d-48c7-b81a-c3921f96d1c6
+ijavascript:S1128	"(Remove this unused import of 'parseISO'.(ÀÆ¹FJ$8bf2306f-eaae-4672-bd9e-fcd97f08655d
+|javascript:S6754":useState call is not destructured into value + setter pair(„œØÎJ$bdcc055c-0660-448b-a150-f9153fd7b904
+~javascript:S1481"7Remove the declaration of the unused 'status' variable.(””ùÃùÿÿÿÿJ$c8ecf37c-55dd-4272-9053-6d2cd706c472
+{javascript:S1854"4Remove this useless assignment to variable "status".(””ùÃùÿÿÿÿJ$60527e41-44ec-4cb2-9330-3abeebf25708
+javascript:S1481D":Remove the declaration of the unused 'dataAtual' variable.(ÒËç“ùÿÿÿÿJ$a0e8f5a8-c8bf-4a07-a407-fbf886558cfe
+~javascript:S1854D"7Remove this useless assignment to variable "dataAtual".(ÒËç“ùÿÿÿÿJ$f1b7179e-dd6c-4d85-9a52-406339bb0c00
+qjavascript:S6853S"/A form label must be associated with a control.(¡ÃâãJ$08d885e7-07a9-425b-94bc-27117a75fd62

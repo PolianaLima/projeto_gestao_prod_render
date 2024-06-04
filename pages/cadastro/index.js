@@ -1,12 +1,11 @@
 'use client';
 import React, {useState} from 'react';
-import Head from "next/head";
 import Image from "next/image";
 import {useForm} from "react-hook-form";
 import axios from "axios";
 import {http} from "@/utils/http";
 import Link from "next/link";
-import { useRouter } from 'next/router';
+import {useRouter} from 'next/router';
 import HeadSgme from "@/components/head/HeadSgme";
 
 function Index(props) {

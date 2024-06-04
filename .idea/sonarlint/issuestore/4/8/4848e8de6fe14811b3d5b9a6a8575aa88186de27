@@ -1,0 +1,8 @@
+
+|javascript:S6754":useState call is not destructured into value + setter pair(„œØÎJ$ed0b07df-7b9c-42ca-83fa-79c7f3911254
+~javascript:S1481"7Remove the declaration of the unused 'status' variable.(””ùÃùÿÿÿÿJ$40284852-79be-4062-b084-0cde8aedcd6a
+{javascript:S1854"4Remove this useless assignment to variable "status".(””ùÃùÿÿÿÿJ$784d67df-9a99-4943-9be3-989d19eaaae0
+javascript:S1481":Remove the declaration of the unused 'setStatus' variable.(””ùÃùÿÿÿÿJ$be44ac7d-e3ac-41c6-b4d2-e5c94bd61785
+~javascript:S1854"7Remove this useless assignment to variable "setStatus".(””ùÃùÿÿÿÿJ$600533f3-5f5a-4731-a989-17eeb54082ac
+}javascript:S1481"6Remove the declaration of the unused 'reset' variable.(Å¾›‰üÿÿÿÿJ$7abe0ac1-1093-4cfe-b846-7c2d958074a8
+zjavascript:S1854"3Remove this useless assignment to variable "reset".(Å¾›‰üÿÿÿÿJ$6402793e-3116-432a-b58a-3b5fc6055c78

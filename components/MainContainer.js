@@ -1,24 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useAuth} from "@/context/authContext";
-import MenuNavSgme from "@/components/menu-site/MenuNavSgme";
-import MenuNavSite from "@/components/menu-site/MenuNavSite";
-import Footer from "@/components/menu-site/Footer";
+import MenuLateral from "@/components/menu/MenuLateral";
+import Login from "@/pages/Login";
 
-function MainContainer({children}) {
 
+function MainContainer({children, Component}) {
     const {token, user} = useAuth();
-        return (
-            <div>
-                {user !== null ? (
-                    <MenuNavSgme/>
-                ) : (
-                    <MenuNavSite />
-                )}
-                <div className="min-vh mt-5" >{children}</div>
-
-                <Footer/>
-            </div>
-        );
+    return (
+        <div style={{height:'100vh'}}>
+            {user !== null ? (
+                <MenuLateral>
+                    {children}
+                </MenuLateral>
+            ) : (
+             <Login/>
+            )}
+        </div>
+    );
 }
 
 export default MainContainer;

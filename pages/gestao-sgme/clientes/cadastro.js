@@ -1,107 +1,88 @@
-import React, {useState} from 'react';
-import Head from "next/head";
-import {useForm} from "react-hook-form";
-import axios from "axios";
-import {useRouter} from "next/router";
-import {http} from "@/utils/http";
-import {getUserFromCookie} from "@/utils/Cookies";
-import InputMask from 'react-input-mask';
+import React from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
+import Image from "next/image";
+import InputMask from "react-input-mask";
+import ModalInfo from "@/components/modal/ModalInfo";
+import {postCliente} from "@/api/clienteApi";
+import {handleApiError} from "@/utils/errors/handleErroApi";
+import ModalCancelar from "@/components/modal/ModalCancelar";
+import {useFormModal} from "@/utils/hooks/useFormModalNewCadastro";
+import GroupButtonCadastro from "@/components/buttons_group/GroupButtonCadastro";
 
+const ROUTE_PATH = `/gestao-sgme/clientes`;
 
 function Cadastro(props) {
-    const [errorApi, setErroApi] = useState()
-    const [resultErro, setResultErro] = useState(false)
-    const [status, setStatus] = useState([false])
 
-    const router = useRouter();
     const {
         register,
         handleSubmit,
-        formState: {errors},
-        reset
-    } = useForm();
+        errors,
+        loadingApi,
+        setLoadingApi,
+        statusErroApi,
+        setStatusErroApi,
+        erroApiMessage,
+        setErroApiMessage,
+        statusVisibleModal,
+        setStatusVisibleModal,
+        statusVisibleModalCancelar,
+        setStatusVisibleModalCancelar,
+        toggleModalCancelar,
+        toggleModal
+    } = useFormModal(ROUTE_PATH);
 
-    const onSubmit = async (data) => {
-        const dataUser = getUserFromCookie();
-
-        const cpfCleaned = data.cpf.replace(/\D/g, '');
-        data.cpf = cpfCleaned;
-
-        if (data.telefone) {
-            const telefoneCleaned = data.telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
-            data.telefone = telefoneCleaned;
+    const verificaTelefone = (telefone) => {
+        if (telefone) {
+            const telefoneCleaned = telefone.replace(/\D/g, ''); // Remove caracteres não numéricos
+            return telefoneCleaned;
         }
+        return telefone;
+    }
 
-        data = {...data, usuario_id: dataUser.usuario.id}
-
+    const onsubmit = async (data) => {
+        verificaTelefone(data.telefone);
+        setLoadingApi(true)
         try {
-            await http.post('/clientes/cadastro', data, {
-                headers: {
-                    Authorization: `Bearer ${dataUser.token}`
-                }
-            })
-                .then((response) => {
-                    router.push('/gestao-sgme/clientes')
-                })
+            await postCliente(data);
+            setStatusVisibleModal(true)
         } catch (error) {
-            if (axios.isAxiosError(error) && error.response) {
-                setResultErro(true)
-                setErroApi(error.response.data.message)
-            }
+            handleApiError(error, setErroApiMessage, setStatusErroApi)
+        } finally {
+            setLoadingApi(false)
         }
-
     }
-
-    const cancelar = ()=>{
-        router.push("/gestao-sgme/clientes")
-    }
-
 
     return (
         <>
-            <HeadSgme title="SGME - Cadastro de Clientes" />
-            <div className="container-sm d-sm-flex align-items-center justify-content-start mt-5">
+            <HeadSgme title="SGME - Cadastro de Cliente"/>
+            <main className="m-5 border border-1 border-secondary-subtle mt-3">
+                <h3 className="bg-secondary-subtle p-2">
+                    <i className=" h3 bi bi-person-add"> </i>
+                    Cadasto de Cliente
+                </h3>
+                <div className="d-sm-flex justify-content-between w-100">
+                    <form className="p-2 mt-3 w-100">
+                        <div className="d-flex mb-3">
+                            <label className="fw-bolder me-5 w-25" htmlFor="nome">Nome</label>
+                            <input type="text"
+                                   className="border border-1 border-secondary-subtle w-100 p-1"
+                                   placeholder= "Digite o nome do cliente"
+                                   {...register('nome', {required:true})}/>
+                        </div>
 
-
-                <form className="form-control-sm w-100 mobile-styles-form" style={{maxWidth:"65%"}}>
-
-                    <h3 className="mb-4">Novo cliente</h3>
-                    <div className="d-sm-flex flex-column">
-                        <label htmlFor="valor">Nome Completo: </label>
-                        <input placeholder="Nome"
-                               className="form-control"
-                               {...register("nome",{required:true} )}
-                        />
-                        {errors?.nome?.type === "required" && (
-                            <p className="alert alert-danger mt-3">Nome obrigatorio!</p>
+                        {errors.nome && (
+                            <p className="text-danger fw-bolder">Campo obrigatório</p>
                         )}
-                    </div>
 
-                    <div className="d-sm-flex justify-content-between mb-3">
-                        <div className="d-flex flex-column w-100 me-3">
-                            <label htmlFor="valor">CPF: </label>
-
-                            <input type="number"
-                                placeholder="Cnpj / CPF"
-                                className="form-control"
-                                {...register("cpf" )} />
-
-                            {resultErro === true ? (
-                                <p className="text-danger fw-bold">{errorApi}</p>
-                            ) : ("")}
+                        <div className="d-flex mb-3">
+                            <label className="fw-bolder me-5 w-25" htmlFor="documento">Documento</label>
+                            <input type="text"
+                                   className="border border-1 border-secondary-subtle w-100 p-1"
+                                   {...register('documento')}/>
                         </div>
 
-                        <div className="d-flex flex-column w-100  me-3">
-                            <label htmlFor="data_vencimento">Data Nascimento: </label>
-                            <input type="date"
-                                   className="form-control"
-                                   {...register("data_nascimento")}
-                            />
-
-                        </div>
-                        <div className="d-flex flex-column w-100 mb-3">
-                            <label htmlFor="data_vencimento">Telefone</label>
+                        <div className="d-flex mb-3">
+                            <label className="fw-bolder me-5 w-25" htmlFor="telefone">Telefone</label>
                             <InputMask
                                 mask="(99) 99999-9999"
                                 maskChar="_"
@@ -109,29 +90,61 @@ function Cadastro(props) {
                                 className="form-control"
                                 {...register("telefone",)}
                             />
-
                         </div>
 
+                        <div className="d-flex mb-3">
+                            <label className="fw-bolder me-5 w-25" htmlFor="data_nascimento">Data de Nasc</label>
+                            <input type="date"
+                                   className="border border-1 border-secondary-subtle w-100 p-1"
+                                   {...register('data_nascimento', {required:true})}/>
+                        </div>
 
+                        {errors.data_nascimento && (
+                            <p className="text-danger fw-bolder">Campo obrigatório</p>
+                        )}
+
+                        {statusErroApi && (
+                            <p className="p-2 text-danger fw-bolder">
+                                <i className="bi bi-exclamation-triangle"> </i>
+                                {erroApiMessage}
+                            </p>
+
+                        )}
+
+                        <GroupButtonCadastro
+                            handleSubmit={handleSubmit}
+                            onSubmit={onsubmit}
+                            setStatusVisibleModalCancelar={setStatusVisibleModalCancelar}
+                        />
+
+                        {loadingApi && (
+                            <p className="p-2 text-success fw-bolder">
+                                <i className="bi bi-info-circle"> </i>
+                                Salvando cliente, aguarde...
+                            </p>
+                        )}
+                    </form>
+
+                    <div className="w-100 d-flex justify-content-center">
+                        <Image src="/assets/img/icone_cadastro_cliente.svg"
+                               alt="Cadastro de Cliente"
+                               width="0"
+                               height="0"
+                               priority={true}
+                               sizes="100vw"
+                               style={{width: "60%", height: "auto"}}/>
                     </div>
+                </div>
+                <ModalInfo statusVisibleModal={statusVisibleModal}
+                           toggleModal={toggleModal}
+                           message="Cliente salvo com sucesso"/>
 
-                    <div className="d-flex ">
-                        <button className="btn btn-success pe-5 ps-5 me-3" onClick={(e) => {
-                            e.preventDefault();
-                            handleSubmit(onSubmit)();
-                        }}>SALVAR
-                        </button>
-
-                        <button className="btn btn-danger pe-5 ps-5 me-3" onClick={(e) => {
-                            e.preventDefault();
-                            cancelar();
-                        }}>CANCELAR
-                        </button>
-                    </div>
-
-
-                </form>
-            </div>
+                <ModalCancelar toggleModal={toggleModalCancelar}
+                               setStatusVisibleModalCancelar={setStatusVisibleModalCancelar}
+                               statusVisibleModalCancelar={statusVisibleModalCancelar}
+                               message="Deseja descartar as alterações?"
+                />
+            </main>
         </>
     );
 }
