@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": "https://gestao-sgme-api-prod.onrender.com",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["*"]
     },

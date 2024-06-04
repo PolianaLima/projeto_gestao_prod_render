@@ -47,20 +47,21 @@ const UpdateProduto = () => {
 
         const [produto, setProduto] = useState({});
 
-        const fetchData = async () => {
-            try {
-                const data = await getProdutoId(idProduto);
-                setProduto(data);
-            } catch (error) {
-                handleApiError(error, setErroApiMessage, setStatusErroApi);
-            } finally {
-                setLoadingData(false);
-            }
-        }
+       
 
         useEffect(() => {
+            const fetchData = async () => {
+                try {
+                    const data = await getProdutoId(idProduto);
+                    setProduto(data);
+                } catch (error) {
+                    handleApiError(error, setErroApiMessage, setStatusErroApi);
+                } finally {
+                    setLoadingData(false);
+                }
+            }
             fetchData();
-        }, [idProduto]);
+        }, [idProduto, setErroApiMessage, setLoadingData, setStatusErroApi]);
 
 
         const handleInputChange = (e) => {
