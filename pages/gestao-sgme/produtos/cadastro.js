@@ -12,7 +12,7 @@ import MessageErroApi from "@/components/message/messageErroApi";
 
 const ROUTE_PATH = `/gestao-sgme/produtos`;
 
-function Cadastro(props) {
+function Index(props) {
     const {
         register,
         handleSubmit,
@@ -45,11 +45,11 @@ function Cadastro(props) {
 
     return (
         <>
-            <HeadSgme title="SGME - Cadastro de produtos"/>
+            <HeadSgme title="SGME - Index de produtos"/>
             <main className="m-5 border border-1 border-secondary-subtle mt-3">
                 <h3 className="bg-secondary-subtle p-2">
                     <i className="h3 bi bi-box"> </i>
-                    Cadastro de produtos
+                    Index de produtos
                 </h3>
                 <div className="d-sm-flex justify-content-between w-100">
                     <form className="p-2 mt-3 w-100">
@@ -111,7 +111,7 @@ function Cadastro(props) {
 
                     <div className="w-100 d-flex justify-content-center">
                         <Image src="/assets/img/icone_cad_produto.svg"
-                               alt="Cadastro de Cliente"
+                               alt="Index de Cliente"
                                width="0"
                                height="0"
                                priority={true}

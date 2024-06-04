@@ -10,7 +10,7 @@ import GroupButtonCadastro from "@/components/buttons_group/GroupButtonCadastro"
 
 const ROUTE_PATH = `/gestao-sgme/fornecedores`;
 
-function Cadastro(props) {
+function Index(props) {
     const {
         register,
         handleSubmit,
@@ -43,7 +43,7 @@ function Cadastro(props) {
 
     return (
         <>
-            <HeadSgme title="SGME - Cadastro de Fornecedores"/>
+            <HeadSgme title="SGME - Index de Fornecedores"/>
 
             <main className="m-5 border border-1 border-secondary-subtle mt-3">
                 <h3 className="bg-secondary-subtle p-2">
@@ -96,7 +96,7 @@ function Cadastro(props) {
 
                     <div className="w-100 d-flex justify-content-center">
                         <Image src="/assets/img/icone_cad_fornecedor.png"
-                               alt="Cadastro de Cliente"
+                               alt="Index de Cliente"
                                width="0"
                                height="0"
                                priority={true}
@@ -120,4 +120,4 @@ function Cadastro(props) {
     );
 }
 
-export default Cadastro;
+export default Index;

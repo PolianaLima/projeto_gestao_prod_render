@@ -11,7 +11,7 @@ import GroupButtonCadastro from "@/components/buttons_group/GroupButtonCadastro"
 
 const ROUTE_PATH = `/gestao-sgme/clientes`;
 
-function Cadastro(props) {
+function Index(props) {
 
     const {
         register,
@@ -54,7 +54,7 @@ function Cadastro(props) {
 
     return (
         <>
-            <HeadSgme title="SGME - Cadastro de Cliente"/>
+            <HeadSgme title="SGME - Index de Cliente"/>
             <main className="m-5 border border-1 border-secondary-subtle mt-3">
                 <h3 className="bg-secondary-subtle p-2">
                     <i className=" h3 bi bi-person-add"> </i>
@@ -127,7 +127,7 @@ function Cadastro(props) {
 
                     <div className="w-100 d-flex justify-content-center">
                         <Image src="/assets/img/icone_cadastro_cliente.svg"
-                               alt="Cadastro de Cliente"
+                               alt="Index de Cliente"
                                width="0"
                                height="0"
                                priority={true}

@@ -192,7 +192,7 @@ const UpdateProduto = () => {
 
                             <div className="w-100 d-flex justify-content-center">
                                 <Image src="/assets/img/icone_cad_produto.svg"
-                                       alt="Cadastro de Cliente"
+                                       alt="Index de Cliente"
                                        width="0"
                                        height="0"
                                        priority={true}

@@ -13,7 +13,7 @@ import Image from "next/image";
 
 const ROUTE_PATH = `/gestao-sgme/financeiro/contas-a-pagar`;
 
-function Cadastro() {
+function Index() {
     const {
         register,
         handleSubmit,
@@ -174,7 +174,7 @@ function Cadastro() {
 
                     <div className="w-100 d-flex justify-content-center">
                         <Image src="/assets/img/icone_contas_pagar.svg"
-                               alt="Cadastro de Cliente"
+                               alt="Index de Cliente"
                                width="0"
                                height="0"
                                priority={true}
