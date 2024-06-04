@@ -9,7 +9,7 @@ import {toggleModalController} from "@/utils/controller/modal";
 
 const ROUTE_PATH = '/gestao-sgme/pdv';
 
-function Index() {
+function NovoCaixa() {
     const {
         register,
         handleSubmit,
@@ -69,4 +69,4 @@ function Index() {
     );
 }
 
-export default Index;
+export default NovoCaixa;

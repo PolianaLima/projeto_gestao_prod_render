@@ -99,7 +99,7 @@ function Index() {
                            <ModalCheckoutFechado
                                statusVisibleModal={statusVisibleModal}
                                setStatusVisibleModal={setStatusVisibleModal}
-                               urlNewCheckout = {`${ROUTE_PATH}/gestao-sgme/fluxo-caixa/novo-caixa`}
+                               urlNewCheckout = {`${ROUTE_PATH}/gestao-sgme/fluxo-caixa/novoCaixa`}
                                urlDashboard={ROUTE_PATH}
                                message="Não tem caixa em aberto, deseja abrir o caixa?"
                            />

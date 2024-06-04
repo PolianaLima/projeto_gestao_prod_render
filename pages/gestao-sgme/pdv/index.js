@@ -102,7 +102,7 @@ function Index() {
                                     Para comecar suas vendas
                                 </p>
                                 <p>faça abertura do seu caixa e boas vendas!!</p>
-                                <Link href="/gestao-sgme/fluxo-caixa/novo-caixa" className="btn btn-success">
+                                <Link href="/gestao-sgme/fluxo-caixa/novoCaixa" className="btn btn-success">
                                     ABRIR CAIXA
                                 </Link>
                             </div>
