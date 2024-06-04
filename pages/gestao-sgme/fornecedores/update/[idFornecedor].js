@@ -17,7 +17,6 @@ const UpdateFornecedor = () => {
     const router = useRouter();
     const {idFornecedor} = router.query;
 
-    console.log(idFornecedor)
     const {
         loadingData,
         setLoadingData,
@@ -39,7 +38,7 @@ const UpdateFornecedor = () => {
         setStatusVisibleModalCancelar,
         toggleModalCancelar,
         toggleModal,
-        concelar
+        cancelar
 
     } = useFormModalNewUpdate(ROUTE_PATH);
 
@@ -143,7 +142,7 @@ const UpdateFornecedor = () => {
 
                             <GroupButtonFormUpdate
                                 onSubmit={onSubmit}
-                                concelar={concelar}
+                                cancelar={cancelar}
                                 setStatusButtonEditar={setStatusButtonEditar}
                                 setStatusButtonSalvar={setStatusButtonSalvar}
                                 setStatusInputDisabled={setStatusInputDisabled}

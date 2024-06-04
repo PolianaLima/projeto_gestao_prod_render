@@ -28,7 +28,6 @@ export const useFormModalNewUpdate = (ROUTE_PATH) => {
     }
 
     const cancelar = () => {
-        console.log("cliquei em cancelar")
         if (statusButtonEditar === false) {
             setStatusVisibleModalCancelar(true);
         } else {

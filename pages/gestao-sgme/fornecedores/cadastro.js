@@ -30,7 +30,6 @@ function Cadastro(props) {
     } = useFormModal(ROUTE_PATH);
 
     const onSubmit = async (data) => {
-        console.log(data);
         setLoadingApi(true);
         try {
             await postFornecedores(data);
