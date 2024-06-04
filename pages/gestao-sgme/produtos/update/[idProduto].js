@@ -40,7 +40,7 @@ const UpdateProduto = () => {
             setStatusVisibleModalCancelar,
             toggleModalCancelar,
             toggleModal,
-            concelar
+            cancelar
 
         } = useFormModalNewUpdate(ROUTE_PATH);
 
@@ -177,7 +177,7 @@ const UpdateProduto = () => {
                                     statusButtonSalvar={statusButtonSalvar}
                                     setStatusInputDisabled={setStatusInputDisabled}
                                     setStatusButtonSalvar={setStatusButtonSalvar}
-                                    concelar={concelar}
+                                    cancelar={cancelar}
                                     setStatusButtonEditar={setStatusButtonEditar}
                                 />
 

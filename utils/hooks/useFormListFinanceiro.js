@@ -8,6 +8,9 @@ export const useFormListFinanceiro = (ROUTE_PATH) => {
     const [statusErroApi, setStatusErroApi] = useState(false);
     const [loading, setLoading] = useState(true)
     const {register, handleSubmit} = useForm()
+    const [statusVisibleModal, setStatusVisibleModal] = useState(false);
+    const [id, setId] = useState(null);
+    const [loadingApi, setLoadingApi] = useState(false);
     const [dataFiltro, setdataFiltro] = useState({
         dataInicial: "",
         dataFinal: "",
@@ -25,6 +28,12 @@ export const useFormListFinanceiro = (ROUTE_PATH) => {
         register,
         handleSubmit,
         dataFiltro,
-        setdataFiltro
+        setdataFiltro,
+        statusVisibleModal,
+        setStatusVisibleModal,
+        id,
+        setId,
+        loadingApi,
+        setLoadingApi
     };
 }

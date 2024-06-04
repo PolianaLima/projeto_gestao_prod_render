@@ -1,8 +1,8 @@
 import React from "react";
-import HeadSgme from "components/head/HeadSgme";
 import Image from "next/image";
 import CardImagemButton from "@/components/cards/CardImagemButton";
 import {useAuth} from "@/context/authContext";
+import HeadSgme from "@/components/head/HeadSgme";
 
 // Custom hook for login logic
 

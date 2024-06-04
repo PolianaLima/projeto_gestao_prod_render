@@ -5,7 +5,6 @@ import Login from "@/pages/Login";
 
 
 function MainContainer({children, Component}) {
-
     const {token, user} = useAuth();
     return (
         <div style={{height:'100vh'}}>

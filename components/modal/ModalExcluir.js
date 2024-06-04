@@ -1,13 +1,18 @@
-import React from 'react';
+import React, {useState} from 'react';
+import MessageLoadingData from "@/components/message/messageLoadingData";
 
-function ModalExcluir({statusVisibleModalCancelar, setStatusVisibleModalCancelar, toggleModal, message, onConfirm}) {
+function ModalExcluir({
+                          message,
+                          statusVisibleModal,
+                          setStatusVisibleModal,
+                          id,
+                          excluir,
+                          loadingApi
+                      }) {
 
-    const closeModal = () => {
-        setStatusVisibleModalCancelar(false);
-    }
 
     return (
-        <div className={statusVisibleModalCancelar ? "modal fade show d-block" : "modal fade"} id="staticBackdrop"
+        <div className={statusVisibleModal ? "modal fade show d-block" : "modal fade"} id="staticBackdrop"
              data-bs-backdrop="static" data-bs-keyboard="false" tabIndex="-1"
              aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div className="modal-dialog">
@@ -20,12 +25,23 @@ function ModalExcluir({statusVisibleModalCancelar, setStatusVisibleModalCancelar
                     <div className="modal-body">
                         <p className="text-center">{message}</p>
                     </div>
+
+                    {loadingApi && (
+                        <MessageLoadingData message="Excluindo dados"/>
+                    )}
+
                     <div className="modal-footer justify-content-center">
                         <button type="button" className="btn btn-danger ps-5 pe-5" data-bs-dismiss="modal"
-                                onClick={onConfirm}>CONFIRMAR
+                                onClick={event => {
+                                    event.preventDefault()
+                                    excluir(id)
+                                }}>CONFIRMAR
                         </button>
                         <button type="button" className="btn btn-success ps-5 pe-5" data-bs-dismiss="modal"
-                                onClick={closeModal}>CANCELAR
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    setStatusVisibleModal(false)
+                                }}>CANCELAR
                         </button>
                     </div>
                 </div>

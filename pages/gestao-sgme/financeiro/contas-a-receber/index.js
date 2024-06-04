@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
 import {handleApiError} from "@/utils/errors/handleErroApi";
-import {getReceitas} from "@/api/receitasApi";
+import {deleteReceita, getReceitas} from "@/api/receitasApi";
 import MessageLoadingData from "@/components/message/messageLoadingData";
 import FinanceiroIndexLayout from "@/components/layouts/FinanceiroIndexLayout";
 import {useFormListFinanceiro} from "@/utils/hooks/useFormListFinanceiro";
@@ -20,7 +20,13 @@ function Index() {
         setdataFiltro,
         loading,
         setLoading,
-        setStatusErroApi
+        setStatusErroApi,
+        id,
+        setId,
+        loadingApi,
+        setLoadingApi,
+        setStatusVisibleModal,
+        statusVisibleModal
     } = useFormListFinanceiro();
 
     const [totalReceitas, setTotalReceitas] = useState(0.00)
@@ -32,7 +38,7 @@ function Index() {
             const dataFiltrado = filtroFinanceiroList(data, dataFiltro);
             setReceitas(dataFiltrado);
 
-            const total = data.reduce((sum, despesa) => sum + despesa.valor, 0);
+            const total = dataFiltrado.reduce((sum, despesa) => sum + despesa.valor, 0);
             setTotalReceitas(total);
 
         } catch (error) {
@@ -46,6 +52,20 @@ function Index() {
         fetchData();
     }, [dataFiltro]);
 
+    const excluirReceita = async (id) => {
+        setLoadingApi(true)
+        try {
+            const response = await deleteReceita(id)
+            fetchData()
+            setStatusVisibleModal(false)
+
+        }catch (error) {
+            handleApiError(error, setErroApiMessage, setStatusErroApi)
+        }finally {
+            setLoadingApi(false)
+        }
+    }
+
     return (
         <>
             <HeadSgme title="SGME - Contas a receber"/>
@@ -55,6 +75,7 @@ function Index() {
                 <main className="m-2 mt-5">
                     <FinanceiroIndexLayout
                         title="Contas a receber"
+                        descNomeConta="Cliente"
                         titleButtonAdd="Nova receita"
                         handleSubmit={handleSubmit}
                         register={register}
@@ -64,7 +85,14 @@ function Index() {
                         statusErroApi={statusErroApi}
                         erroApiMessage={erroApiMessage}
                         urlDetalhes={`${PATH_URL}/update`}
-                        urlExcluir={`${PATH_URL}/delete`}
+                        urlNewCadastro={`${PATH_URL}/cadastro`}
+                        id={id}
+                        setId={setId}
+                        setStatusVisibleModal={setStatusVisibleModal}
+                        statusVisibleModal={statusVisibleModal}
+                        excluir={excluirReceita}
+                        loadingApi={loadingApi}
+
                     />
                 </main>
             )}

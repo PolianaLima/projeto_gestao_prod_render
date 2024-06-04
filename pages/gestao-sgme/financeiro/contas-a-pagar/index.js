@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
 import {handleApiError} from "@/utils/errors/handleErroApi";
-import {getDespesas} from "@/api/despesasApi";
+import {deleteDespesa, getDespesas} from "@/api/despesasApi";
 import MessageLoadingData from "@/components/message/messageLoadingData";
 import FinanceiroIndexLayout from "@/components/layouts/FinanceiroIndexLayout";
 import {useFormListFinanceiro} from "@/utils/hooks/useFormListFinanceiro";
@@ -22,19 +22,24 @@ function Index(props) {
         loading,
         setLoading,
         setStatusErroApi,
-    } = useFormListFinanceiro()
+        statusVisibleModal,
+        setStatusVisibleModal,
+        id,
+        setId,
+        loadingApi,
+        setLoadingApi
 
+    } = useFormListFinanceiro()
 
     const [totalDespesas, setTotalDespesas] = useState(0.00)
     const [despesas, setDespesas] = useState([])
-    const [idDespesaExcluir, setIdDespesaExcluir] = useState(null);
 
     const fetchData = async () => {
         try {
             let data = await getDespesas();
             const dataFiltrado = filtroFinanceiroList(data, dataFiltro);
             setDespesas(dataFiltrado)
-            const total = data.reduce((sum, despesa) => sum + despesa.valor, 0);
+            const total = dataFiltrado.reduce((sum, despesa) => sum + despesa.valor, 0);
             setTotalDespesas(total);
         } catch (error) {
             handleApiError(error, setErroApiMessage, setStatusErroApi)
@@ -47,11 +52,18 @@ function Index(props) {
         fetchData()
     }, [dataFiltro])
 
-
-    const excluir = async (id) => {
-        console.log('Excluir despesa', id)
+    const excluirDespesa = async (id) => {
+        setLoadingApi(true)
+        try {
+            const response = await deleteDespesa(id)
+            fetchData()
+            setStatusVisibleModal(false)
+        } catch (error) {
+            handleApiError(error, erroApiMessage, statusErroApi)
+        } finally {
+            setLoadingApi(false)
+        }
     }
-
     return (
         <>
             <HeadSgme title="SGME - Contas a pagar"/>
@@ -62,6 +74,7 @@ function Index(props) {
 
                     <FinanceiroIndexLayout
                         title="Contas a pagar"
+                        descNomeConta="Fornecedor"
                         titleButtonAdd="Nova despesa"
                         handleSubmit={handleSubmit}
                         register={register}
@@ -71,7 +84,13 @@ function Index(props) {
                         statusErroApi={statusErroApi}
                         erroApiMessage={erroApiMessage}
                         urlDetalhes={`${PATH_URL}/update`}
-                        urlExcluir={`${PATH_URL}/delete`}
+                        urlNewCadastro={`${PATH_URL}/cadastro`}
+                        id={id}
+                        setId={setId}
+                        excluir={excluirDespesa}
+                        loadingApi={loadingApi}
+                        statusVisibleModal={statusVisibleModal}
+                        setStatusVisibleModal={setStatusVisibleModal}
                     />
                 </main>
 

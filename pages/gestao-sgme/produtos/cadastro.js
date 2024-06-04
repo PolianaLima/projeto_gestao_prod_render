@@ -7,6 +7,8 @@ import {postProduto} from "@/api/produtosApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import {useFormModal} from "@/utils/hooks/useFormModalNewCadastro";
 import GroupButtonCadastro from "@/components/buttons_group/GroupButtonCadastro";
+import MessageLoadingData from "@/components/message/messageLoadingData";
+import MessageErroApi from "@/components/message/messageErroApi";
 
 const ROUTE_PATH = `/gestao-sgme/produtos`;
 
@@ -92,11 +94,7 @@ function Cadastro(props) {
 
 
                         {statusErroApi && (
-                            <p className="p-2 text-danger fw-bolder">
-                                <i className="bi bi-exclamation-triangle"> </i>
-                                {erroApiMessage}
-                            </p>
-
+                            <MessageErroApi erroApiMessage={erroApiMessage} />
                         )}
 
                         <GroupButtonCadastro
@@ -106,10 +104,7 @@ function Cadastro(props) {
                         />
 
                         {loadingApi && (
-                            <p className="p-2 text-success fw-bolder">
-                                <i className="bi bi-info-circle"> </i>
-                                Salvando cliente, aguarde...
-                            </p>
+                            <MessageLoadingData message="Salvando produto no sistema"/>
                         )}
 
                     </form>

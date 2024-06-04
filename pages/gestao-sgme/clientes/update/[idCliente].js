@@ -94,7 +94,7 @@ function UpdateCliente() {
                             <div className="d-flex mb-3">
                                 <label className="fw-bolder me-5 w-25" htmlFor="nome">Nome</label>
                                 <input type="text"
-                                       className="border border-1 border-secondary-subtle w-100 p-1"
+                                       className="form-controll-sgme"
                                        disabled={statusInputDisabled}
                                        name="nome"
                                        value={cliente.nome}
@@ -104,7 +104,7 @@ function UpdateCliente() {
                             <div className="d-flex mb-3">
                                 <label className="fw-bolder me-5 w-25" htmlFor="documento">Documento</label>
                                 <input type="text"
-                                       className="border border-1 border-secondary-subtle w-100 p-1"
+                                       className="form-controll-sgme"
                                        placeholder="CPF/CNPJ"
                                        disabled={statusInputDisabled}
                                        name="documento"
@@ -131,7 +131,7 @@ function UpdateCliente() {
                                 <label className="fw-bolder me-5 w-25" htmlFor="data_nascimento">Data de
                                     Nasc</label>
                                 <input type="date"
-                                       className="border border-1 border-secondary-subtle w-100 p-1"
+                                       className="form-controll-sgme"
                                        disabled={statusInputDisabled}
                                        name="data_nascimento"
                                        value={cliente.data_nascimento}
@@ -187,10 +187,7 @@ function UpdateCliente() {
 
 
                             {loadingApi && (
-                                <p className="p-2 text-success fw-bolder">
-                                    <i className="bi bi-info-circle"> </i>
-                                    Salvando cliente, aguarde...
-                                </p>
+                                <MessageLoadingData message="Salvando dados" />
                             )}
                         </form>
 

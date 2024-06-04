@@ -62,7 +62,7 @@ function Login(props) {
                             priority={true}
                         />
                     </div>
-                    <div className="bg-white p-5 d-flex flex-column align-items-center justify-content-center rounded-start-5" style={{height:'100%', marginLeft:-40}}>
+                    <form className="bg-white p-5 d-flex flex-column align-items-center justify-content-center rounded-start-5" style={{height:'100%', marginLeft:-40}}>
                         <div className="d-flex flex-column bg-white  justify-content-center w-100 mb-3 align-items-center">
                             <Image src="/assets/img/logotipo.svg"
                                    alt="Logotipo"
@@ -109,7 +109,7 @@ function Login(props) {
                             {erroLogin === true ? (
                                 <p className="alert alert-danger">{erroLoginMessage}</p>) : ("")}
                         </div>
-                    </div>
+                    </form>
                 </div>
             </main>
         </div>

@@ -2,10 +2,12 @@ import React from 'react';
 import Link from "next/link";
 import {format, parseISO} from "date-fns";
 import {ptBR} from "date-fns/locale";
+import ModalExcluir from "@/components/modal/ModalExcluir";
 
 function FinanceiroIndexLayout({
                                    dados,
                                    urlDetalhes,
+                                   urlNewCadastro,
                                    erroApiMessage,
                                    statusErroApi,
                                    setdataFiltro,
@@ -13,10 +15,19 @@ function FinanceiroIndexLayout({
                                    handleSubmit,
                                    register,
                                    title,
+                                   descNomeConta,
                                    titleButtonAdd,
-                                   urlExcluir
+                                   id,
+                                   setId,
+                                   excluir,
+                                   loadingApi,
+                                   setStatusVisibleModal,
+                                   statusVisibleModal,
                                }) {
+
+
     return (
+
         <>
             <div className="d-sm-flex justify-content-between align-items-center">
                 <div>
@@ -24,7 +35,7 @@ function FinanceiroIndexLayout({
                     <p className="text-secondary fw-light">Acompanhe de perto como estar as suas finanças!! </p>
                 </div>
                 <div>
-                    <Link href="/gestao-sgme/financeiro/contas-a-pagar/cadastro" className="btn btn-success">
+                    <Link href={urlNewCadastro} className="btn btn-success">
                         {titleButtonAdd}
                     </Link>
                 </div>
@@ -70,7 +81,7 @@ function FinanceiroIndexLayout({
                     <thead>
                     <tr className="border-bottom border-bottom-2">
                         <th scope="col" style={{minWidth: 100}}>Codigo</th>
-                        <th scope="col" className="w-100">Fornecedor</th>
+                        <th scope="col" className="w-100">{descNomeConta}</th>
                         <th scope="col" style={{minWidth: 100}}>Valor</th>
                         <th scope="col" style={{minWidth: 100}}>Vencimento</th>
                         <th scope="col" style={{minWidth: 100}}>Status</th>
@@ -99,10 +110,15 @@ function FinanceiroIndexLayout({
                                 </td>
 
                                 <td>
-                                    <Link href={`${urlExcluir}/${dado.id}`} className="btn btn-danger"
+                                    <button className="btn btn-danger"
+                                            onClick={(event) => {
+                                                event.preventDefault()
+                                                setId(dado.id)
+                                                setStatusVisibleModal(true)
+                                            }}
                                     >
                                         <i className="bi bi-trash text-white"></i>
-                                    </Link>
+                                    </button>
                                 </td>
 
                             </tr>
@@ -116,7 +132,6 @@ function FinanceiroIndexLayout({
                         </tr>
                     )}
                     </tbody>
-
                 </table>
                 <div className="d-flex justify-content-between align-items-center bg-secondary-subtle">
                     <p className="fw-bolder mt-3 ps-3">
@@ -127,6 +142,15 @@ function FinanceiroIndexLayout({
                     </p>
                 </div>
             </div>
+
+            <ModalExcluir setStatusVisibleModal={setStatusVisibleModal}
+                          statusVisibleModal={statusVisibleModal}
+                          message="Deseja realmente excluir?"
+                          id={id}
+                          excluir={excluir}
+                          loadingApi={loadingApi}
+
+            />
         </>
     );
 }
