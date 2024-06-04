@@ -9,7 +9,6 @@ import GroupButtonFormUpdate from "@/components/buttons_group/GroupButtonFormUpd
 import Image from "next/image";
 import ModalInfo from "@/components/modal/ModalInfo";
 import ModalCancelar from "@/components/modal/ModalCancelar";
-import {putCliente} from "@/api/clienteApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 
 const ROUTE_PATH = '/gestao-sgme/fornecedores';
@@ -42,24 +41,24 @@ const UpdateFornecedor = () => {
         toggleModal,
         concelar
 
-    }= useFormModalNewUpdate(ROUTE_PATH);
+    } = useFormModalNewUpdate(ROUTE_PATH);
 
     const [fornecedor, setFornecedor] = useState({});
 
-    const fetchData = async () => {
-        try {
-            const data = await getFornecedorId(idFornecedor);
-            setFornecedor(data);
-        }catch (error) {
-
-        }finally {
-            setLoadingData(false)
-        }
-    }
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getFornecedorId(idFornecedor);
+                setFornecedor(data);
+            } catch (error) {
+
+            } finally {
+                setLoadingData(false)
+            }
+        }
         fetchData();
-    }, [idFornecedor]);
+    }, [idFornecedor, setLoadingData]);
 
     //Monitorando o estado do cliente
     const handleInputChange = (e) => {
@@ -71,19 +70,19 @@ const UpdateFornecedor = () => {
         try {
             await putFornecedor(idFornecedor, fornecedor);
             setStatusVisibleModal(true)
-        }catch (error) {
+        } catch (error) {
             handleApiError(error, setErroApiMessage, setStatusErroApi)
-        }finally {
+        } finally {
             setLoadingApi(false)
         }
     }
 
     return (
         <>
-           <HeadSgme title="SGME - Alterando Fornecedor" />
+            <HeadSgme title="SGME - Alterando Fornecedor"/>
             {loadingData ? (
-                <MessageLoadingData message="Carregando dados do cliente" />
-                ):(
+                <MessageLoadingData message="Carregando dados do cliente"/>
+            ) : (
                 <main className="m-5 border border-1 border-secondary-subtle mt-3">
                     <h3 className="bg-secondary-subtle p-2">
                         <i className="h3 bi bi-person-up"> </i>

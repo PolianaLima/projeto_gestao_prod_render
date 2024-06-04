@@ -51,7 +51,7 @@ function Index(props) {
             }
         }
         fetchData()
-    }, [dataFiltro,])
+    }, [dataFiltro, setErroApiMessage, setLoading, setStatusErroApi])
 
     const excluirDespesa = async (id) => {
         setLoadingApi(true)

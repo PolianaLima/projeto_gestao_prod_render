@@ -43,20 +43,22 @@ const UpdateReceita = () => {
     const [receita, setReceita] = useState({});
 
     useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        try {
-            const data = await getReceitaId(idReceita);
-            setReceita(data);
-        } catch (error) {
-            handleApiError(error, setErroApiMessage, setStatusErroApi)
-        } finally {
-            setLoadingData(false);
+        const fetchData = async () => {
+            try {
+                const data = await getReceitaId(idReceita);
+                setReceita(data);
+            } catch (error) {
+                handleApiError(error, setErroApiMessage, setStatusErroApi)
+            } finally {
+                setLoadingData(false);
+            }
         }
-    }
 
+        
+        fetchData();
+    }, [idReceita, setErroApiMessage, setLoadingData, setStatusErroApi]);
+
+    
     const handleInputChange = (e) => {
         setReceita({...receita, [e.target.name]: e.target.value})
     }

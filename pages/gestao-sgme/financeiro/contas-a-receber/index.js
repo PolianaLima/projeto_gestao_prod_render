@@ -32,25 +32,27 @@ function Index() {
     const [totalReceitas, setTotalReceitas] = useState(0.00)
     const [receitas, setReceitas] = useState([])
 
-    const fetchData = async () => {
-        try {
-            let data = await getReceitas();
-            const dataFiltrado = filtroFinanceiroList(data, dataFiltro);
-            setReceitas(dataFiltrado);
-
-            const total = dataFiltrado.reduce((sum, despesa) => sum + despesa.valor, 0);
-            setTotalReceitas(total);
-
-        } catch (error) {
-            handleApiError(error, setErroApiMessage, setStatusErroApi)
-        } finally {
-            setLoading(false)
-        }
-    };
+    
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let data = await getReceitas();
+                const dataFiltrado = filtroFinanceiroList(data, dataFiltro);
+                setReceitas(dataFiltrado);
+
+                const total = dataFiltrado.reduce((sum, despesa) => sum + despesa.valor, 0);
+                setTotalReceitas(total);
+
+            } catch (error) {
+                handleApiError(error, setErroApiMessage, setStatusErroApi)
+            } finally {
+                setLoading(false)
+            }
+        };
+        
         fetchData();
-    }, [dataFiltro]);
+    }, [dataFiltro, setErroApiMessage, setLoading, setStatusErroApi]);
 
     const excluirReceita = async (id) => {
         setLoadingApi(true)
