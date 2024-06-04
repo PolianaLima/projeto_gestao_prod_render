@@ -200,4 +200,4 @@ function Index() {
     );
 }
 
-export default Cadastro;
+export default Index;

@@ -37,7 +37,7 @@ function Index() {
                 <main className="container mt-5">
                     <DashBoardIndexProdClieForn
                         dados={clientes}
-                        url={`${CLIENTES_URL}/cadastro`}
+                        url={`${CLIENTES_URL}/cadastro-cliente`}
                         titleListagem="Clientes"
                         titleButtonAdd="Novo Cliente"
                         erroApiMessage={erroApiMessage}

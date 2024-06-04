@@ -87,7 +87,7 @@ function Index() {
                         statusErroApi={statusErroApi}
                         erroApiMessage={erroApiMessage}
                         urlDetalhes={`${PATH_URL}/update`}
-                        urlNewCadastro={`${PATH_URL}/cadastro`}
+                        urlNewCadastro={`${PATH_URL}/nova-receita`}
                         id={id}
                         setId={setId}
                         setStatusVisibleModal={setStatusVisibleModal}

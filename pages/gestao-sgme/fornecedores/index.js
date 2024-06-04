@@ -40,7 +40,7 @@ function Index(props) {
                 ):(
                      <DashBoardIndexProdClieForn
                         dados={fornecedores}
-                        url={`${FORNECEDORES_URL}/cadastro`}
+                        url={`${FORNECEDORES_URL}/cadastro-fornecedor`}
                         urlDetalhes={`${FORNECEDORES_URL}/update`}
                         titleListagem="Fornecedores"
                         titleButtonAdd="Novo Fornecedor"

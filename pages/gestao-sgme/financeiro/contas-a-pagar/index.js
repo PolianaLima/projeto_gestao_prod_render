@@ -85,7 +85,7 @@ function Index(props) {
                         statusErroApi={statusErroApi}
                         erroApiMessage={erroApiMessage}
                         urlDetalhes={`${PATH_URL}/update`}
-                        urlNewCadastro={`${PATH_URL}/cadastro`}
+                        urlNewCadastro={`${PATH_URL}/nova-despesa`}
                         id={id}
                         setId={setId}
                         excluir={excluirDespesa}

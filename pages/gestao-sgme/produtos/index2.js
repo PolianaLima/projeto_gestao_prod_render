@@ -13,19 +13,18 @@ function Index(props) {
     const [loading, setLoading] = useState(true);
     const [produtos, setProdutos] = useState([]);
 
-
+    const fetchData = async ()=>{
+        try {
+            const data = await getProdutos();
+            setProdutos(data);
+        }catch (error){
+            handleApiError(error, setErroApiMessage, setStatusErroApi)
+        }finally {
+            setLoading(false);
+        }
+    }
 
     useEffect(() => {
-        const fetchData = async ()=>{
-            try {
-                const data = await getProdutos();
-                setProdutos(data);
-            }catch (error){
-                handleApiError(error, setErroApiMessage, setStatusErroApi)
-            }finally {
-                setLoading(false);
-            }
-        }
         fetchData();
     }, [])
 
@@ -37,12 +36,12 @@ function Index(props) {
             ): (
                 <main className="container mt-5">
                     <DashBoardIndexProdClieForn dados={produtos}
-                                                statusErroApi={statusErroApi}
-                                                erroApiMessage={erroApiMessage}
-                                                url={`${PRODUTOS_URL}/cadastro-produto`}
-                                                titleListagem="Produtos"
-                                                titleButtonAdd="Novo Produto"
-                                                urlDetalhes={`${PRODUTOS_URL}/update`}
+                                 statusErroApi={statusErroApi}
+                                 erroApiMessage={erroApiMessage}
+                                 url={`${PRODUTOS_URL}/cadastro`}
+                                 titleListagem="Produtos"
+                                 titleButtonAdd="Novo Produto"
+                                 urlDetalhes={`${PRODUTOS_URL}/update`}
                     />
                 </main>
 

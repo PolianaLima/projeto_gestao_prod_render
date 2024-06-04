@@ -78,6 +78,7 @@ function Index(props) {
                             <label className="fw-bolder me-5 w-25" htmlFor="documento">Documento</label>
                             <input type="text"
                                    className="border border-1 border-secondary-subtle w-100 p-1"
+                                   placeholder="CPF/CNPJ"
                                    {...register('documento')}/>
                         </div>
 
@@ -149,4 +150,4 @@ function Index(props) {
     );
 }
 
-export default Cadastro;
+export default Index;

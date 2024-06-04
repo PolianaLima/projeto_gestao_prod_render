@@ -178,7 +178,7 @@ function UpdateCliente() {
 
                             <GroupButtonFormUpdate
                                 onSubmit={onSubmit}
-                                concelar={cancelar}
+                                cancelar={cancelar}
                                 setStatusButtonEditar={setStatusButtonEditar}
                                 setStatusButtonSalvar={setStatusButtonSalvar}
                                 setStatusInputDisabled={setStatusInputDisabled}

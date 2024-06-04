@@ -136,4 +136,4 @@ function Index(props) {
     );
 }
 
-export default Cadastro;
+export default Index;
