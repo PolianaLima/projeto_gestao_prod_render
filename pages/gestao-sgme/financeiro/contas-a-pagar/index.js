@@ -34,23 +34,24 @@ function Index(props) {
     const [totalDespesas, setTotalDespesas] = useState(0.00)
     const [despesas, setDespesas] = useState([])
 
-    const fetchData = async () => {
-        try {
-            let data = await getDespesas();
-            const dataFiltrado = filtroFinanceiroList(data, dataFiltro);
-            setDespesas(dataFiltrado)
-            const total = dataFiltrado.reduce((sum, despesa) => sum + despesa.valor, 0);
-            setTotalDespesas(total);
-        } catch (error) {
-            handleApiError(error, setErroApiMessage, setStatusErroApi)
-        } finally {
-            setLoading(false)
-        }
-    }
+
 
     useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let data = await getDespesas();
+                const dataFiltrado = filtroFinanceiroList(data, dataFiltro);
+                setDespesas(dataFiltrado)
+                const total = dataFiltrado.reduce((sum, despesa) => sum + despesa.valor, 0);
+                setTotalDespesas(total);
+            } catch (error) {
+                handleApiError(error, setErroApiMessage, setStatusErroApi)
+            } finally {
+                setLoading(false)
+            }
+        }
         fetchData()
-    }, [dataFiltro])
+    }, [dataFiltro,])
 
     const excluirDespesa = async (id) => {
         setLoadingApi(true)

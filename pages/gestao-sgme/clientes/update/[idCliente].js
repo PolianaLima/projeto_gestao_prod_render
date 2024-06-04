@@ -48,19 +48,20 @@ function UpdateCliente() {
 
     //Pegando o dado do cliente
     useEffect(() => {
-        fetchData();
-    }, [idCliente]);
-
-    const fetchData = async () => {
-        try {
-            const data = await getClienteId(idCliente);
-            setCliente(data);
-        } catch (error) {
-            handleApiError(error, setErroApiMessage, setStatusErroApi)
-        } finally {
-            setLoadingData(false);
+        const fetchData = async () => {
+            try {
+                const data = await getClienteId(idCliente);
+                setCliente(data);
+            } catch (error) {
+                handleApiError(error, setErroApiMessage, setStatusErroApi)
+            } finally {
+                setLoadingData(false);
+            }
         }
-    }
+        fetchData();
+    }, [idCliente, setErroApiMessage, setLoadingData, setStatusErroApi]);
+
+    
 
     const handleInputChange = (e) => {
         setCliente({...cliente, [e.target.name]: e.target.value})

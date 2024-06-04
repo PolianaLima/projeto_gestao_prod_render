@@ -45,20 +45,21 @@ const UpdateDespesas = () => {
     const [despesa, setDespesa] = useState({});
 
     useEffect(() => {
-        fetchData();
-    }, []);
-
-    const fetchData = async () => {
-        try {
-            const data = await getDespesaId(idDespesa);
-            setDespesa(data);
-        } catch (error) {
-            handleApiError(error, setErroApiMessage, setStatusErroApi)
-        } finally {
-            setLoadingData(false);
+        const fetchData = async () => {
+            try {
+                const data = await getDespesaId(idDespesa);
+                setDespesa(data);
+            } catch (error) {
+                handleApiError(error, setErroApiMessage, setStatusErroApi)
+            } finally {
+                setLoadingData(false);
+            }
         }
-    }
 
+        fetchData();
+    }, [idDespesa, setErroApiMessage, setLoadingData, setStatusErroApi]);
+
+   
     const handleInputChange = (e) => {
         setDespesa({...despesa, [e.target.name]: e.target.value})
     }

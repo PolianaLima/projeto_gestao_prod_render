@@ -46,7 +46,7 @@ function Cadastro() {
         }
 
         fetchFornecedores();
-    }, [setErroApiMessage]);
+    }, [setErroApiMessage, setStatusErroApi]);
 
     const onSubmit = async (data) => {
         try {

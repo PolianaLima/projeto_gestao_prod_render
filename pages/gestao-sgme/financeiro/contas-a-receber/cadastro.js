@@ -45,7 +45,7 @@ function Cadastro() {
         }
 
         fetchClientes();
-    }, [setErroApiMessage]);
+    }, [setErroApiMessage, setStatusErroApi]);
 
     const onSubmit = async (data) => {
         try {
