@@ -12,6 +12,7 @@ export default function App({Component, pageProps}) {
     }, []);
     return (
         <AuthProvider>
+
             <MainContainer>
                 <Component {...pageProps} />
             </MainContainer>

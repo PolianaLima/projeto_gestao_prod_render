@@ -63,7 +63,7 @@ function MenuLateral({children}) {
                                 <li>
                                     <Link href="/gestao-sgme/pdv" className="nav-link px-0 align-middle">
                                         <i className="fs-2 bi bi-pc-display"></i> <span
-                                        className="ms-1 d-none d-sm-inline ">Vendas</span></Link>
+                                        className="ms-1 d-none d-sm-inline ">PDV</span></Link>
                                 </li>
 
                                 <li>
@@ -94,8 +94,8 @@ function MenuLateral({children}) {
                                 </li>
                                 <li>
                                     <Link href="#" className="nav-link px-0 align-middle">
-                                        <i className="fs-4 bi-people"></i> <span
-                                        className="ms-1 d-none d-sm-inline">Customers</span> </Link>
+                                        <i className="fs-4 bi bi-newspaper"></i> <span
+                                        className="ms-1 d-none d-sm-inline">Relatorios</span> </Link>
                                 </li>
                             </ul>
                             <hr/>

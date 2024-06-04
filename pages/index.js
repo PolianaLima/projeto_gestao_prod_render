@@ -14,20 +14,12 @@ function Index(props) {
         <>
             <HeadSgme title="SGME - Dashboard"/>
 
-            <main className="d-sm-flex align-items-center">
+            <main className="mt-5">
                 <section
                     className="container d-sm-flex flex-sm-column align-items-center justify-content-center pb-5"
                 >
 
                     <div className="d-sm-flex justify-content-center align-items-center">
-                        <Image src="/img/pdv-venda.png"
-                               alt="Pdv"
-                               width="0"
-                               height="0"
-                               sizes="100vw"
-                               style={{width: '30%', height: 'auto'}}
-                               priority={true}
-                        />
                         <div>
                             <h1 className="w-100 text-center">SEJA BEM VINDO(A)</h1>
                             <h3 className="mb-5 text-center">{user.nome}</h3>
@@ -40,32 +32,32 @@ function Index(props) {
 
                         <CardImagemButton
                             link="/gestao-sgme/pdv"
-                            img="/img/icone_nova_venda.png"
+                            img="/assets/img/icone_pdv_venda.svg"
                             titleLink="Nova Venda"/>
 
                         <CardImagemButton
                             link="/gestao-sgme/produtos/cadastro"
-                            img="/img/icone_cad_produto.svg"
+                            img="/assets/img/icone_cad_produto.svg"
                             titleLink="Novo Produto"/>
 
                         <CardImagemButton
                             link="/gestao-sgme/clientes/cadastro"
-                            img="/img/icone_cad_fornecedor.png"
+                            img="/assets/img/icone_cad_cliente.svg"
                             titleLink="Novo Cliente"/>
 
                         <CardImagemButton
                             link="/gestao-sgme/fornecedores/cadastro"
-                            img="/img/icone_cad_produto.svg"
+                            img="/assets/img/icone_cad_fornecedor.png"
                             titleLink="Novo Fornecedor"/>
 
                         <CardImagemButton
                             link="/gestao-sgme/financeiro/contas-a-pagar/cadastro"
-                            img="img/icone_cad_despesa.svg"
+                            img="/assets/img/icone_contas_pagar.svg"
                             titleLink="Nova Despesa"/>
 
                         <CardImagemButton
                             link="/gestao-sgme/financeiro/contas-a-receber/cadastro"
-                            img="/img/icone_func_financeiro.svg"
+                            img="/assets/img/icone_contas_receber.svg"
                             titleLink="Nova Receita"/>
                     </div>
                 </section>

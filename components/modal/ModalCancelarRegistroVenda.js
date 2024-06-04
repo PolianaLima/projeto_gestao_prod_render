@@ -36,17 +36,7 @@ function ToltipInfoCancelar({
                 }}
             >
                 <div className="d-flex justify-content-center">
-                    <Image src="/img/icon_status_error.png"
-                           alt="Icone de status de erro"
-                           width="0"
-                           height="0"
-                           sizes="100vw"
-                           style={{
-                               width: "15%",
-                               height: "auto",
-                           }}
-                           priority={true}
-                    />
+                    <i className="h1 text-success bi bi-check-circle-fill"></i>
                 </div>
                 <div className="offcanvas-header">
                     <h5 className="offcanvas-title text-center w-100" id="offcanvasDarkLabel">{tituloInfo}</h5>

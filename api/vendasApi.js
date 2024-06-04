@@ -16,3 +16,16 @@ export const getVendasCheckout = async (idCheckout) => {
         throw error;
     }
 }
+
+export const postVendas = async (venda) => {
+    try {
+        const response  = await  http.post(`${VENDAS_URL}/novavenda`, venda, {
+            headers: {
+                Authorization: `Bearer ${dataUser.token}`
+            }
+        })
+        return response.data;
+    }catch (error) {
+        throw error;
+    }
+}

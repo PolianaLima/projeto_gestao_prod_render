@@ -26,7 +26,8 @@
     "react-imask": "^7.6.1",
     "react-input-mask": "^2.0.4",
     "react-modal": "^3.16.1",
-    "reactstrap": "^9.2.0"
+    "reactstrap": "^9.2.0",
+    "recharts": "^2.12.7"
   },
   "devDependencies": {
     "@types/node": "20.12.7",

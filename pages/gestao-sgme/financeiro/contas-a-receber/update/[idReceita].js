@@ -1,16 +1,8 @@
 'use client';
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
-import axios from "axios";
-import Head from "next/head";
-import {http} from "@/utils/http";
-import ModalComponent from "@/components/ModalComponent";
-import {getUserFromCookie} from "@/utils/Cookies";
-import {isAfter, parseISO} from "date-fns";
-import Link from "next/link";
 import HeadSgme from "@/components/head/HeadSgme";
 import {useFormModalNewUpdate} from "@/utils/hooks/useFormNewUpdate";
-import {getDespesaId, putDespesa} from "@/api/despesasApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import {getReceitaId, putReceita} from "@/api/receitasApi";
 import MessageLoadingData from "@/components/message/messageLoadingData";

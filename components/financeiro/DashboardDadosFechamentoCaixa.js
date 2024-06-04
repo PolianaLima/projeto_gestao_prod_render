@@ -1,9 +1,8 @@
 import React from 'react';
-import Image from "next/image";
 
 function DashboadDadosFechamentoCaixa({dados, title}) {
     return (
-        <div className="d-sm-flex flex-column w-50 p-2 mobile-styles-component-fluxo-caixa">
+        <div className="d-sm-flex flex-column w-100 p-2 mobile-styles-component-fluxo-caixa">
 
 
             <div className="mt-3">
