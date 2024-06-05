@@ -1,3 +1,5 @@
+'use client';
+
 import React from "react";
 import CardImagemButton from "@/components/cards/CardImagemButton";
 import {useAuth} from "@/context/authContext";

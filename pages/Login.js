@@ -1,3 +1,5 @@
+'use client';
+
 import Image from "next/image";
 import {useForm} from "react-hook-form";
 import {useRouter} from "next/router";

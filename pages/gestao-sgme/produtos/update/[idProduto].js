@@ -1,3 +1,5 @@
+'use client';
+
 import HeadSgme from "@/components/head/HeadSgme";
 import React, {useEffect, useState} from "react";
 import {useFormModalNewUpdate} from "@/utils/hooks/useFormNewUpdate";

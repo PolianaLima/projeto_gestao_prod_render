@@ -1,3 +1,5 @@
+'use client';
+
 import React, {useEffect, useState} from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
 import {getFornecedores} from "@/api/fornecedoresApi";

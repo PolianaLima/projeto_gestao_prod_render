@@ -1,3 +1,5 @@
+'use client';
+
 import HeadSgme from "@/components/head/HeadSgme";
 import {useRouter} from "next/router";
 import React, {useEffect, useState} from "react";
