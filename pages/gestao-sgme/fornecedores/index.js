@@ -8,7 +8,7 @@ import DashBoardIndexProdClieForn from "@/components/layouts/DashBoardIndexProdC
 
 const FORNECEDORES_URL = '/gestao-sgme/fornecedores';
 
-function Index(props) {
+function Index() {
     const [erroApiMessage, setErroApiMessage] = useState('');
     const [statusErroApi, setStatusErroApi] = useState(false);
     const [loading, setLoading] = useState(true);

@@ -12,7 +12,7 @@ import GroupButtonCadastro from "@/components/buttons_group/GroupButtonCadastro"
 
 const ROUTE_PATH = `/gestao-sgme/fornecedores`;
 
-function Index(props) {
+function Index() {
     const {
         register,
         handleSubmit,
