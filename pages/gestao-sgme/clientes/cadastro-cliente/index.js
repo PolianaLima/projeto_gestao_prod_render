@@ -127,7 +127,7 @@ function Index(props) {
                     </form>
 
                     <div className="w-100 d-flex justify-content-center">
-                        <Image src="/assets/img/icone_cadastro_cliente.svg"
+                        <Image src="/assets/img/icone_cad_cliente.svg"
                                alt="Index de Cliente"
                                width="0"
                                height="0"

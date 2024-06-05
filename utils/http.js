@@ -1,6 +1,5 @@
 import axios from "axios";
 
 export const http = axios.create({
-    //baseURL: "http://localhost:8080"
-    baseURL: "https://gestao-sgme-api-prod.onrender.com"
+    baseURL: process.env.NEXT_PUBLIC_API_URL,
 })
