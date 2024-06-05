@@ -46,7 +46,6 @@ function Index() {
     return (
         <>
             <HeadSgme title="SGME - Index de Fornecedores"/>
-
             <main className="m-5 border border-1 border-secondary-subtle mt-3">
                 <h3 className="bg-secondary-subtle p-2">
                     <i className="h3 bi bi-person-add"> </i>

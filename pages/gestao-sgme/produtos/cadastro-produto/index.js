@@ -14,7 +14,7 @@ import MessageErroApi from "@/components/message/messageErroApi";
 
 const ROUTE_PATH = `/gestao-sgme/produtos`;
 
-function Index(props) {
+function Index() {
     const {
         register,
         handleSubmit,
