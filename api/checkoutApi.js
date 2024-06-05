@@ -31,6 +31,20 @@ export const getCheckout = async () => {
     }
 }
 
+export const getCheckoutId = async (id)=>{
+    try {
+        const response = await http.get(`${CHECKOUT_URL}/${id}`,{
+            headers: {
+                Authorization: `Bearer ${dataUser.token}`
+            }
+        })
+        return response.data;
+    }catch (error) {
+        throw error;
+    }
+
+}
+
 export const finalizarCheckout = async (id) => {
     try {
         const response = await http.put(`${CHECKOUT_URL}/finalizarCheckout/${id}`, {},{

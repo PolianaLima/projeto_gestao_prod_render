@@ -1,5 +1,3 @@
-'use client';
-
 import React, {useEffect, useState} from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
 import {useForm} from "react-hook-form";
@@ -7,19 +5,19 @@ import Image from "next/image";
 import {http} from "@/utils/http";
 import {getUserFromCookie} from "@/utils/Cookies";
 import axios from "axios";
-import {useRouter} from "next/router";
 import ToltipInfoCancelarRegistroVenda from "@/components/modal/ModalCancelarRegistroVenda";
 import {postVendas} from "@/api/vendasApi";
 import {handleApiError} from "@/utils/errors/handleErroApi";
 import {useFormListFinanceiro} from "@/utils/hooks/useFormListFinanceiro";
 import MessageLoadingData from "@/components/message/messageLoadingData";
+import {useRouter} from "next/router";
 
 const ROUTEPATH = '/gestao-sgme/pdv';
 
-function Checkout_id() {
 
+
+export default function Checkout_venda() {
     const {
-        router,
         loading,
         setLoading,
         loadingApi,
@@ -27,11 +25,13 @@ function Checkout_id() {
         statusErroApi,
         setStatusErroApi,
         erroApiMessage,
-        setErroApiMessage
+        setErroApiMessage,
+
     } = useFormListFinanceiro()
 
-    const {checkout_id} = router.query;
-
+    const router = useRouter();
+    const {checkout_venda} = router.query;
+    
     const [loadingData, setLoadingData] = useState(true);
     const {
         register: registerItem,
@@ -134,7 +134,7 @@ function Checkout_id() {
             setErrorTroco("Forma de pagamento não aceita troco")
 
         } else if (valorRecebido < totalVendas) {
-            setErrorTroco("Valor recebido menor que o total da venda")
+            setErrorTroco("Valor recebido menor que o total da [checkout_venda]")
         } else {
             setTroco(valorRecebido - totalVendas);
             setIsAddItemButtonDisabled(true);
@@ -148,7 +148,7 @@ function Checkout_id() {
         const dataRegisterVenda = {
             vendaDto: {
                 forma_pagamento: pagamento.forma_pagamento,
-                checkout_id: checkout_id,
+                checkout_id: checkout_venda,
             },
             itensVendaDto: itensVenda.map(item => {
                 return {
@@ -438,5 +438,3 @@ function Checkout_id() {
         </>
     );
 }
-
-export default Checkout_id;
