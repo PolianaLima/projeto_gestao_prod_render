@@ -7,7 +7,6 @@ import axios from "axios";
 import HeadSgme from "@/components/head/HeadSgme";
 import {useAuth} from "@/context/authContext";
 
-// Custom hook for login logic
 const useLogin = () => {
     const router = useRouter();
     const {login, token} = useAuth();

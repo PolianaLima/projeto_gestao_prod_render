@@ -9,7 +9,7 @@ import {filtroFinanceiroList} from "@/utils/fillters/filtroFinanceiroLis";
 
 const PATH_URL = '/gestao-sgme/financeiro/contas-a-pagar'
 
-function Index(props) {
+function Index() {
 
     const {
         register,

@@ -1,4 +1,3 @@
-'use client';
 import React from 'react';
 import HeadSgme from "@/components/head/HeadSgme";
 import Image from "next/image";
