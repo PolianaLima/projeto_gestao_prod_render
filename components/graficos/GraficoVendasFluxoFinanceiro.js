@@ -8,10 +8,6 @@ function GraficoVendasFluxoFinanceiro({totalVendas}){
     ];
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28'];
 
-
-
-    console.log(data)
-
     return(
         <div className="d-flex flex-column align-items-center p-3" style={{width:'100%', height:'100%'}}>
             <h1>Grafico de vendas</h1>

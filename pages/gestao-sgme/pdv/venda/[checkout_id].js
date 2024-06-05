@@ -130,7 +130,6 @@ function Checkout_id() {
 
     const calcularTroco = (data) => {
         const valorRecebido = parseFloat(data.valorRecebido.toString().replace(",", "."));
-        console.log("Data pagamento", data)
         if (data.forma_pagamento !== "DINHEIRO" && valorRecebido > totalVendas) {
             setErrorTroco("Forma de pagamento não aceita troco")
 
