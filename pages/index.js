@@ -36,27 +36,27 @@ function Index(props) {
                             titleLink="Nova Venda"/>
 
                         <CardImagemButton
-                            link="/gestao-sgme/produtos/cadastro"
+                            link="/gestao-sgme/produtos/cadastro-produto"
                             img="/assets/img/icone_cad_produto.svg"
                             titleLink="Novo Produto"/>
 
                         <CardImagemButton
-                            link="/gestao-sgme/clientes/cadastro"
+                            link="/gestao-sgme/clientes/cadastro-cliente"
                             img="/assets/img/icone_cad_cliente.svg"
                             titleLink="Novo Cliente"/>
 
                         <CardImagemButton
-                            link="/gestao-sgme/fornecedores/cadastro"
+                            link="/gestao-sgme/fornecedores/cadastro-fornecedor"
                             img="/assets/img/icone_cad_fornecedor.png"
                             titleLink="Novo Fornecedor"/>
 
                         <CardImagemButton
-                            link="/gestao-sgme/financeiro/contas-a-pagar/cadastro"
+                            link="/gestao-sgme/financeiro/contas-a-pagar/nova-despesa"
                             img="/assets/img/icone_contas_pagar.svg"
                             titleLink="Nova Despesa"/>
 
                         <CardImagemButton
-                            link="/gestao-sgme/financeiro/contas-a-receber/cadastro"
+                            link="/gestao-sgme/financeiro/contas-a-receber/nova-receita"
                             img="/assets/img/icone_contas_receber.svg"
                             titleLink="Nova Receita"/>
                     </div>
