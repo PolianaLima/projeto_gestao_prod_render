@@ -50,7 +50,7 @@ function Login(props) {
                   }}>
                 <div className="container-sm d-sm-flex  justify-content-center align-items-center pt-2"
                      style={{height: '90%', width:'60%'}}>
-                    <div className="mobile-styles-login bg-paleta_Azul w-100 d-flex justify-content-center  " style={{
+                    <div className="mobile-styles-login bg-paleta_Azul w-100 d-flex justify-content-center" style={{
                         height:'100%'
                     }}>
                         <Image
